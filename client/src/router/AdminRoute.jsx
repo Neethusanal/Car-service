@@ -1,0 +1,43 @@
+import React from 'react'
+import { Route,Routes } from 'react-router-dom'
+import { Adminlogin } from '../Pages/Admin/Adminlogin'
+import { Admindashboard } from '../Pages/Admin/Admindashboard'
+import {Adminmechmanagement} from '../Pages/Admin/Adminmechmanagement.jsx'
+import { Adminlayout } from '../Layout/Adminlayout'
+import { AdminUsermanagement } from '../Pages/Admin/AdminUsermanagement'
+import { Brandmanagement } from '../Pages/Admin/Brandmanagement.jsx'
+import { Modelmanagement } from '../Pages/Admin/ModelManagement'
+import { Servicemanagement } from '../Pages/Admin/Servicemanagement'
+import EditBrand from '../Pages/Admin/EditBrand'
+import { EditService } from '../Pages/Admin/EditService'
+
+
+
+
+const AdminRoute = () => {
+  return (
+    <>
+    <Routes>
+       
+       
+     <Route exact path='/login' element={<Adminlogin/>}/>
+     <Route element={<Adminlayout/>}>
+     <Route exact path='/dashboard' element={<Admindashboard/>}/>
+     <Route exact path='/mechanic' element={<Adminmechmanagement/>}/>
+     <Route exact path='/customers' element={<AdminUsermanagement/>}/>
+     <Route exact path='/brands' element={<Brandmanagement/>}/>
+     <Route exact path='/models' element={<Modelmanagement/>}/>
+     <Route exact path='/services' element={<Servicemanagement/>}/>
+     <Route exact path='/editbrand' element={<EditBrand/>}/>
+     <Route exact path='/editservice' element={<EditService/>}/>
+     
+     
+     
+
+     </Route>
+     </Routes>
+    </>
+  )
+}
+
+export default AdminRoute
