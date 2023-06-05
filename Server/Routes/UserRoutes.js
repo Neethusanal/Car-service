@@ -9,4 +9,5 @@ router.post('/userotp',usercontroller.verifyOtp)
 router.post('/login',usercontroller.loginUser)
 router.post('/',VerifyUser)
 
+
 module.exports = router;
