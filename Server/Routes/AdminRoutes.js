@@ -18,7 +18,9 @@ router.post('/deleteservice/:id',admincontroller.deleteService)
 router.get('/getallbrandNames',admincontroller.getAllBrandNames)
  router.post('/addcarModels',admincontroller.addcarModels)
 
-
+ router.get('/getallcars',admincontroller.getAllcarDetails)
+ router.post('/deletecar/:id',admincontroller.deleteCar)
+router.put('/updatecars',admincontroller.updateCar)
 
 
 

@@ -17,7 +17,7 @@ const MechanicRoute = () => {
     <Route exact path='/login' element={<Mechlogin/>}/>
     <Route exact path='/otp' element={<Mechanicotp/>}/>
     <Route element={<Mechaniclayout/>}>
-    <Route exact path='/home' element={<MechHome/>}/>
+     <Route exact path='/home' element={<MechHome/>}/>
     </Route>
     </Routes>
     </>

@@ -3,9 +3,10 @@ import { Link, useNavigate } from "react-router-dom";
 import logo from '../../Images/logo.png'
 import mechimage from '../../Images/mechimage.jpg'
 import { useDispatch, useSelector } from "react-redux";
-import {setmechanicDetails} from "../../Redux/MechanicSlice"
+import { setmechanicDetails } from "../../Redux/MechanicSlice"
 import { useState } from "react";
 import { mechanicSignin } from "../../Services/MechanicApi";
+import Swal from "sweetalert2"
 
 const Mechlogin = () => {
   const mechanic = useSelector((state) => state.mechanic);
@@ -17,15 +18,15 @@ const Mechlogin = () => {
     password: "",
   });
   useEffect(() => {
-    if(localStorage.getItem("mechanictoken")){
+    if (localStorage.getItem("mechanictoken")) {
       navigate('/')
-      
+
     }
   }, [])
   const handleSubmit = async (e) => {
-      console.log("entered")
+    console.log("entered")
     e.preventDefault();
-    
+
     if (!values.email) {
       console.log("em")
       setError("Email is required");
@@ -36,29 +37,34 @@ const Mechlogin = () => {
       setError("Password is required");
       return;
     }
-     
-    try {
-     const response=await mechanicSignin({...values})
-      console.log(response.data)
-        if (response.data.success) {
-          localStorage.setItem("mechanictoken",response.data.token)
-         
-            dispatch(
-               setmechanicDetails({
-                name: response.data.mechanic.name,
-                //  id: mechanic._id,
-                 email:response.data.mechanic.email,
-                
-                
-               }))
-              
 
-            navigate("/mechanic/home");
-            
-            }
-          }catch (err) {
-            console.log(err); 
-          }
+    try {
+      const {data}= await mechanicSignin({ ...values })
+      console.log(data)
+      if (data.success) {
+        localStorage.setItem("mechanictoken", data.token)
+
+        dispatch(
+          setmechanicDetails({
+            name: data.mechanic.name,
+            //  id: mechanic._id,
+            email: data.mechanic.email,
+
+
+          }))
+          Swal.fire(data.message)
+
+
+        navigate("/mechanic/home");
+
+      }
+      else
+      {
+        Swal.fire(data.errors.message)
+      }
+    } catch (err) {
+      Swal.fire(err.message)
+    }
   };
 
   return (
@@ -75,15 +81,15 @@ const Mechlogin = () => {
 
 
 
-       
+
         <div className="w-full md:w-1/2 bg-white">
           <div className="relative flex flex-col justify-center min-h-screen overflow-hidden">
-          <div className="w-full p-4 m-auto bg-white rounded-md shadow-xl shadow-slate-600/40 ring ring-2 ring-gray-600 lg:max-w-md">
-            <img src={logo} alt="Logo" className="h-20 w-15" />
-              
-              
+            <div className="w-full p-4 m-auto bg-white rounded-md shadow-xl shadow-slate-600/40 ring ring-2 ring-gray-600 lg:max-w-md">
+              <img src={logo} alt="Logo" className="h-20 w-15" />
+
+
               <h1 className="text-3xl font-semibold text-center text-black-700 underline uppercase decoration-normal">
-                 Login
+                Login
               </h1>
               <form onSubmit={handleSubmit} className="mt-6">
                 <div className="mb-2">
@@ -97,7 +103,7 @@ const Mechlogin = () => {
                     type="email"
                     placeholder="email"
                     className="block w-full px-4 py-2 mt-2 text-black-700 bg-white border rounded-md focus:border-purple-400 focus:ring-purple-300 focus:outline-none focus:ring focus:ring-opacity-40"
-                    name="email"  onChange={(e) =>
+                    name="email" onChange={(e) =>
                       setValues({ ...values, email: e.target.value })}
                   />
                 </div>
@@ -112,9 +118,9 @@ const Mechlogin = () => {
                     type="password"
                     name="password"
                     placeholder="password"
-                     onChange={(e) =>
-                       setValues({ ...values, password: e.target.value })
-                     }
+                    onChange={(e) =>
+                      setValues({ ...values, password: e.target.value })
+                    }
 
                     className="block w-full px-4 py-2 mt-2 text-black-700 bg-white border rounded-md focus:border-purple-400 focus:ring-purple-300 focus:outline-none focus:ring focus:ring-opacity-40"
                   />

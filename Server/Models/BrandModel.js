@@ -38,5 +38,5 @@ created:{
 
 
 
-const BrandModel = mongoose.model("Brands",BrandSchema )
+const BrandModel = mongoose.model("brands",BrandSchema )
 module.exports = BrandModel

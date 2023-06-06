@@ -85,7 +85,7 @@ module.exports.getAllMechanicDetails = async (req, res, next) => {
 module.exports.getAllUserDetails = async (req, res, next) => {
   try {
     console.log("helllllooooo");
-    const users = await UserModel.find({isBanned:false})
+    const users = await UserModel.find({isBanned:false}).select('-password')
     console.log(users, "userdetails")
     res.json({ "status": "success", result: users })
   } catch (error) {
@@ -265,3 +265,46 @@ module.exports.addNewServices = async (req, res, next) => {
        
     }
   }  
+  module.exports.getAllcarDetails= async (req, res, next) => {
+    try {
+      console.log("helllllooooo services");
+      const cars = await CarsModel.find({status:true}).populate('brandName')
+      console.log(cars, "carsdata")
+      res.json({ success: true, result:cars  })
+    } catch (error) {
+      console.log(error)
+      res.status(400).json({ success:false, message: error.message })
+  
+    }
+  
+  }
+  module.exports.deleteCar=async(req,res,next)=>{
+    try{
+      console.log(req.params.id,"delete car ")
+      const carid=req.params.id
+      CarsModel.findByIdAndUpdate({_id:carid}, {$set: {status: false }}).then((response)=>{
+        res.status(200).json({message:"Deleted Successful",success:true})
+      })
+    }catch(error)
+    {
+      console.log(error)
+      res.json({ message: "Something went wrong", status: false })
+    }
+  }
+  module.exports.updateCar = async (req, res, next) => {
+    try {
+      console.log("updatecars",req.body)
+      const { carName, brandName,fuelType } = req.body
+  
+      const cars = await CarsModel.updateOne({ carName: carName, brandName: brandName ,fuelType:fuelType})
+      console.log(cars)
+      res.status(200).json({ message: "successfully updated the cars", success: true })
+  
+  
+    } catch (err) {
+  
+        const  errors = handleErrorManagent(err);
+        res.json({ message:"something went wrong", status: false, errors })
+       
+    }
+  }

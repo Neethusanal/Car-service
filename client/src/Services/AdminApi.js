@@ -60,7 +60,19 @@ const adminSignin=(data)=>{
     console.log("cars entered")
     return adminAxiosInstance.post("/addcarmodels",data);
   };
+  const getallCars = () => {
+    console.log("gggg came")
+    return adminAxiosInstance.get("/getallcars");
+  };
+  const carDelete = (id) => {
+    console.log(id,"car")
+    return adminAxiosInstance.post(`/deletecar/${id}`);
+  };
+  const updateCars = (data) => {
+    console.log(data,"carsupdate")
+    return adminAxiosInstance.put("/updatecars",data);
+  };
   
  export {adminSignin,getAllMechanic,getAllUsers,AddNewBrands,getAllBrands,brandDelete ,blockUser,addNewServices, updateBrand, getServices
-  ,updateService,serviceDelete,getBrands,addcarModel
+  ,updateService,serviceDelete,getBrands,addcarModel, getallCars ,carDelete,updateCars
 }
