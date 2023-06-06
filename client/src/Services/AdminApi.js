@@ -56,7 +56,11 @@ const adminSignin=(data)=>{
     console.log("hhhhhhhhhhhhh")
     return adminAxiosInstance.get("/getallbrandNames");
   }
+  const addcarModel = (data) => {
+    console.log("cars entered")
+    return adminAxiosInstance.post("/addcarmodels",data);
+  };
   
  export {adminSignin,getAllMechanic,getAllUsers,AddNewBrands,getAllBrands,brandDelete ,blockUser,addNewServices, updateBrand, getServices
-  ,updateService,serviceDelete,getBrands
+  ,updateService,serviceDelete,getBrands,addcarModel
 }

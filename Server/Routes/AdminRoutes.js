@@ -16,7 +16,7 @@ router.get('/getallservices',admincontroller.getAllServices)
 router.put('/updateservice',admincontroller.updateService)
 router.post('/deleteservice/:id',admincontroller.deleteService)
 router.get('/getallbrandNames',admincontroller.getAllBrandNames)
-// router.post('/addcarModels',admincontroller.addcarModels)
+ router.post('/addcarModels',admincontroller.addcarModels)
 
 
 

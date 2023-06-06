@@ -14,7 +14,7 @@ const CarsSchema = new mongoose.Schema({
         ref: "brands",
       },
       
-      FuelType:{
+      fuelType:{
         type:String
       },
 

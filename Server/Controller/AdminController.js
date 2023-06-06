@@ -247,22 +247,21 @@ module.exports.addNewServices = async (req, res, next) => {
     console.log(brands,"to send to models")
     res.status(200).json({ message: "successfully get all brandnames",result:brands, success: true })
   }
-  // module.exports.addcarModels = async (req, res, next) => {
-  //   try {
-  //     const { carName,fueltype } = req.body
-  //     const brands=await BrandModel.find({isActive:true})
-  //     const car=await CarsModel.find().populate("brands")
+  module.exports.addcarModels = async (req, res, next) => {
+    try {
+      console.log(req.body)
+      const { carName,brandName,fuelType } = req.body
+     
 
-  //     const cars = await CarsModel.create({ carName: carName, brandName:brandName,fueltype:fueltype})
-  //     console.log(cars)
-  //     res.status(200).json({ message: "successfully add cars", success: true })
+      const cars = await CarsModel.create({ carName: carName, brandName:brandName,fuelType:fuelType})
+      console.log(cars)
+      res.status(200).json({ message: "successfully add cars", success: true })
   
   
-  //   } catch (err) {
-  
-  //       const  errors = handleErrorManagent(err);
-  //       res.json({ message:"Already existing Data", status: false, errors })
+    } catch (err) {
+      console.log(err)
+        const  errors = handleErrorManagent(err);
+        res.json({ message:"Already existing Data", status: false, errors })
        
-  //   }
-      
-  //   }
+    }
+  }  

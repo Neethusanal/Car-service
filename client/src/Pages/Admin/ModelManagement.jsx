@@ -3,7 +3,10 @@ import { ArrowDownTrayIcon, MagnifyingGlassIcon } from "@heroicons/react/24/outl
 import { Card, CardHeader, Typography, Button, CardBody, Chip, CardFooter, Avatar, IconButton, Tooltip, } from "@material-tailwind/react";
 import Modal from "react-modal";
 import React, { useEffect, useState } from "react";
-import { getBrands } from "../../Services/AdminApi";
+import { addcarModel, getBrands } from "../../Services/AdminApi";
+
+import Swal from "sweetalert2"
+
 const TABLE_HEAD = ["Transaction", "Amount", "Date", "Status", "Account", ""];
 const customStyles = {
   content: {
@@ -72,6 +75,7 @@ const TABLE_ROWS = [
 
 export const Modelmanagement = () => {
   const [carName, setcarName] = useState("");
+  const [brandName, setbrandName] = useState("");
   const [brandData, setBrandData] = useState();
   const [fuelType, setfuelType] = useState("");
   const [modalIsOpen, setIsOpen] = React.useState(false);
@@ -101,8 +105,24 @@ export const Modelmanagement = () => {
 
     }
   }
-    const handleAddCars = () => {
+    const handleAddCars = (e) => {
+      e.preventDefault()
+      console.log(carName,brandName,fuelType)
 
+      addcarModel({carName,brandName,fuelType}).then((res) => {
+        console.log(res);
+        if (res.data.success) {
+            setcarName("")
+            setbrandName("")
+            setfuelType("")
+            Swal.fire(res.data.message);
+
+
+        } else {
+            console.log(res.data.errors, "error");
+            Swal.fire(res.data.message);
+        }
+    });
     }
 
     return (
@@ -289,15 +309,15 @@ export const Modelmanagement = () => {
                 </label>
                 <select
                   id="items"
-                  value={brandData}
-                  onChange={(e) => setBrandData(e.target.value)}
+                  value={brandName}
+                  onChange={(e) => setbrandName(e.target.value)}
                   className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-blue-500"
                   required
                 >
                   <option value="">Select the brand</option>
                   {brandData?.map((brand, index) => {
                     return (
-                      <option value={brand.brandName}>{brand.brandName}</option>
+                      <option value={brand._id}>{brand.brandName}</option>
                     )
                   })}
 
@@ -313,7 +333,7 @@ export const Modelmanagement = () => {
                 </label>
                 <input
                   type="text"
-                  id="description"
+                  id="fuelType"
                   value={fuelType}
                   onChange={(e) => setfuelType(e.target.value)}
                   className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-blue-500"
