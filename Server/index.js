@@ -9,6 +9,7 @@ const userRoutes=require('./Routes/UserRoutes')
 const adminRoutes=require('./Routes/AdminRoutes')
 const mechanicRoutes= require('./Routes/Mechanicroutes')
 const cookieParser = require("cookie-parser");
+const multer = require('multer');
 const path = require('path');
 
 

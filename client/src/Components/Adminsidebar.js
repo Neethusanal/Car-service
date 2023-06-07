@@ -32,12 +32,12 @@ export const Adminsidebar = () => {
           </ListItemPrefix>
           <Link to="/admin/dashboard"> Dashboard</Link>
         </ListItem>
-        {/* <ListItem>
+         <ListItem>
           <ListItemPrefix>
             <ShoppingBagIcon className="h-5 w-5" />
           </ListItemPrefix>
-         <Link to="/admin/Banner">  Banner</Link> 
-        </ListItem> */}
+         <Link to="/admin/banner">  Banner</Link> 
+        </ListItem> 
         <ListItem>
           <ListItemPrefix>
             <InboxIcon className="h-5 w-5" />

@@ -279,7 +279,7 @@ return (
           <div className="mb-4">
             <label
               htmlFor="brand"
-              className="block mb-2 text-lg text-gray-700"
+              className="block font-bold mb-1"
             >
               Car Model Name
             </label>
@@ -294,7 +294,7 @@ return (
             />
           </div  >
           <div className="mb-4">
-            <label htmlFor="items" className="block mb-2 text-lg text-gray-700">
+            <label htmlFor="items" className="block font-bold mb-1">
               Select the Brand Name
             </label>
             <select
@@ -317,7 +317,7 @@ return (
           <div className="mb-4">
             <label
               htmlFor="brand"
-              className="block mb-2 text-lg text-gray-700"
+              className="block font-bold mb-1"
             >
               fuel Type
             </label>
@@ -349,7 +349,7 @@ return (
     </div>
 
     {/* Modal for Editing */}
-    <div>
+    <div >
       <Modal
         isOpen={modalOpen}
 
@@ -362,7 +362,7 @@ return (
           <div className="mb-4">
             <label
               htmlFor="brand"
-              className="block mb-2 text-lg text-gray-700"
+              className="block font-bold mb-1"
             >
               Car Model Name
             </label>
@@ -377,7 +377,7 @@ return (
             />
           </div  >
           <div className="mb-4">
-            <label htmlFor="items" className="block mb-2 text-lg text-gray-700">
+            <label htmlFor="items" className="block font-bold mb-1">
               Select the Brand Name
             </label>
             <select
@@ -400,7 +400,7 @@ return (
           <div className="mb-4">
             <label
               htmlFor="brand"
-              className="block mb-2 text-lg text-gray-700"
+              className="block font-bold mb-1"
             >
               fuel Type
             </label>

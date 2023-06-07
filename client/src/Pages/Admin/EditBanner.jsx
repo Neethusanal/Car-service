@@ -2,24 +2,24 @@ import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { updateBrand } from "../../Services/AdminApi";
 import Swal from "sweetalert2"
-const EditBrand = () => {
-    const [brandName,setBrandName]=useState('')
-    const [basicPay,setBasicPay]=useState('')
+const EditBanner = () => {
+    const [bannerName,setBannerName]=useState('')
+    const [image,setimage]=useState('')
     const [description,setDescription]=useState('')
   const location = useLocation();
-  const brand = location.state?.brand;
+  const banner = location.state?.bannerdata;
   const navigate=useNavigate()
-  console.log(brand, "editbrandpage");
+  console.log(banner, "editbannerpage");
   useEffect(() => {
     console.log("llllllllll");
-    setBrandName(brand.brandName)
-    setBasicPay(brand.basicPay)
-    setDescription(brand.description)
+    setBrandName(banner.brandName)
+    setBasicPay(banner.image)
+    setDescription(banner.description)
   }, []);
   const handleUpdate=(e)=>{
     e.preventDefault();
-    updateBrand({brandName,
-        basicPay,
+    updateBrand({bannerName,
+        image,
         description,
     }).then((res) => {
         console.log(res);
@@ -27,11 +27,11 @@ const EditBrand = () => {
         console.log(res.data);
         if (res.data.success) {
             console.log(res.data.result, "ddddddd");
-            setBasicPay("")
-            setBrandName("")
+            setBannerName("")
+            setImage("")
             setDescription("")
             Swal.fire(res.data.message)
-            navigate('/admin/brands')
+            navigate('/admin/banner')
         }
         else
         {   console.log("else part executing")
@@ -73,4 +73,4 @@ const EditBrand = () => {
   </div>;
 };
 
-export default EditBrand;
+export default EditBanner;

@@ -10,6 +10,7 @@ import { Modelmanagement } from '../Pages/Admin/ModelManagement'
 import { Servicemanagement } from '../Pages/Admin/Servicemanagement'
 import EditBrand from '../Pages/Admin/EditBrand'
 import { EditService } from '../Pages/Admin/EditService'
+import { Banner } from '../Pages/Admin/Banner'
 
 
 
@@ -30,6 +31,7 @@ const AdminRoute = () => {
      <Route exact path='/services' element={<Servicemanagement/>}/>
      <Route exact path='/editbrand' element={<EditBrand/>}/>
      <Route exact path='/editservice' element={<EditService/>}/>
+     <Route exact path='/banner' element={<Banner/>}/>
      
      
      

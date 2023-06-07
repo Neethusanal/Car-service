@@ -53,26 +53,34 @@ const adminSignin=(data)=>{
   };
   //getting brands to add new car models
   const getBrands=()=>{
-    console.log("hhhhhhhhhhhhh")
+
     return adminAxiosInstance.get("/getallbrandNames");
   }
   const addcarModel = (data) => {
-    console.log("cars entered")
+   
     return adminAxiosInstance.post("/addcarmodels",data);
   };
   const getallCars = () => {
-    console.log("gggg came")
+  
     return adminAxiosInstance.get("/getallcars");
   };
   const carDelete = (id) => {
-    console.log(id,"car")
+ 
     return adminAxiosInstance.post(`/deletecar/${id}`);
   };
   const updateCars = (data) => {
-    console.log(data,"carsupdate")
+ 
     return adminAxiosInstance.put("/updatecars",data);
+  };
+  const addBanner = (data) => {
+  
+    return adminAxiosInstance.post("/addbanner",data);
+  };
+  const getBanner = () => {
+    console.log("banner came")
+    return adminAxiosInstance.get("/getallbanner");
   };
   
  export {adminSignin,getAllMechanic,getAllUsers,AddNewBrands,getAllBrands,brandDelete ,blockUser,addNewServices, updateBrand, getServices
-  ,updateService,serviceDelete,getBrands,addcarModel, getallCars ,carDelete,updateCars
+  ,updateService,serviceDelete,getBrands,addcarModel, getallCars ,carDelete,updateCars,addBanner,getBanner 
 }

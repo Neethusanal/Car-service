@@ -251,7 +251,7 @@ return (
                     <div className="mb-4">
                         <label
                             htmlFor="brand"
-                            className="block mb-2 text-lg text-gray-700"
+                            className="block font-bold mb-1"
                         >
                             Brand Name
                         </label>
@@ -268,7 +268,7 @@ return (
                     <div className="mb-4">
                         <label
                             htmlFor="brand"
-                            className="block mb-2 text-lg text-gray-700"
+                            className="block font-bold mb-1"
                         >
                             Basic pay
                         </label>
@@ -285,7 +285,7 @@ return (
                     <div className="mb-4">
                         <label
                             htmlFor="brand"
-                            className="block mb-2 text-lg text-gray-700"
+                            className="block font-bold mb-1"
                         >
                             Description
                         </label>

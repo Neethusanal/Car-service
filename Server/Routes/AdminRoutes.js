@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const admincontroller=require("../Controller/AdminController")
+const {upload}= require('../Middleware/Multer')
 
 router.post('/login',admincontroller.adminLogin)
 router.get('/getallmechanic',admincontroller.getAllMechanicDetails)
@@ -21,7 +22,8 @@ router.get('/getallbrandNames',admincontroller.getAllBrandNames)
  router.get('/getallcars',admincontroller.getAllcarDetails)
  router.post('/deletecar/:id',admincontroller.deleteCar)
 router.put('/updatecars',admincontroller.updateCar)
-
+router.post('/addbanner',upload.single('image'),admincontroller.addBanner)
+router.get('/getallbanner',admincontroller.getBanners)
 
 
 

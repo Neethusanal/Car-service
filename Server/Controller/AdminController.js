@@ -4,8 +4,11 @@ const UserModel = require('../Models/UserModel')
 const BrandModel = require('../Models/BrandModel')
 const ServiceModel=require('../Models/ServicesModel')
 const CarsModel=require('../Models/CarsModel')
+const cloudinary = require('../config/cloudinary')
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
+const BannerModel = require("../Models/BannerModel");
+const fs=require('fs')
 const maxAge = 3 * 24 * 60 * 60;
 const createToken = (id) => {
   return jwt.sign({ id }, "secret", { expiresIn: maxAge });
@@ -308,3 +311,36 @@ module.exports.addNewServices = async (req, res, next) => {
        
     }
   }
+  module.exports.addBanner = async (req, res, next) => {
+    try {
+      console.log(req.body,"gggxxxxx")
+      const {   bannerName,description } = req.body
+      const result= await cloudinary.uploader.upload(req.file.path,{format:'WebP'})
+      console.log(result.secure_url);
+      const banner = await BannerModel.create({ bannerName: bannerName, description: description ,image:result.secure_url})
+      console.log(banner)
+      res.status(200).json({ message: "successfully add new service", success: true })
+      fs.unlinkSync(req.file.path)
+  
+  
+    } catch (err) {
+  console.log(err);
+        const  errors = handleErrorManagent(err);
+        res.json({ message:"Already existing Data", success: false, errors })
+       
+    }
+      
+    }
+    module.exports.getBanners= async (req, res, next) => {
+      try {
+        console.log("helllllooooo banners");
+        const banners = await BannerModel.find({status:true})
+        console.log(banners, "data")
+        res.json({ success: true, result:banners  })
+      } catch (error) {
+        console.log(error)
+        res.status(400).json({ success:false, message: error.message })
+    
+      }
+    
+    }

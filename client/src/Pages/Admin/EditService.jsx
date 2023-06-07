@@ -50,19 +50,19 @@ export const EditService = () => {
     <div class="text-4xl font-bold flex-items-center">Edit Services</div>
     <form onSubmit={handleUpdate} >
         <div class="mb-4">
-            <label for="brand" class="block mb-2 text-lg text-gray-700">
+            <label for="brand" class="block font-bold mb-1">
                 Brand Name
             </label>
             <input type="text" id="brand" name="brand" value={serviceName}  onChange={(e) => setServiceName(e.target.value)} class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-blue-500" required />
         </div>
         <div class="mb-4">
-            <label for="basic_pay" class="block mb-2 text-lg text-gray-700">
+            <label for="basic_pay" class="block font-bold mb-1">
                 Basic Pay
             </label>
             <input type="text" id="basic_pay" name="basic_pay" value={price}  onChange={(e) => setPrice(e.target.value)}class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-blue-500" required />
         </div>
         <div class="mb-4">
-            <label for="description" class="block mb-2 text-lg text-gray-700">
+            <label for="description" class="block font-bold mb-1">
                 Description
             </label>
             <input type="text" id="description" name="description" value={description}  onChange={(e) => setDescription(e.target.value)}class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-blue-500" required />
