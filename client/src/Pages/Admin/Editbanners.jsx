@@ -1,62 +1,78 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { updateBrand } from "../../Services/AdminApi";
+import { updateBanner } from "../../Services/AdminApi";
 import Swal from "sweetalert2"
-const EditBanner = () => {
+const Editbanners = () => {
     const [bannerName,setBannerName]=useState('')
-    const [image,setimage]=useState('')
+    const [image,setImage]=useState('')
     const [description,setDescription]=useState('')
+    const [id,setId]=useState()
   const location = useLocation();
   const banner = location.state?.bannerdata;
   const navigate=useNavigate()
   console.log(banner, "editbannerpage");
   useEffect(() => {
     console.log("llllllllll");
-    setBrandName(banner.brandName)
-    setBasicPay(banner.image)
-    setDescription(banner.description)
+    setBannerName?.(banner.bannerName)
+    setImage?.(banner.image)
+    setDescription?.(banner.description)
+    setId?.(banner._id)
   }, []);
-  const handleUpdate=(e)=>{
+  const handleUpdate=async(e)=>{
     e.preventDefault();
-    updateBrand({bannerName,
-        image,
-        description,
-    }).then((res) => {
-        console.log(res);
-        console.log("updateBrands");
-        console.log(res.data);
-        if (res.data.success) {
-            console.log(res.data.result, "ddddddd");
+    
+    const formData = new FormData();
+    formData.append('image', image);
+    formData.append('bannerName',bannerName)
+    formData.append('description',description)
+    formData.append('id',id)
+
+ 
+   let {data}=  await updateBanner(formData)
+       
+        console.log(data,"updateBanner");
+      
+        if (data.success) {
+            
             setBannerName("")
             setImage("")
             setDescription("")
-            Swal.fire(res.data.message)
+            Swal.fire(data.message)
             navigate('/admin/banner')
         }
         else
         {   console.log("else part executing")
-            Swal.fire(res.data.message)
+            Swal.fire(data.message)
           
         }
-    });
+    
 }
 
-  return <div>
 
+
+  return (
+    <>
 <div class="flex flex-col items-center border-2 border-gray-600 p-6 mt-28  mx-auto max-w-md">
-    <div class="text-4xl font-bold flex-items-center">Edit Brands</div>
+    <div class="text-4xl font-bold flex-items-center">Edit Banner</div>
     <form onSubmit={handleUpdate} >
         <div class="mb-4">
             <label for="brand" class="block font-bold mb-1">
-                Brand Name
+                Banner Name
             </label>
-            <input type="text" id="brand" name="brand" value={brandName}  onChange={(e) => setBrandName(e.target.value)} class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-blue-500" required />
+            <input type="text" id="brand" name="banner" value={bannerName}  onChange={(e) => setBannerName(e.target.value)} class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-blue-500" required />
         </div>
         <div class="mb-4">
             <label for="basic_pay" class="block font-bold mb-1">
-                Basic Pay
+                BannerImage
             </label>
-            <input type="text" id="basic_pay" name="basic_pay" value={basicPay}  onChange={(e) => setBasicPay(e.target.value)}class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-blue-500" required />
+            <input
+                  type="file"
+                  name='file'
+                  onChange={(e) =>
+                    setImage( e.target.files[0] )
+                  }
+                  className="file-input w-full max-w-xs" required
+                />
         </div>
         <div class="mb-4">
             <label for="description" class="block font-bold mb-1">
@@ -70,7 +86,12 @@ const EditBanner = () => {
     </form>
 </div>
 
-  </div>;
-};
 
-export default EditBanner;
+
+
+
+    </>
+  )
+}
+
+export default Editbanners

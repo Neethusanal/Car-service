@@ -28,6 +28,9 @@ const mechanicSchema=  new mongoose.Schema({
         type:Number,
       
     },
+    qualification:{
+        type:String
+    },
     brandsserved:{
         type:Array
     },
@@ -48,7 +51,11 @@ const mechanicSchema=  new mongoose.Schema({
     isBanned:{
         type:Boolean,
         default:false
-    }
+    },
+    certificate:{
+        type:String
+    },
+   
 
 
 })

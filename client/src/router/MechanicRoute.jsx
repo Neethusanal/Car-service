@@ -3,7 +3,7 @@ import { Routes,Route } from 'react-router-dom'
 import Mechlogin from '../Pages/Mechanic/Mechlogin'
 import Mechregister from '../Pages/Mechanic/Mechregister'
 import { Mechanicotp } from '../Pages/Mechanic/Mechanicotp'
-import { MechHome } from '../Pages/Mechanic/MechHome'
+import  MechHome  from '../Pages/Mechanic/MechHome'
 import Mechaniclayout from '../Layout/Mechaniclayout'
 
 

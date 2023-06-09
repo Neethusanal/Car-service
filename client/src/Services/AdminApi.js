@@ -80,7 +80,19 @@ const adminSignin=(data)=>{
     console.log("banner came")
     return adminAxiosInstance.get("/getallbanner");
   };
-  
+  const updateBanner = (data) => {
+    console.log(data,"bannerupdate")
+    return adminAxiosInstance.put("/updatebanner",data);
+  };
+  const blockBanner = (id) => {
+    console.log(id,"nnnn")
+    return adminAxiosInstance.put(`/blockbanner/${id}`);
+  };
+  const unblockBanner = (id) => {
+    console.log(id,"nnnnhhh")
+    return adminAxiosInstance.put(`/unblockbanner/${id}`);
+  };
  export {adminSignin,getAllMechanic,getAllUsers,AddNewBrands,getAllBrands,brandDelete ,blockUser,addNewServices, updateBrand, getServices
-  ,updateService,serviceDelete,getBrands,addcarModel, getallCars ,carDelete,updateCars,addBanner,getBanner 
+  ,updateService,serviceDelete,getBrands,addcarModel, getallCars ,carDelete,updateCars,addBanner,getBanner ,updateBanner,
+  blockBanner, unblockBanner
 }

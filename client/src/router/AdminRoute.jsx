@@ -12,6 +12,10 @@ import EditBrand from '../Pages/Admin/EditBrand'
 import { EditService } from '../Pages/Admin/EditService'
 import { Banner } from '../Pages/Admin/Banner'
 
+import Editbanners from '../Pages/Admin/Editbanners'
+
+
+
 
 
 
@@ -32,6 +36,7 @@ const AdminRoute = () => {
      <Route exact path='/editbrand' element={<EditBrand/>}/>
      <Route exact path='/editservice' element={<EditService/>}/>
      <Route exact path='/banner' element={<Banner/>}/>
+     <Route exact path='/editbanner' element={<Editbanners/>}/>
      
      
      

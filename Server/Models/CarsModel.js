@@ -11,7 +11,7 @@ const CarsSchema = new mongoose.Schema({
    
         type:mongoose.Types.ObjectId,
         required: true,
-        ref: "brands",
+        ref: "Brands",
       },
       
       fuelType:{

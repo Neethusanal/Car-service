@@ -15,7 +15,7 @@ import {
 } from "@material-tailwind/react";
 import Modal from "react-modal";
 import React, { useEffect, useState } from "react";
-import { addBanner, getBanner } from "../../Services/AdminApi";
+import { addBanner, blockBanner, getBanner, unblockBanner } from "../../Services/AdminApi";
 import Swal from "sweetalert2"
 import { useNavigate } from "react-router-dom";
  
@@ -32,87 +32,40 @@ const customStyles = {
         width: "400px", // Set a fixed width or use percentage
     },
 };
-const TABLE_ROWS = [
-  {
-    img: "/img/logos/logo-spotify.svg",
-    name: "Spotify",
-    amount: "$2,500",
-    date: "Wed 3:00pm",
-    status: "paid",
-    account: "visa",
-    accountNumber: "1234",
-    expiry: "06/2026",
-  },
-  {
-    img: "/img/logos/logo-amazon.svg",
-    name: "Amazon",
-    amount: "$5,000",
-    date: "Wed 1:00pm",
-    status: "paid",
-    account: "master-card",
-    accountNumber: "1234",
-    expiry: "06/2026",
-  },
-  {
-    img: "/img/logos/logo-pinterest.svg",
-    name: "Pinterest",
-    amount: "$3,400",
-    date: "Mon 7:40pm",
-    status: "pending",
-    account: "master-card",
-    accountNumber: "1234",
-    expiry: "06/2026",
-  },
-  {
-    img: "/img/logos/logo-google.svg",
-    name: "Google",
-    amount: "$1,000",
-    date: "Wed 5:00pm",
-    status: "paid",
-    account: "visa",
-    accountNumber: "1234",
-    expiry: "06/2026",
-  },
-  {
-    img: "/img/logos/logo-netflix.svg",
-    name: "netflix",
-    amount: "$14,000",
-    date: "Wed 3:30am",
-    status: "cancelled",
-    account: "visa",
-    accountNumber: "1234",
-    expiry: "06/2026",
-  },
-];
- 
+
 export const Banner=() =>{
     const [modalIsOpen, setIsOpen] = React.useState(false);
     const [bannerName, setBannerName] = useState("");
     const [description, setDescription] = useState("");
     const [image,setImage]=useState("")
     const [banner,setBanner]=useState([])
+  
+    const [initialstatus,setInitialstatus]=useState(false)
+   
+  
+
     const navigate=useNavigate()
+    
     useEffect(() => {
         getAllBanners();
-        // console.log(banner, "hhhiiii");
-    }, []);
+       
+      
+    }, [initialstatus]);
     function openModal() {
         setIsOpen(true);
     }
-    function openModal() {
-        setIsOpen(true);
-    }
-
+    
     function closeModal() {
         setIsOpen(false);
     }
     const handleAddBanner=async(e)=>{
         e.preventDefault();
-        //console.log(bannerName, description, image);
+     
         const formData = new FormData();
         formData.append('image', image);
         formData.append('bannerName',bannerName)
         formData.append('description',description)
+        
         let {data}= await addBanner(formData)
         console.log(data)
         if(data.success)
@@ -138,7 +91,49 @@ export const Banner=() =>{
     const handleEdit=(bannerdata)=>{
         
         navigate('/admin/editbanner',{ state: { bannerdata } })
-    }   
+    }  
+     
+    const handleBlock=async(bannerdatas)=>{
+      const id =bannerdatas?._id
+      
+     
+      if(bannerdatas?.status)
+      {
+       
+        
+        console.log("hiii")
+      let {data} = await blockBanner(id)
+      console.log(data)
+      if(data.success)
+      {
+        setInitialstatus(!initialstatus)
+       
+        Swal.fire(data.message)
+      }
+      else 
+      {
+       
+         
+        Swal.fire(data.message)
+      }
+      
+      }
+      else if(!bannerdatas.status){
+        console.log('iiiiiii')
+        let {data }=await unblockBanner(id)
+        console.log("hiii"+data)
+        if(data?.success)
+        {
+          setInitialstatus(!initialstatus)
+         
+          Swal.fire(data?.message)
+        }
+        else
+        {
+          Swal.fire(data?.message)
+        }
+      }
+    }
 
   return (
     <>
@@ -197,7 +192,7 @@ export const Banner=() =>{
                     </td>
                     <td className={classes}>
                     <img
-      className="h-24 w-28 rounded-lg shadow-xl shadow-blue-gray-900/50"
+      className="h-14 w-20 rounded-lg shadow-xl shadow-blue-gray-900/50"
       src={bannerdata.image}
       alt="nature image"
     />
@@ -207,7 +202,9 @@ export const Banner=() =>{
                                         <Button size="sm" onClick={()=>handleEdit(bannerdata)}  > Edit</Button>
                                     </td>
                                     <td className={`${classes} p-4 md:p-2`}>
-                                        <Button size="sm" >Delete</Button>
+                                        <Button size="sm"onClick={()=>handleBlock(bannerdata)} >
+                                        {bannerdata?.status ? "UnBlocked" : "Blocked"}
+                                        </Button>
                                     </td>
                    
                   </tr>
@@ -231,18 +228,7 @@ export const Banner=() =>{
           <IconButton variant="text" color="blue-gray" size="sm">
             3
           </IconButton>
-          <IconButton variant="text" color="blue-gray" size="sm">
-            ...
-          </IconButton>
-          <IconButton variant="text" color="blue-gray" size="sm">
-            8
-          </IconButton>
-          <IconButton variant="text" color="blue-gray" size="sm">
-            9
-          </IconButton>
-          <IconButton variant="text" color="blue-gray" size="sm">
-            10
-          </IconButton>
+         
         </div>
         <Button variant="outlined" color="blue-gray" size="sm">
           Next

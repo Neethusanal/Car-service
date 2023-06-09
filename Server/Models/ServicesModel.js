@@ -7,16 +7,15 @@ const serviceSchema = new mongoose.Schema({
         required:[true,"Name is required"],
 
     },
-    price: {
    
-        type:Number,
-        required: true,
-       
-      },
       description:
       {
         type:String,
         required :true
+      },
+      image:{
+        type: String,
+        required: true
       },
       status:{
         type:Boolean,

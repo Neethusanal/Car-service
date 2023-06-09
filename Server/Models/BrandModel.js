@@ -29,6 +29,10 @@ isActive:
     type:Boolean,
     default:true
 },
+image:{
+  type: String,
+  required: true
+},
 created:{
   type:Date,
   required:true,
@@ -38,5 +42,5 @@ created:{
 
 
 
-const BrandModel = mongoose.model("brands",BrandSchema )
+const BrandModel = mongoose.model("Brands",BrandSchema )
 module.exports = BrandModel
