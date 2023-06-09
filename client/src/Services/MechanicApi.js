@@ -11,5 +11,5 @@ const Mechanicregister=(data)=>{
  const mechanicSignin=(data)=>{
    return mechanicAxiosInstance.post('/login',data)
  }
-
+ 
  export{Mechanicregister,otpSubmit,mechanicSignin}

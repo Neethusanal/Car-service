@@ -8,24 +8,29 @@ import {
 Button
 } from "@material-tailwind/react";
 import { useSelector } from 'react-redux';
+import profile from '../../Images/profile.jpg'
+
+
 
 const MechHome = () => {
-  const mechanic=useSelector((state)=>state.mechanic)
-  console.log(mechanic)
+ const mechanic=useSelector((state)=>state.mechanic)
+  
   const[fullName,setFullName]=useState()
   const[email,setEmail]=useState()
   const[image,setImage]=useState()
   useEffect(()=>{
-    setFullName?.(mechanic.name)
-    setEmail?.(mechanic.email)
+   
+    setFullName(mechanic?.name)
+    setEmail(mechanic?.email)
 
-  })
+  },[])
+  
   return (
     <div className='flex items-center justify-center h-screen '>
 
 <Card className="w-96 ">
       <CardHeader floated={false} className="h-80">
-        <img src="/img/team-3.jpg" alt="profile-picture" />
+        <img src={profile} alt="profile-picture" className='h-80 w-96' />
       </CardHeader>
       <CardBody className="text-center">
         <Typography variant="h4" color="blue-gray" className="mb-2">

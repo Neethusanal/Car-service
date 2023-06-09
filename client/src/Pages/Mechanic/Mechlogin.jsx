@@ -47,7 +47,7 @@ const Mechlogin = () => {
         dispatch(
           setmechanicDetails({
             name: data.mechanic.name,
-            //  id: mechanic._id,
+             id: mechanic._id,
             email: data.mechanic.email,
 
 

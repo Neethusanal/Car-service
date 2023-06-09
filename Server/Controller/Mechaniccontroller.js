@@ -104,7 +104,7 @@ module.exports.mechanicLogin=async(req,res,next)=>{
               console.log(token,"token");
               res
               .status(200)
-              .json({ message: "Login Successfull", mechanic, token, success: true });
+              .json({ message: "Login Successfull", mechanic, token, success: true ,mechanicData:mechanic});
 
           }
           else{
@@ -125,6 +125,3 @@ module.exports.mechanicLogin=async(req,res,next)=>{
 
 
 }
-
-
-    
