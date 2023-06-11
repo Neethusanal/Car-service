@@ -1,8 +1,13 @@
 import {adminAxiosInstance} from '../axios/Instance'
 
+const authAdmin = () => {
+  return adminAxiosInstance.get("/isAdminAuth");
+};
+
 const adminSignin=(data)=>{
     return adminAxiosInstance.post('/login',data)
   }
+
   const getAllMechanic = () => {
     console.log("iiinn")
     return adminAxiosInstance.get("/getallmechanic");
@@ -92,7 +97,7 @@ const adminSignin=(data)=>{
     console.log(id,"nnnnhhh")
     return adminAxiosInstance.put(`/unblockbanner/${id}`);
   };
- export {adminSignin,getAllMechanic,getAllUsers,AddNewBrands,getAllBrands,brandDelete ,blockUser,addNewServices, updateBrand, getServices
+ export {adminSignin,authAdmin,getAllMechanic,getAllUsers,AddNewBrands,getAllBrands,brandDelete ,blockUser,addNewServices, updateBrand, getServices
   ,updateService,serviceDelete,getBrands,addcarModel, getallCars ,carDelete,updateCars,addBanner,getBanner ,updateBanner,
   blockBanner, unblockBanner
 }

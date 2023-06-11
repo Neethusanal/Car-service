@@ -10,7 +10,8 @@ const userRegister=(data)=>{
  const userSignin=(data)=>{
     return userAxiosInstance.post('/login',data)
   }
+  const authUser = () => {
+   return userAxiosInstance.get("/isUserAuth");
+ };
  
-
-
- export{userRegister,userOtpsubmit,userSignin}
+ export{userRegister,userOtpsubmit,userSignin,authUser}

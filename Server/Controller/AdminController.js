@@ -10,9 +10,7 @@ const bcrypt = require("bcrypt");
 const BannerModel = require("../Models/BannerModel");
 const fs=require('fs')
 const maxAge = 3 * 24 * 60 * 60;
-const createToken = (id) => {
-  return jwt.sign({ id }, "secret", { expiresIn: maxAge });
-};
+
 // const handleError = (err) => {
 //   let errors = { email: "", password: "" };
 //   if (err.code === 11000) {
@@ -53,7 +51,8 @@ module.exports.adminLogin = async (req, res, next) => {
       let validPassword = await bcrypt.compare(password, admin.password);
 
       if (validPassword) {
-        const token = createToken(admin._id);
+        const adminId=admin._id
+        const token = jwt.sign({adminId}, process.env.JWT_SECRET_KEY,{expiresIn:30000});
         console.log(token);
 
         res
@@ -73,6 +72,28 @@ module.exports.adminLogin = async (req, res, next) => {
     res.json({ errors, success: false });
   }
 };
+
+module.exports.isAdminAuth = async (req, res) => {
+  try {   
+  let admin = await AdminModel.findById(req.adminId)
+  
+
+  const admindetails ={
+      email: admin.email,
+  }
+  res.json({"auth":true,"result":admindetails, "status": "success", "message": "signin success" })
+  } catch (error) {
+      res.status(400).json({"auth":false,"message":error.message})
+  }
+  
+
+}
+
+
+
+
+
+
 module.exports.getAllMechanicDetails = async (req, res, next) => {
   try {
     const mechanic = await MechanicModel.find({})

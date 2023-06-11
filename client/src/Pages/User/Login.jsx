@@ -38,7 +38,7 @@ const Login = () => {
     }
      
     try {
-     await userSignin({...values}).
+      userSignin({...values}).
       then((res)=>{
         console.log(res,"nnnnn")
         if (res.data.success) {
@@ -47,10 +47,9 @@ const Login = () => {
          
              dispatch(
                setUserDetails({
-               name: res.data.user.name,
-                 id: res.data.user._id,
-                 email: res.data.user.email,
-                 mobile: res.data.user.mobile,
+               name: res.data.name,
+               email: res.data.email,
+               mobile: res.data.mobile,
                 
               }))
               navigate("/"); 

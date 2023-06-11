@@ -13,6 +13,7 @@ import { EditService } from '../Pages/Admin/EditService'
 import { Banner } from '../Pages/Admin/Banner'
 
 import Editbanners from '../Pages/Admin/Editbanners'
+import PrivateRoutes from '../ProtectedRoutes/PrivateRoutes'
 
 
 
@@ -26,6 +27,7 @@ const AdminRoute = () => {
        
        
      <Route exact path='/login' element={<Adminlogin/>}/>
+     <Route element={<PrivateRoutes  role={"admin"} route={"/admin/dashboard"} />}>
      <Route element={<Adminlayout/>}>
      <Route exact path='/dashboard' element={<Admindashboard/>}/>
      <Route exact path='/mechanic' element={<Adminmechmanagement/>}/>
@@ -38,7 +40,7 @@ const AdminRoute = () => {
      <Route exact path='/banner' element={<Banner/>}/>
      <Route exact path='/editbanner' element={<Editbanners/>}/>
      
-     
+     </Route>
      
 
      </Route>

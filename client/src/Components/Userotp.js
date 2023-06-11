@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import Axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { userOtpsubmit } from "../Services/UserApi";
-import { showAlertError, showAlertSuccess } from "../Services/ShowAlertApi";
+
 import { useDispatch } from "react-redux";
-import Alerts from "./Alert";
+
 import Swal from "sweetalert2"
 export const Userotp = () => {
   const [otp, setOtp] = useState(new Array(4).fill(""));
@@ -82,7 +82,7 @@ export const Userotp = () => {
           </p>
         </div>
       </div>
-      <Alerts />
+     
     </>
   );
 };

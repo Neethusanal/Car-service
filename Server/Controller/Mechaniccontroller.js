@@ -3,9 +3,7 @@ const {sentOtp,verifyOtp} =require("../Middleware/twilio")
 const jwt =require('jsonwebtoken')
 const bcrypt = require("bcrypt")
 const maxAge=3*24*60*60;
-const createToken= (id)=>{
-  return jwt.sign({id},"secretdata",{expiresIn:maxAge})
-}
+
 const handleError=(err)=>{
   let errors={email:"",password:""}
   if(err.code===11000)
@@ -99,8 +97,8 @@ module.exports.mechanicLogin=async(req,res,next)=>{
       {
           const validpassword=await bcrypt.compare(password,mechanic.password)
           if(validpassword)
-          {
-              const token =createToken(mechanic._id);
+          {   const mechanicId=mechanic._id
+              const token = jwt.sign({mechanicId}, process.env.JWT_SECRET_KEY,{expiresIn:30000})
               console.log(token,"token");
               res
               .status(200)
@@ -125,3 +123,32 @@ module.exports.mechanicLogin=async(req,res,next)=>{
 
 
 }
+module.exports.isMechanicAuth = async (req, res) => {
+  try {
+    let mechanicDetails = await MechanicModelmodel.findById(req.mechanicId);
+    mechanicDetails.auth = true;
+    if (mechanicDetails) {
+      res.json({
+        _id: mechanicDetails._id,
+        phone: mechanicDetails.phone,
+        name: mechanicDetails.name,
+        email: mechanicDetails.email,
+        image: mechanicDetails.image || null,
+        isVerified: mechanicDetails.isVerified,
+        qualifiation:mechanicDetails.qualification,
+        experience:mechanicDetails.experience
+      });
+    } else {
+      res.json({
+        mobile: mechanicDetails.phone,
+        name: mechanicDetails.name,
+        email: mechanicDetails.email,
+        image: mechanicDetails.image || null,
+        isVerified: mechanicDetails.isVerified,
+        
+      });
+    }
+  } catch (error) {
+    res.json({ auth: false, message: error.message });
+  }
+};

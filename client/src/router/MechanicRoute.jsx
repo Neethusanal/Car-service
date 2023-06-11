@@ -5,6 +5,7 @@ import Mechregister from '../Pages/Mechanic/Mechregister'
 import { Mechanicotp } from '../Pages/Mechanic/Mechanicotp'
 import  MechHome  from '../Pages/Mechanic/MechHome'
 import Mechaniclayout from '../Layout/Mechaniclayout'
+import PrivateRoutes from '../ProtectedRoutes/PrivateRoutes'
 
 
 
@@ -16,8 +17,10 @@ const MechanicRoute = () => {
     <Route exact path='/register' element={<Mechregister/>}/>
     <Route exact path='/login' element={<Mechlogin/>}/>
     <Route exact path='/otp' element={<Mechanicotp/>}/>
+    <Route element={<PrivateRoutes  role={"mechanic"} route={"/mechanic/"} />}>
     <Route element={<Mechaniclayout/>}>
-     <Route exact path='/home' element={<MechHome/>}/>
+     <Route exact path='/' element={<MechHome/>}/>
+     </Route>
     </Route>
     </Routes>
     </>

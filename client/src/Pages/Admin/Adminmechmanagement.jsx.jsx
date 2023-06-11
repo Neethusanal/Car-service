@@ -16,7 +16,7 @@ import {
 import { useEffect, useState } from "react";
 import { getAllMechanic } from "../../Services/AdminApi";
 
-const TABLE_HEAD = ["Image", "Name", "Email", "Brandsserved","Adminapproval" ,"Actions"];
+const TABLE_HEAD = ["Image", "Name", "Email", ,"Adminapproval" ,];
 
 
 export const Adminmechmanagement = () => {
@@ -45,12 +45,7 @@ export const Adminmechmanagement = () => {
               These are details about the mechanics
             </Typography>
           </div>
-          <div className="flex w-full shrink-0 gap-2 md:w-max">
-            <div className=" w-full md:w-72 ">
-              <Input label="Search" icon={<MagnifyingGlassIcon className="h-5 w-5  " />} />
-            </div>
-           
-          </div>
+         
         </div>
       </CardHeader>
       <CardBody className="overflow-scroll px-0">
@@ -100,21 +95,21 @@ export const Adminmechmanagement = () => {
                       <Typography variant="small" color="blue-gray" className="font-normal">
                         {email}
                       </Typography>
-                    </td>
-                    <td className={classes}>
+                     </td>
+                    {/* <td className={classes}>
                       <Typography variant="small" color="blue-gray" className="font-normal">
                         {brandsserved}
                       </Typography>
-                    </td>
-                    
+                    </td> 
+                     */}
                     <td className={classes}>
                     <Button size="sm">Approved</Button>
                     </td>
                    
-
+{/* 
                     <td className={classes}>
                       <Button size="sm">Block</Button>
-                    </td>
+                    </td> */}
 
                    
                   </tr>
@@ -138,18 +133,7 @@ export const Adminmechmanagement = () => {
           <IconButton variant="text" color="blue-gray" size="sm">
             3
           </IconButton>
-          <IconButton variant="text" color="blue-gray" size="sm">
-            ...
-          </IconButton>
-          <IconButton variant="text" color="blue-gray" size="sm">
-            8
-          </IconButton>
-          <IconButton variant="text" color="blue-gray" size="sm">
-            9
-          </IconButton>
-          <IconButton variant="text" color="blue-gray" size="sm">
-            10
-          </IconButton>
+          
         </div>
         <Button variant="outlined" color="blue-gray" size="sm">
           Next

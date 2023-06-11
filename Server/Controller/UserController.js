@@ -4,9 +4,7 @@ const bcrypt = require("bcrypt")
 const maxAge=3*24*60*60;
 const nodemailer = require("nodemailer");
 const { sendEmailOTP } = require('../Middleware/Nodemailer');
-const createToken= (id)=>{
-    return jwt.sign({id},"secret key",{expiresIn:maxAge})
-}
+
 const handleError=(err)=>{
     let errors={email:"",password:""}
     if(err.code===11000)
@@ -112,10 +110,11 @@ module.exports.userSignup=async(req,res,next)=>{
             console.log("user",user)
             if(user)
             {
-                const validpassword=await bcrypt.compare(password,user.password)
+                const validpassword= await bcrypt.compare(password,user.password)
                 if(validpassword)
                 {
-                    const token = createToken(user._id);
+                  const userId=user._id
+                    const token = jwt.sign({userId}, process.env.JWT_SECRET_KEY,{expiresIn:30000});
                     console.log(token,"token");
                     res
                     .status(200)
@@ -140,4 +139,23 @@ module.exports.userSignup=async(req,res,next)=>{
 
    
     }
+    module.exports.isUserAuth = async (req, res) => {
+      try {
+        
+        let userDetails = await UserModel.findById(req.userId)
+        userDetails.auth = true;
+    
+        res.json({
+          "auth": true,
+          _id:userDetails._id,
+          mobile: userDetails.mobile,
+          name: userDetails.name,
+          email: userDetails.email,
+          image: userDetails.image || null,
+         
+        });
+      } catch (error) {
+        res.json({auth:false, status: "error", message: error.message });
+      }
+    };
    

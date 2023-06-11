@@ -2,9 +2,9 @@ import axios from "axios";
 import React, { Fragment, useState } from "react";
 import { Link, useNavigate,  } from "react-router-dom";
 import { userRegister } from "../../Services/UserApi";
-import { showAlertError, showAlertSuccess } from "../../Services/ShowAlertApi";
+
 import { useDispatch } from "react-redux";
-import Alerts from "../../Components/Alert";
+
 
 
 
@@ -30,7 +30,7 @@ const Register = () => {
     .then((data)=>{
         
             console.log(data)
-            showAlertSuccess(dispatch,data.message)
+           
             navigate('/otp')
             
         
@@ -38,7 +38,7 @@ const Register = () => {
      
    }).catch((error)=>{
      console.log(error)
-     showAlertError(dispatch.data.message)
+  
    })
    
 
@@ -164,7 +164,7 @@ const Register = () => {
                 </div>
             </div>
         </div>
-      <Alerts/>
+     
     </>
   );
 };

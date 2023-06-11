@@ -1,7 +1,25 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 
 const Navbar = () => {
+  const user = useSelector((state) => state.user);
+  const [username,setUserName]=useState()
+  const navigate = useNavigate();
+  console.log(user)
+
+
+
+  const handleLogout=()=>{
+    
+      localStorage.removeItem("usertoken")
+      navigate("/")
+  }
+  useEffect(()=>{
+setUserName(user.name)
+  },[])
+  
  
   return (
    
@@ -23,13 +41,29 @@ const Navbar = () => {
               <li><a href="/contact" className="text-white hover:text-gray-300">Contact</a></li>
             </ul>
           </div>
+ 
+         {/* Login button */}
+         <div className="flex items-center">
+  {user ? (
+    <>
+      <span className="text-white">{username}</span>
+      <button onClick={handleLogout} className="text-white hover:text-gray-300">
+        
+      </button>
+    </>
+  ) : (
+    <a href="/login" className="text-white hover:text-gray-300">
+      Login
+    </a>
+  )}
+</div>
 
-          {/* Login button */}
-          {/* <div className="flex items-center">
-            <a href="/login" className="text-white hover:text-gray-300">
-              Login
-            </a>
-          </div> */}
+
+
+
+
+
+
         </div>
       </div>
     </nav>

@@ -16,8 +16,16 @@ const adminSlice = createSlice({
       state.email = action.payload.email;
       state.token = action.payload.token;
     },
+    adminlogin:(state,action)=>{
+      state.value={...action.payload,
+      isAdminAuth:true}
+    },
+    adminlogout:(state)=>{
+      state.value={isAdminAuth:false,
+      admin:null}
+    }
   },
 });
 
-export const { setadminDetails } = adminSlice.actions;
+export const { setadminDetails,adminlogin,adminlogout } = adminSlice.actions;
 export default adminSlice.reducer;

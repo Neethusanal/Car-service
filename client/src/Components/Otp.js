@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {otpSubmit} from '../Services/MechanicApi'
-import { showAlertError } from '../Services/ShowAlertApi';
+
 import { useDispatch } from 'react-redux';
-import Alerts from './Alert';
+
 import Swal from "sweetalert2"
 
 

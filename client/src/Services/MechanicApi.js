@@ -11,5 +11,9 @@ const Mechanicregister=(data)=>{
  const mechanicSignin=(data)=>{
    return mechanicAxiosInstance.post('/login',data)
  }
+ const authMechanic = () => {
+   return mechanicAxiosInstance.get("/isMechanicAuth");
+ };
  
- export{Mechanicregister,otpSubmit,mechanicSignin}
+ 
+ export{Mechanicregister,otpSubmit,mechanicSignin,authMechanic}
