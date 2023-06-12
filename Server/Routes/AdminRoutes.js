@@ -29,6 +29,8 @@ router.get('/getallbanner',admincontroller.getBanners)
 router.put('/updatebanner',upload.single('image'),admincontroller.updateBanner)
 router.put('/blockbanner/:id',admincontroller.blockBanner)
 router.put('/unblockbanner/:id',admincontroller.unblockBanner)
+router.get('/getallServiceNames',admincontroller.getServiceName)
+router.post('/addserviceslist',admincontroller.addServicesList)
 
 
 

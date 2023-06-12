@@ -14,6 +14,7 @@ import { Banner } from '../Pages/Admin/Banner'
 
 import Editbanners from '../Pages/Admin/Editbanners'
 import PrivateRoutes from '../ProtectedRoutes/PrivateRoutes'
+import { ServiceList } from '../Pages/Admin/ServiceList'
 
 
 
@@ -39,6 +40,7 @@ const AdminRoute = () => {
      <Route exact path='/editservice' element={<EditService/>}/>
      <Route exact path='/banner' element={<Banner/>}/>
      <Route exact path='/editbanner' element={<Editbanners/>}/>
+     <Route exact path='/servicelist' element={<ServiceList/>}/>
      
      </Route>
      

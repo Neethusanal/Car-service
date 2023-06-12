@@ -13,6 +13,22 @@ import {
   Tooltip,
   Input,
 } from "@material-tailwind/react";
+import React, { useEffect, useState } from "react";
+import Modal from "react-modal";
+import Swal from "sweetalert2"
+import { addServicelist, getServiceName } from "../../Services/AdminApi";
+const customStyles = {
+  content: {
+    top: "50%",
+    left: "50%",
+    right: "auto",
+    bottom: "auto",
+    marginRight: "-50%",
+    transform: "translate(-50%, -50%)",
+    maxWidth: "90%", // Adjust the maximum width as needed
+    width: "400px", // Set a fixed width or use percentage
+  },
+};
  
 const TABLE_HEAD = ["Transaction", "Amount", "Date", "Status", "Account", ""];
  
@@ -69,25 +85,83 @@ const TABLE_ROWS = [
   },
 ];
  
-export default function Example() {
+export const ServiceList=()=> {
+  const [modalIsOpen, setIsOpen] = React.useState(false);
+  const[servicedata,setServiceData]=useState()
+  const [serviceName,setServiceName]=useState()
+ const [price,setPrice]=useState()
+  const[name,setName]=useState()
+  const [descriptionLines, setDescriptionLines] = useState([]);
+
+  function openModal() {
+    setIsOpen(true);
+  }
+
+  function closeModal() {
+    setIsOpen(false);
+  }
+  useEffect(() => {
+   
+    ServicelistName()
+    
+    
+
+  }, []);
+  const ServicelistName=async ()=>{
+    try {
+      let { data } = await getServiceName()
+      console.log(data)
+      if (data.success) {
+        console.log(data.result, "ppppp")
+        setServiceData(data?.result)
+
+      }
+
+    } catch (error) {
+
+    }
+  }
+  console.log(servicedata,"data is there")
+  const handleAddServicelist=(e)=>{
+    e.preventDefault()
+    console.log(serviceName,descriptionLines)
+
+    addServicelist({ serviceName, descriptionLines ,name,price}).then((res) => {
+      console.log(res);
+      if (res.data.success) {
+        setServiceName("")
+        setPrice('')
+        setName('')
+        setDescriptionLines([])
+        Swal.fire(res.data.message);
+
+
+      } else {
+        console.log(res.data.errors, "error");
+        Swal.fire(res.data.message);
+      }
+    });
+  }
+  const handleDescriptionChange = (e) => {
+    const lines = e.target.value.split('\n');
+    setDescriptionLines(lines);
+  }
+
   return (
+    <>
     <Card className="h-full w-full">
       <CardHeader floated={false} shadow={false} className="rounded-none">
         <div className="mb-4 flex flex-col justify-between gap-8 md:flex-row md:items-center">
           <div>
             <Typography variant="h5" color="blue-gray">
-              Recent Transactions
+              Service List
             </Typography>
-            <Typography color="gray" className="mt-1 font-normal">
-              These are details about the last transactions
-            </Typography>
+           
           </div>
           <div className="flex w-full shrink-0 gap-2 md:w-max">
-            <div className="w-full md:w-72">
-              <Input label="Search" icon={<MagnifyingGlassIcon className="h-5 w-5" />} />
-            </div>
-            <Button className="flex items-center gap-3" color="blue" size="sm">
-              <ArrowDownTrayIcon strokeWidth={2} className="h-4 w-4" /> Download
+            
+            <Button className="flex items-center gap-3" color="blue" size="sm" onClick={openModal}>
+            Add Servicelists
             </Button>
           </div>
         </div>
@@ -213,23 +287,109 @@ export default function Example() {
           <IconButton variant="text" color="blue-gray" size="sm">
             3
           </IconButton>
-          <IconButton variant="text" color="blue-gray" size="sm">
-            ...
-          </IconButton>
-          <IconButton variant="text" color="blue-gray" size="sm">
-            8
-          </IconButton>
-          <IconButton variant="text" color="blue-gray" size="sm">
-            9
-          </IconButton>
-          <IconButton variant="text" color="blue-gray" size="sm">
-            10
-          </IconButton>
+         
         </div>
         <Button variant="outlined" color="blue-gray" size="sm">
           Next
         </Button>
       </CardFooter>
     </Card>
+     <div>
+     <Modal
+       isOpen={modalIsOpen}
+
+       onRequestClose={closeModal}
+       style={customStyles}
+       contentLabel="Example Modal"
+     >
+       <div className="text-4xl font-bold flex-items-center">Add car Models</div>
+       <form onSubmit={handleAddServicelist}>
+        
+         <div className="mb-4">
+            <label htmlFor="items" className="block font-bold mb-1">
+              Select the Service Name
+            </label>
+            <select
+              id="items"
+              value={serviceName}
+              onChange={(e) => setServiceName(e.target.value)}
+              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-blue-500"
+              required
+            >
+              <option value="">Select the brand</option>
+              {servicedata?.map((items, index) => {
+                return (
+                  <option value={items._id}>{items.serviceName}</option>
+                )
+              })}
+
+
+            </select>
+          </div>
+         <div className="mb-4">
+           <label
+             htmlFor="brand"
+             className="block font-bold mb-1"
+           >
+             Name
+           </label>
+           <input
+             type="text"
+             id="fuelType"
+             value={name}
+             onChange={(e) => setName(e.target.value)}
+             className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-blue-500"
+             placeholder="Enter the name for the service providing"
+             required
+           />
+         </div>
+         <div className="mb-4">
+                            <label
+                                htmlFor="brand"
+                                className="block font-bold mb-1"
+                            >
+                            Price
+                            </label>
+                            <input
+                                type="text"
+                                id="brand"
+                                value={price}
+                                onChange={(e) => setPrice(e.target.value)}
+                                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-blue-500"
+                                placeholder="Enter Amount"
+                                required
+                            />
+                        </div>
+        
+         <div className="mb-4">
+            <label htmlFor="brand" className="block font-bold mb-1">
+              Description
+            </label>
+            <textarea
+              id="fuelType"
+              value={descriptionLines.join('\n')}
+              onChange={handleDescriptionChange}
+              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-blue-500"
+              placeholder="Enter the list of things covered (Press Enter for each line)"
+              required
+            />
+          </div>
+         <button
+           type="submit"
+           className="inline-flex items-center px-4 py-2 ml-4 text-xs font-semibold tracking-widest text-white uppercase transition duration-150 ease-in-out bg-gray-900 border border-transparent rounded-md active:bg-gray-900 false"
+         >
+           submit
+         </button>
+         <button
+           onClick={closeModal}
+           className="inline-flex items-center px-4 py-2 ml-4 text-xs font-semibold tracking-widest text-white uppercase transition duration-150 ease-in-out bg-gray-900 border border-transparent rounded-md active:bg-gray-900 false"
+         >
+           close
+         </button>
+       </form>
+
+     </Modal>
+   </div>
+</>
   );
 }

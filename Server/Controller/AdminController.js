@@ -8,7 +8,8 @@ const cloudinary = require('../config/cloudinary')
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const BannerModel = require("../Models/BannerModel");
-const fs=require('fs')
+const fs=require('fs');
+const ServicelistModel = require("../Models/ServicelistModel");
 const maxAge = 3 * 24 * 60 * 60;
 
 // const handleError = (err) => {
@@ -439,3 +440,34 @@ module.exports.addNewServices = async (req, res, next) => {
         console.log(err)
       }
     }
+
+    module.exports.getServiceName = async (req, res, next) => {
+      try {
+        console.log("helllllooooo");
+        const services = await ServiceModel.find({status:true})
+        console.log(services, "servicedata")
+        res.json({ success: true, result:services  })
+      } catch (error) {
+        res.status(400).json({ success:false, message: error.message })
+    
+      }
+    
+    }
+    module.exports.addServicesList = async (req, res, next) => {
+      try {
+        console.log(req.body)
+        const { serviceName,descriptionLines,name,price } = req.body
+       
+  
+        const servicelist = await ServicelistModel.create({ serviceName: serviceName,servicelistName:name ,description:descriptionLines,price:price})
+        console.log(servicelist)
+        res.status(200).json({ message: "successfully added the list", success: true })
+    
+    
+      } catch (err) {
+        console.log(err)
+          const  errors = handleErrorManagent(err);
+          res.json({ message:"something went  wrong", status: false, errors })
+         
+      }
+    }  

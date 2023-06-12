@@ -97,7 +97,16 @@ const adminSignin=(data)=>{
     console.log(id,"nnnnhhh")
     return adminAxiosInstance.put(`/unblockbanner/${id}`);
   };
+  const getServiceName=()=>{
+
+    return adminAxiosInstance.get("/getallServiceNames");
+  }
+  const addServicelist = (data) => {
+    console.log("servicelist entered")
+    return adminAxiosInstance.post("/addserviceslist",data);
+  };
+  
  export {adminSignin,authAdmin,getAllMechanic,getAllUsers,AddNewBrands,getAllBrands,brandDelete ,blockUser,addNewServices, updateBrand, getServices
   ,updateService,serviceDelete,getBrands,addcarModel, getallCars ,carDelete,updateCars,addBanner,getBanner ,updateBanner,
-  blockBanner, unblockBanner
+  blockBanner, unblockBanner, getServiceName,addServicelist
 }
