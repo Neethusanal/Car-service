@@ -10,14 +10,14 @@ import PrivateRoutes from '../ProtectedRoutes/PrivateRoutes'
 const UserRoute = () => {
   return (
     <>
-    <Routes>
-    <Route exact path='/register' element={<Register/>}/>
-    <Route exact path='/login' element={<Login/>}/>
-    <Route exact path='/otp' element={<Otppage/>}/>
-    <Route element={<PrivateRoutes  role={"user"} route={"/login"} />}>
-    <Route exact path='/' element={<Homepage/>}/>
-    </Route>
-    </Routes>
+      <Routes>
+        <Route exact path='/register' element={<Register />} />
+        <Route exact path='/login' element={<Login />} />
+        <Route exact path='/otp' element={<Otppage />} />
+        <Route element={<PrivateRoutes role={"user"} route={"/login"} />}>
+          <Route exact path='/' element={<Homepage />} />
+        </Route>
+      </Routes>
     </>
   )
 }

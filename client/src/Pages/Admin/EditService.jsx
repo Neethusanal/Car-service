@@ -12,9 +12,9 @@ export const EditService = () => {
     const location = useLocation();
     const service = location.state?.service;
     const navigate = useNavigate()
-    console.log(service, "editservicepage working")
+
     useEffect(() => {
-        console.log("usewffect service");
+
         setServiceName?.(service.serviceName)
         setImage?.(service.image)
         setDescription?.(service.description)
@@ -30,8 +30,6 @@ export const EditService = () => {
         formData.append('image', image);
         let { data } = await updateService(formData)
 
-        console.log(data, "updatebranddddddddddddddd");
-
         if (data.success) {
             Swal.fire(data.message)
 
@@ -40,7 +38,7 @@ export const EditService = () => {
 
         }
         else {
-            console.log("else part executing")
+         
             Swal.fire(data.message)
 
         }
@@ -60,17 +58,17 @@ export const EditService = () => {
                         <input type="text" id="brand" name="brand" value={serviceName} onChange={(e) => setServiceName(e.target.value)} class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-blue-500" required />
                     </div>
                     <div class="mb-4">
-                    <label for="basic_pay" class="block font-bold mb-1">
-                ServiceImage
-            </label>
-            <input
-                  type="file"
-                  name='file'
-                  onChange={(e) =>
-                    setImage( e.target.files[0] )
-                  }
-                  className="file-input w-full max-w-xs" required
-                />
+                        <label for="basic_pay" class="block font-bold mb-1">
+                            ServiceImage
+                        </label>
+                        <input
+                            type="file"
+                            name='file'
+                            onChange={(e) =>
+                                setImage(e.target.files[0])
+                            }
+                            className="file-input w-full max-w-xs" required
+                        />
                     </div>
                     <div class="mb-4">
                         <label for="description" class="block font-bold mb-1">

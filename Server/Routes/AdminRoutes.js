@@ -31,6 +31,8 @@ router.put('/blockbanner/:id',admincontroller.blockBanner)
 router.put('/unblockbanner/:id',admincontroller.unblockBanner)
 router.get('/getallServiceNames',admincontroller.getServiceName)
 router.post('/addserviceslist',admincontroller.addServicesList)
+router.get('/getallSiervicelsts',admincontroller.getAllServiceList)
+router.put('/updateservicelist',admincontroller.updateServiceList)
 
 
 

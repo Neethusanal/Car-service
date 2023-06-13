@@ -19,11 +19,11 @@ import {
 import React, { useEffect, useState } from "react";
 import { AddNewBrands, brandDelete, getAllBrands } from "../../Services/AdminApi";
 import Modal from "react-modal";
-import { useDispatch } from "react-redux";
+
 import Swal from "sweetalert2"
 import { Link, useNavigate } from "react-router-dom";
 
-const TABLE_HEAD = [, "BrandName", "BasicPay", "Description", "Actions", " "];
+const TABLE_HEAD = [, "BrandName", "BasicPay", "Description"," ", "Actions", " "];
 const customStyles = {
     content: {
         top: "50%",
@@ -51,7 +51,6 @@ export const Brandmanagement = () => {
 
     useEffect(() => {
         getAdminBrands();
-        console.log(brand, "hhhiiii");
     }, [deleted, modalIsOpen]);
     function openModal() {
         setIsOpen(true);
@@ -63,10 +62,9 @@ export const Brandmanagement = () => {
 
     const getAdminBrands = () => {
         getAllBrands().then((res) => {
-            console.log("getBrands");
-            console.log(res.data);
+
             if (res.data.success) {
-                console.log(res.data.result, "ddddddd");
+
                 setGetBrands(res?.data?.result);
             }
         });
@@ -74,14 +72,14 @@ export const Brandmanagement = () => {
 
     const handleAddBrands = async (e) => {
         e.preventDefault();
-        console.log(brand, description, basicPay);
+
         const formData = new FormData();
         formData.append('image', image);
         formData.append('brand', brand)
         formData.append('description', description)
         formData.append('basicPay', basicPay)
         let { data } = await AddNewBrands(formData)
-        console.log(data)
+
         if (data.success) {
             setBrand("")
             setDescription("")
@@ -121,7 +119,7 @@ export const Brandmanagement = () => {
         })
     }
     const handleEdit = (brand) => {
-        console.log(brand)
+
         navigate('/admin/editbrand', { state: { brand } })
 
 
@@ -150,7 +148,7 @@ export const Brandmanagement = () => {
                         </div>
                     </div>
                 </CardHeader>
-                <CardBody className="overflow-scroll px-0">
+                <CardBody className="overflow-x-auto px-0">
                     <table className="w-full table-auto text-left">
                         <thead>
                             <tr>

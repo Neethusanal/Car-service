@@ -366,7 +366,7 @@ module.exports.addNewServices = async (req, res, next) => {
     module.exports.getBanners= async (req, res, next) => {
       try {
         console.log("helllllooooo banners");
-        const banners = await BannerModel.find()
+        const banners = await BannerModel.find({})
         console.log(banners, "data")
         res.json({ success: true, result:banners  })
       } catch (error) {
@@ -470,4 +470,33 @@ module.exports.addNewServices = async (req, res, next) => {
           res.json({ message:"something went  wrong", status: false, errors })
          
       }
-    }  
+    } 
+    module.exports.getAllServiceList = async (req, res, next) => {
+      try {
+        console.log("helllllooooo");
+        const serviceslist = await ServicelistModel.find()
+        console.log(serviceslist, "servicelistata")
+        res.json({ success: true, result:serviceslist  })
+      } catch (error) {
+        res.status(400).json({ success:false, message: error.message })
+    
+      }
+    
+    } 
+    module.exports.updateServiceList = async (req, res, next) => {
+      try {
+        
+        const { serviceName, name,price,descriptionLines } = req.body
+    
+        const list = await ServicelistModel.updateOne({ serviceName: serviceName, serviceListName: name ,price:price,description: descriptionLines})
+        console.log(list)
+        res.status(200).json({ message: "successfully updated the list", success: true })
+    
+    
+      } catch (err) {
+    
+          const  errors = handleErrorManagent(err);
+          res.json({ message:"something went wrong", status: false, errors })
+         
+      }
+    }

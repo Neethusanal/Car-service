@@ -1,112 +1,119 @@
-import {adminAxiosInstance} from '../axios/Instance'
+import { adminAxiosInstance } from "../axios/Instance";
 
 const authAdmin = () => {
   return adminAxiosInstance.get("/isAdminAuth");
 };
 
-const adminSignin=(data)=>{
-    return adminAxiosInstance.post('/login',data)
-  }
+const adminSignin = (data) => {
+  return adminAxiosInstance.post("/login", data);
+};
 
-  const getAllMechanic = () => {
-    console.log("iiinn")
-    return adminAxiosInstance.get("/getallmechanic");
-  };
-  const getAllUsers = () => {
-    console.log("entered")
-    return adminAxiosInstance.get("/getallusers");
-  };
-  const AddNewBrands = (data) => {
-    console.log("brands entered")
-    return adminAxiosInstance.post("/addbrands",data);
-  };
-  const getAllBrands = () => {
-    console.log("gggg came")
-    return adminAxiosInstance.get("/getallbrands");
-  };
-  const brandDelete = (id) => {
-    console.log(id,"nnnnn")
-    return adminAxiosInstance.post(`/deletebrands/${id}`);
-  };
-  const blockUser = (id) => {
-    console.log(id,"userblock")
-    return adminAxiosInstance.put(`/blockuser/${id}`);
-  };
-  const unblockUser = (id) => {
-    console.log(id,"unuserblock")
-    return adminAxiosInstance.put(`/unblockuser/${id}`);
-  };
-  const addNewServices = (data) => {
-    console.log("services entered")
-    return adminAxiosInstance.post("/addservices",data);
-  };
-  const updateBrand = (data) => {
-    console.log(data,"brandupdate")
-    return adminAxiosInstance.put("/updatebrand",data);
-  };
-  const getServices = () => {
-    console.log("services ")
-    return adminAxiosInstance.get("/getallservices");
-  };
-  const updateService = (data) => {
-    console.log(data,"serviceupdate")
-    return adminAxiosInstance.put("/updateservice",data);
-  };
-  const serviceDelete = (id) => {
-    console.log(id,"service")
-    return adminAxiosInstance.post(`/deleteservice/${id}`);
-  };
-  //getting brands to add new car models
-  const getBrands=()=>{
+const getAllMechanic = () => {
+  return adminAxiosInstance.get("/getallmechanic");
+};
+const getAllUsers = () => {
+  return adminAxiosInstance.get("/getallusers");
+};
+const AddNewBrands = (data) => {
+  return adminAxiosInstance.post("/addbrands", data);
+};
+const getAllBrands = () => {
+  return adminAxiosInstance.get("/getallbrands");
+};
+const brandDelete = (id) => {
+  return adminAxiosInstance.post(`/deletebrands/${id}`);
+};
+const blockUser = (id) => {
+  return adminAxiosInstance.put(`/blockuser/${id}`);
+};
+const unblockUser = (id) => {
+  return adminAxiosInstance.put(`/unblockuser/${id}`);
+};
+const addNewServices = (data) => {
+  return adminAxiosInstance.post("/addservices", data);
+};
+const updateBrand = (data) => {
+  return adminAxiosInstance.put("/updatebrand", data);
+};
+const getServices = () => {
+  return adminAxiosInstance.get("/getallservices");
+};
+const updateService = (data) => {
+  return adminAxiosInstance.put("/updateservice", data);
+};
+const serviceDelete = (id) => {
+  return adminAxiosInstance.post(`/deleteservice/${id}`);
+};
+//getting brands to add new car models
+const getBrands = () => {
+  return adminAxiosInstance.get("/getallbrandNames");
+};
+const addcarModel = (data) => {
+  return adminAxiosInstance.post("/addcarmodels", data);
+};
+const getallCars = () => {
+  return adminAxiosInstance.get("/getallcars");
+};
+const carDelete = (id) => {
+  return adminAxiosInstance.post(`/deletecar/${id}`);
+};
+const updateCars = (data) => {
+  return adminAxiosInstance.put("/updatecars", data);
+};
+const addBanner = (data) => {
+  return adminAxiosInstance.post("/addbanner", data);
+};
+const getBanner = () => {
+  return adminAxiosInstance.get("/getallbanner");
+};
+const updateBanner = (data) => {
+  return adminAxiosInstance.put("/updatebanner", data);
+};
+const blockBanner = (id) => {
+  return adminAxiosInstance.put(`/blockbanner/${id}`);
+};
+const unblockBanner = (id) => {
+  return adminAxiosInstance.put(`/unblockbanner/${id}`);
+};
+const getServiceName = () => {
+  return adminAxiosInstance.get("/getallServiceNames");
+};
+const addServicelist = (data) => {
+  return adminAxiosInstance.post("/addserviceslist", data);
+};
+const getAllServiceList = () => {
+  return adminAxiosInstance.get("/getallSiervicelsts");
+};
+const updateServicesList = (data) => {
+  return adminAxiosInstance.put("/updateservicelist", data);
+};
 
-    return adminAxiosInstance.get("/getallbrandNames");
-  }
-  const addcarModel = (data) => {
-   
-    return adminAxiosInstance.post("/addcarmodels",data);
-  };
-  const getallCars = () => {
-  
-    return adminAxiosInstance.get("/getallcars");
-  };
-  const carDelete = (id) => {
- 
-    return adminAxiosInstance.post(`/deletecar/${id}`);
-  };
-  const updateCars = (data) => {
- 
-    return adminAxiosInstance.put("/updatecars",data);
-  };
-  const addBanner = (data) => {
-  
-    return adminAxiosInstance.post("/addbanner",data);
-  };
-  const getBanner = () => {
-    console.log("banner came")
-    return adminAxiosInstance.get("/getallbanner");
-  };
-  const updateBanner = (data) => {
-    console.log(data,"bannerupdate")
-    return adminAxiosInstance.put("/updatebanner",data);
-  };
-  const blockBanner = (id) => {
-    console.log(id,"nnnn")
-    return adminAxiosInstance.put(`/blockbanner/${id}`);
-  };
-  const unblockBanner = (id) => {
-    console.log(id,"nnnnhhh")
-    return adminAxiosInstance.put(`/unblockbanner/${id}`);
-  };
-  const getServiceName=()=>{
-
-    return adminAxiosInstance.get("/getallServiceNames");
-  }
-  const addServicelist = (data) => {
-    console.log("servicelist entered")
-    return adminAxiosInstance.post("/addserviceslist",data);
-  };
-  
- export {adminSignin,authAdmin,getAllMechanic,getAllUsers,AddNewBrands,getAllBrands,brandDelete ,blockUser,addNewServices, updateBrand, getServices
-  ,updateService,serviceDelete,getBrands,addcarModel, getallCars ,carDelete,updateCars,addBanner,getBanner ,updateBanner,
-  blockBanner, unblockBanner, getServiceName,addServicelist
-}
+export {
+  adminSignin,
+  authAdmin,
+  getAllMechanic,
+  getAllUsers,
+  AddNewBrands,
+  getAllBrands,
+  brandDelete,
+  blockUser,
+  addNewServices,
+  updateBrand,
+  getServices,
+  updateService,
+  serviceDelete,
+  getBrands,
+  addcarModel,
+  getallCars,
+  carDelete,
+  updateCars,
+  addBanner,
+  getBanner,
+  updateBanner,
+  blockBanner,
+  unblockBanner,
+  getServiceName,
+  addServicelist,
+  getAllServiceList,
+  updateServicesList,
+};

@@ -5,7 +5,7 @@ import { userOtpsubmit } from "../Services/UserApi";
 
 import { useDispatch } from "react-redux";
 
-import Swal from "sweetalert2"
+import Swal from "sweetalert2";
 export const Userotp = () => {
   const [otp, setOtp] = useState(new Array(4).fill(""));
   const navigate = useNavigate();
@@ -23,23 +23,23 @@ export const Userotp = () => {
     try {
       const otpString = otp.join("");
       if (otp.length < 4 || otp === "") {
-       Swal.fire("invalid entry")
+        Swal.fire("invalid entry");
       } else {
         alert("Sending OTP: " + otpString);
         const { data } = await userOtpsubmit({ otp: otpString });
-        console.log(data);
-        if ((data.success )) {
+       
+        if (data.success) {
           console.log("jjjjjjjjjjjj");
           Swal.fire(data.message);
           navigate("/login");
         } else if (data) {
-          console.log(data,"kkkkkkkkkkk");
+          console.log(data, "kkkkkkkkkkk");
           Swal.fire(data.message);
-          navigate("/register")
+          navigate("/register");
         }
       }
     } catch (data) {
-     console.log("oooooooooooooo",data);
+      
       Swal.fire(data.response.data.message);
     }
   };
@@ -82,7 +82,6 @@ export const Userotp = () => {
           </p>
         </div>
       </div>
-     
     </>
   );
 };

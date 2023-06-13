@@ -4,6 +4,7 @@ const bcrypt = require("bcrypt")
 const maxAge=3*24*60*60;
 const nodemailer = require("nodemailer");
 const { sendEmailOTP } = require('../Middleware/Nodemailer');
+const BannerModel = require("../Models/BannerModel");
 
 const handleError=(err)=>{
     let errors={email:"",password:""}
@@ -158,4 +159,16 @@ module.exports.userSignup=async(req,res,next)=>{
         res.json({auth:false, status: "error", message: error.message });
       }
     };
-   
+    module.exports.getBanners= async (req, res, next) => {
+      try {
+       
+        const banners = await BannerModel.find({status:true})
+        console.log(banners, "data")
+        res.json({ success: true, result:banners  })
+      } catch (error) {
+        console.log(error)
+        res.status(400).json({ success:false, message: error.message })
+    
+      }
+    
+    }

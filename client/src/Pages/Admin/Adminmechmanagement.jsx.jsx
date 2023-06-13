@@ -16,7 +16,7 @@ import {
 import { useEffect, useState } from "react";
 import { getAllMechanic } from "../../Services/AdminApi";
 
-const TABLE_HEAD = ["Image", "Name", "Email", ,"Adminapproval" ,];
+const TABLE_HEAD = ["Image", "Name", "Email", , "Adminapproval",];
 
 
 export const Adminmechmanagement = () => {
@@ -45,10 +45,10 @@ export const Adminmechmanagement = () => {
               These are details about the mechanics
             </Typography>
           </div>
-         
+
         </div>
       </CardHeader>
-      <CardBody className="overflow-scroll px-0">
+      <CardBody className="overflow-x-auto px-0">
         <table className="w-full min-w-max table-auto text-left">
           <thead>
             <tr>
@@ -95,7 +95,7 @@ export const Adminmechmanagement = () => {
                       <Typography variant="small" color="blue-gray" className="font-normal">
                         {email}
                       </Typography>
-                     </td>
+                    </td>
                     {/* <td className={classes}>
                       <Typography variant="small" color="blue-gray" className="font-normal">
                         {brandsserved}
@@ -103,15 +103,15 @@ export const Adminmechmanagement = () => {
                     </td> 
                      */}
                     <td className={classes}>
-                    <Button size="sm">Approved</Button>
+                      <Button size="sm">Approved</Button>
                     </td>
-                   
-{/* 
+
+                    {/* 
                     <td className={classes}>
                       <Button size="sm">Block</Button>
                     </td> */}
 
-                   
+
                   </tr>
                 );
               },
@@ -133,7 +133,7 @@ export const Adminmechmanagement = () => {
           <IconButton variant="text" color="blue-gray" size="sm">
             3
           </IconButton>
-          
+
         </div>
         <Button variant="outlined" color="blue-gray" size="sm">
           Next

@@ -1,8 +1,8 @@
 import React from 'react'
-import { Route,Routes } from 'react-router-dom'
+import { Route, Routes } from 'react-router-dom'
 import { Adminlogin } from '../Pages/Admin/Adminlogin'
 import { Admindashboard } from '../Pages/Admin/Admindashboard'
-import {Adminmechmanagement} from '../Pages/Admin/Adminmechmanagement.jsx'
+import { Adminmechmanagement } from '../Pages/Admin/Adminmechmanagement.jsx'
 import { Adminlayout } from '../Layout/Adminlayout'
 import { AdminUsermanagement } from '../Pages/Admin/AdminUsermanagement'
 import { Brandmanagement } from '../Pages/Admin/Brandmanagement.jsx'
@@ -21,32 +21,33 @@ import { ServiceList } from '../Pages/Admin/ServiceList'
 
 
 
+
 const AdminRoute = () => {
   return (
     <>
-    <Routes>
-       
-       
-     <Route exact path='/login' element={<Adminlogin/>}/>
-     <Route element={<PrivateRoutes  role={"admin"} route={"/admin/dashboard"} />}>
-     <Route element={<Adminlayout/>}>
-     <Route exact path='/dashboard' element={<Admindashboard/>}/>
-     <Route exact path='/mechanic' element={<Adminmechmanagement/>}/>
-     <Route exact path='/customers' element={<AdminUsermanagement/>}/>
-     <Route exact path='/brands' element={<Brandmanagement/>}/>
-     <Route exact path='/models' element={<Modelmanagement/>}/>
-     <Route exact path='/services' element={<Servicemanagement/>}/>
-     <Route exact path='/editbrand' element={<EditBrand/>}/>
-     <Route exact path='/editservice' element={<EditService/>}/>
-     <Route exact path='/banner' element={<Banner/>}/>
-     <Route exact path='/editbanner' element={<Editbanners/>}/>
-     <Route exact path='/servicelist' element={<ServiceList/>}/>
-     
-     </Route>
-     
+      <Routes>
 
-     </Route>
-     </Routes>
+
+        <Route exact path='/login' element={<Adminlogin />} />
+        <Route element={<PrivateRoutes role={"admin"} route={"/admin/dashboard"} />}>
+          <Route element={<Adminlayout />}>
+            <Route exact path='/dashboard' element={<Admindashboard />} />
+            <Route exact path='/mechanic' element={<Adminmechmanagement />} />
+            <Route exact path='/customers' element={<AdminUsermanagement />} />
+            <Route exact path='/brands' element={<Brandmanagement />} />
+            <Route exact path='/models' element={<Modelmanagement />} />
+            <Route exact path='/services' element={<Servicemanagement />} />
+            <Route exact path='/editbrand' element={<EditBrand />} />
+            <Route exact path='/editservice' element={<EditService />} />
+            <Route exact path='/banner' element={<Banner />} />
+            <Route exact path='/editbanner' element={<Editbanners />} />
+            <Route exact path='/servicelist' element={<ServiceList />} />
+
+
+
+          </Route>
+        </Route>
+      </Routes>
     </>
   )
 }

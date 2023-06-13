@@ -20,14 +20,14 @@ import { blockUser } from "../../Services/AdminApi";
 
 
 
-const TABLE_HEAD = ["Name", "Email", "phonenumber", "services", "packages","Actions"];
+const TABLE_HEAD = ["Name", "Email", "phonenumber", "services", "  " ,"Actions"];
 
 
 export const AdminUsermanagement = () => {
     const [users, setUsers] = useState()
     useEffect(() => {
         getAdminUser()
-        console.log(users, "hhhiiii")
+       
     }, []);
 
     const getAdminUser = () => {
@@ -40,8 +40,8 @@ export const AdminUsermanagement = () => {
             }
         });
     }
-    const handleBlock=(id)=>{
-        console.log(id,"iddddd")
+    const handleBlock = (id) => {
+        console.log(id, "iddddd")
         Swal.fire({
             title: 'Are you sure?',
             text: "You wont be able to revert this!",
@@ -50,20 +50,19 @@ export const AdminUsermanagement = () => {
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
             confirmButtonText: 'Yes, block it!'
-          }).then(async (result) => {
-            if(result.isConfirmed){
-            let {data}= await blockUser(id)
-            if (data.success)
-             {
-              Swal.fire(
-                'Blocked!',
-                'User has been blocked.',
-                'success'
-              )
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                let { data } = await blockUser(id)
+                if (data.success) {
+                    Swal.fire(
+                        'Blocked!',
+                        'User has been blocked.',
+                        'success'
+                    )
+                }
             }
-        }
-          })
-          
+        })
+
 
     }
 
@@ -81,14 +80,12 @@ export const AdminUsermanagement = () => {
                         </Typography>
                     </div>
                     <div className="flex w-full shrink-0 gap-2 md:w-max">
-                        <div className=" w-full md:w-72 ">
-                            <Input label="Search" icon={<MagnifyingGlassIcon className="h-5 w-5  " />} />
-                        </div>
+                        
 
                     </div>
                 </div>
             </CardHeader>
-            <CardBody className="overflow-scroll px-0">
+            <CardBody className="overflow-x-auto px-0">
                 <table className="w-full min-w-max table-auto text-left">
                     <thead>
                         <tr>
@@ -107,7 +104,7 @@ export const AdminUsermanagement = () => {
                     </thead>
                     <tbody>
                         {users?.map(
-                            ({ _id, name, email, mobile  }, index) => {
+                            ({ _id, name, email, mobile }, index) => {
                                 const isLast = index === users.length - 1;
                                 const classes = isLast ? "p-4" : "p-4 border-b border-blue-gray-50";
 
@@ -126,7 +123,7 @@ export const AdminUsermanagement = () => {
                                                 </Typography>
                                             </div>
                                         </td>
-                                        
+
                                         <td className={classes}>
                                             <Typography variant="small" color="blue-gray" className="font-normal">
                                                 {email}
@@ -139,18 +136,18 @@ export const AdminUsermanagement = () => {
                                         </td>
                                         <td className={classes}>
                                             <Typography variant="small" color="blue-gray" className="font-normal">
-                                                {}
+                                                { }
                                             </Typography>
                                         </td>
                                         <td className={classes}>
                                             <Typography variant="small" color="blue-gray" className="font-normal">
-                                                {}
+                                                { }
                                             </Typography>
                                         </td>
                                         <td className={classes}>
-                                        <Button size="sm" onClick={()=>handleBlock(_id)}>Block</Button>
+                                            <Button size="sm" onClick={() => handleBlock(_id)}>Block</Button>
                                         </td>
-                                      
+
                                     </tr>
                                 );
                             },

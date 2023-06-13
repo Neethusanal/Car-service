@@ -19,7 +19,7 @@ const Mechlogin = () => {
   });
   useEffect(() => {
     if (localStorage.getItem("mechanictoken")) {
-      navigate('/')
+      navigate('/mechanic/')
 
     }
   }, [])
@@ -39,7 +39,7 @@ const Mechlogin = () => {
     }
 
     try {
-      const {data}= await mechanicSignin({ ...values })
+      const { data } = await mechanicSignin({ ...values })
       console.log(data)
       if (data.success) {
         localStorage.setItem("mechanictoken", data.token)
@@ -47,19 +47,18 @@ const Mechlogin = () => {
         dispatch(
           setmechanicDetails({
             name: data.mechanic.name,
-             id: mechanic._id,
+            id: mechanic._id,
             email: data.mechanic.email,
 
 
           }))
-          Swal.fire(data.message)
+        Swal.fire(data.message)
 
 
-        navigate("/mechanic/home");
+        navigate("/mechanic/");
 
       }
-      else
-      {
+      else {
         Swal.fire(data.errors.message)
       }
     } catch (err) {

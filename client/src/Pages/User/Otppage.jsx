@@ -4,7 +4,7 @@ import Userotp from '../../Components/Userotp'
 export const Otppage = () => {
   return (
     <>
-    <Userotp/>
+      <Userotp />
     </>
   )
 }

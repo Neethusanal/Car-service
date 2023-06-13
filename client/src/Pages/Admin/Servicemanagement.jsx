@@ -76,13 +76,13 @@ export const Servicemanagement = () => {
       console.log("getBrands");
       console.log(res);
       if (res.data.success) {
-        console.log(res.data.result, "ddddddd");
+
         setServices(res.data?.result);
       }
     });
   }
   const handleEdit = (service) => {
-    console.log(service)
+
     navigate('/admin/editservice', { state: { service } })
   }
   const handleDelete = (id) => {
@@ -132,7 +132,7 @@ export const Servicemanagement = () => {
             </div>
           </div>
         </CardHeader>
-        <CardBody className="overflow-scroll px-0">
+        <CardBody className="overflow-x-auto px-0">
           <table className="w-full table-auto text-left">
             <thead>
               <tr>

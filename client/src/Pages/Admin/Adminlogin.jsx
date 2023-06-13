@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setadminDetails } from "../../Redux/AdminSlice"
 import { useState } from "react";
 import { adminSignin } from '../../Services/AdminApi';
-
+import Swal from "sweetalert2"
 
 export const Adminlogin = () => {
   const admin = useSelector((state) => state.admin);
@@ -22,26 +22,26 @@ export const Adminlogin = () => {
     }
   }, [])
   const handleSubmit = async (e) => {
-    console.log("entered")
+
     e.preventDefault();
 
     if (!values.email) {
-      console.log("em")
+
       setError("Email is required");
       return;
     }
     if (!values.password) {
-      console.log("pas")
+
       setError("Password is required");
       return;
     }
 
     try {
-      const {data} = await adminSignin({ ...values })
-      console.log(data)
+      const { data } = await adminSignin({ ...values })
+    
       if (data.success) {
         localStorage.setItem("admintoken", data.token)
-        console.log(data)
+    
         dispatch(
           setadminDetails({
 
@@ -54,7 +54,7 @@ export const Adminlogin = () => {
         navigate("/admin/dashboard");
       }
     } catch (err) {
-      console.log(err);
+      Swal.fire(err)
     }
   };
   return (
