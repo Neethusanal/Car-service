@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Card,
   CardBody,
@@ -7,17 +7,25 @@ import {
   CardHeader,
   Button,
 } from "@material-tailwind/react";
+import { useSelector } from "react-redux";
 
 export const Editprofile = () => {
+  const mechanic = useSelector((state) => state.mechanic)
+  console.log(mechanic)
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
-  const [address, setAddress] = useState("");
+  const[brand ,setBrand]=useState()
   const [qualification, setQualification] = useState("");
   const [experience, setExperience] = useState("");
   const [certificate, setCertificate] = useState("");
   const [profileImage, setProfileImage] = useState(null);
   const [isEditMode, setIsEditMode] = useState(false);
+  useEffect(()=>{
+    setFullName(mechanic.name)
+     setEmail(mechanic.email)
+     setPhone(mechanic.phone)
+  },[])
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
     setProfileImage(file);
@@ -45,6 +53,7 @@ export const Editprofile = () => {
             </Typography>
           </CardHeader>
           <CardBody>
+            <form>
             <div className="container w-auto ml-10 ">
               <div className="h-32">
                 <div className="flex items-center mb-4">
@@ -162,6 +171,22 @@ export const Editprofile = () => {
                   required
                 />
               </div>
+              <div className="mb-4">
+                <label
+                  htmlFor="phone"
+                  className="block mb-2 font-medium text-gray-700"
+                >
+                  Brand work for
+                </label>
+                <input
+                  type="tel"
+                  id="phone"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  value={brand}
+                  onChange={(e) => setBrand(e.target.value)}
+                  required
+                />
+              </div>
 
               <div className="mb-4">
                 <label htmlFor="brand" className="block font-bold mb-1">
@@ -176,10 +201,11 @@ export const Editprofile = () => {
                 />
               </div>
             </div>
+            <Button  >save</Button>
+          </form>
+
           </CardBody>
-          <CardFooter className="pt-0 ">
-            <Button>save</Button>
-          </CardFooter>
+         
         </Card>
       </div>
     </>

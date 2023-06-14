@@ -9,6 +9,7 @@ import {
 } from "@material-tailwind/react";
 import { useSelector } from 'react-redux';
 import profile from '../../Images/profile.jpg'
+import { useNavigate } from 'react-router-dom';
 
 
 
@@ -18,6 +19,7 @@ const MechHome = () => {
   const [fullName, setFullName] = useState()
   const [email, setEmail] = useState()
   const [image, setImage] = useState()
+  const navigate=useNavigate()
   useEffect(() => {
 
     setFullName(mechanic?.name)
@@ -25,7 +27,7 @@ const MechHome = () => {
 
   }, [])
   const handleEditProfile = () => {
-
+navigate('/mechanic/updateprofile')
   }
 
   return (

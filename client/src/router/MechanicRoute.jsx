@@ -6,6 +6,7 @@ import { Mechanicotp } from "../Pages/Mechanic/Mechanicotp";
 import MechHome from "../Pages/Mechanic/MechHome";
 import Mechaniclayout from "../Layout/Mechaniclayout";
 import PrivateRoutes from "../ProtectedRoutes/PrivateRoutes";
+import { Editprofile } from "../Pages/Mechanic/EditProfile";
 
 const MechanicRoute = () => {
   return (
@@ -19,6 +20,7 @@ const MechanicRoute = () => {
         >
           <Route element={<Mechaniclayout />}>
             <Route exact path="/home" element={<MechHome/>} />
+            <Route exact path="/updateprofile" element={<Editprofile/>} />
           </Route>
         </Route>
       </Routes>
