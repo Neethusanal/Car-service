@@ -29,33 +29,25 @@ const MechHome = () => {
   }
 
   return (
-    <div className='flex items-center justify-center h-screen mt-10'>
-
-      <Card className="w-96 ">
-        <CardHeader floated={false} className="h-80">
-          <img src={profile} alt="profile-picture" className='h-80 w-96' />
-        </CardHeader>
-        <CardBody className="text-center">
-          <Typography variant="h4" color="blue-gray" className="mb-2">
-            {fullName}
-          </Typography>
-          <Typography color="blue" className="font-medium" textGradient>
-            {email}
-          </Typography>
-        </CardBody>
-        <CardFooter className="flex justify-center gap-7 pt-2">
-
-          <Button onClick={handleEditProfile}>Edit</Button>
-        </CardFooter>
-      </Card>
-
-
-
-
-
-
-    </div>
-  )
-}
+    <div className="flex items-center justify-center h-screen mt-10">
+    <Card className="w-96 sm:w-auto md:w-auto lg:w-auto">
+      <CardHeader floated={false} className="h-80">
+        <img src={profile} alt="profile-picture" className="h-80 w-96 sm:w-auto md:w-auto lg:w-auto" />
+      </CardHeader>
+      <CardBody className="text-center">
+        <Typography variant="h4" color="blue-gray" className="mb-2">
+          {fullName}
+        </Typography>
+        <Typography color="blue" className="font-medium" textGradient>
+          {email}
+        </Typography>
+      </CardBody>
+      <CardFooter className="flex justify-center gap-7 pt-2">
+        <Button onClick={handleEditProfile}>Edit</Button>
+      </CardFooter>
+    </Card>
+  </div>
+);
+};
 
 export default MechHome

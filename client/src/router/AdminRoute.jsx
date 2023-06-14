@@ -11,10 +11,10 @@ import { Servicemanagement } from '../Pages/Admin/Servicemanagement'
 import EditBrand from '../Pages/Admin/EditBrand'
 import { EditService } from '../Pages/Admin/EditService'
 import { Banner } from '../Pages/Admin/Banner'
-
+import { ServiceList } from '../Pages/Admin/ServiceList'
 import Editbanners from '../Pages/Admin/Editbanners'
 import PrivateRoutes from '../ProtectedRoutes/PrivateRoutes'
-import { ServiceList } from '../Pages/Admin/ServiceList'
+
 
 
 

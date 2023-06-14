@@ -3,12 +3,12 @@ import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { setUserDetails } from '../../Redux/UserSlice'
 
-import axios from 'axios';
+
 import logo from '../../Images/logo.png'
 import { userSignin } from '../../Services/UserApi';
 
 const Login = () => {
-  const user = useSelector((state) => state.user);
+  
   const [errors, setError] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -52,7 +52,7 @@ const Login = () => {
                 mobile: res.data.mobile,
 
               }))
-            navigate("/");
+            navigate("/home");
           }
 
 

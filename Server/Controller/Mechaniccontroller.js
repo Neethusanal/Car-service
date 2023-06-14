@@ -125,10 +125,11 @@ module.exports.mechanicLogin=async(req,res,next)=>{
 }
 module.exports.isMechanicAuth = async (req, res) => {
   try {
-    let mechanicDetails = await MechanicModelmodel.findById(req.mechanicId);
+    let mechanicDetails = await MechanicModel.findById(req.mechanicId);
     mechanicDetails.auth = true;
     if (mechanicDetails) {
       res.json({
+        auth:true,
         _id: mechanicDetails._id,
         phone: mechanicDetails.phone,
         name: mechanicDetails.name,
@@ -138,15 +139,16 @@ module.exports.isMechanicAuth = async (req, res) => {
         qualifiation:mechanicDetails.qualification,
         experience:mechanicDetails.experience
       });
-    } else {
-      res.json({
-        mobile: mechanicDetails.phone,
-        name: mechanicDetails.name,
-        email: mechanicDetails.email,
-        image: mechanicDetails.image || null,
-        isVerified: mechanicDetails.isVerified,
+    // } else {
+    //   res.json({
         
-      });
+    //     mobile: mechanicDetails.phone,
+    //     name: mechanicDetails.name,
+    //     email: mechanicDetails.email,
+    //     image: mechanicDetails.image || null,
+    //     isVerified: mechanicDetails.isVerified,
+        
+    //   });
     }
   } catch (error) {
     res.json({ auth: false, message: error.message });

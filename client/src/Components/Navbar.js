@@ -1,20 +1,24 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { userlogout } from "../Redux/UserSlice";
 
 const Navbar = () => {
   const user = useSelector((state) => state.user);
   const [username, setUserName] = useState();
   const navigate = useNavigate();
+  const dispatch=useDispatch()
   console.log(user);
 
   const handleLogout = () => {
     localStorage.removeItem("usertoken");
+    dispatch(userlogout()); 
     navigate("/");
   };
+
   useEffect(() => {
     setUserName(user.name);
-  }, []);
+  }, [user]);
 
   return (
     <nav className="bg-gray-800 shadow-lg">
@@ -55,18 +59,20 @@ const Navbar = () => {
 
           {/* Login button */}
           <div className="flex items-center">
-            {user ? (
+            {user.isUserAuth ? (
               <>
                 <span className="text-white">{username}</span>
                 <button
                   onClick={handleLogout}
                   className="text-white hover:text-gray-300"
-                ></button>
+                >
+                  Logout
+                </button>
               </>
             ) : (
-              <a href="/login" className="text-white hover:text-gray-300">
+              <Link to="/login" className="text-white hover:text-gray-300">
                 Login
-              </a>
+              </Link>
             )}
           </div>
         </div>

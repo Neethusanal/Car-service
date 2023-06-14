@@ -13,9 +13,9 @@ export const UserBanner = () => {
     const getAllBanner=()=>{
         getUserBanners().then((res) => {
            
-            console.log(res.data);
+           
             if (res.data.success) {
-              console.log(res.data.result, "ddddddd");
+            
               setBanner(res?.data?.result);
             }
           })

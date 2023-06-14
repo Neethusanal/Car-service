@@ -260,7 +260,7 @@ export const ServiceList = () => {
 
                       <td className={`${classes} ${tdStyle}`}>
                         <Typography variant="small" color="blue-gray" className="font-normal">
-                          {items.serviceName}
+                          {items.serviceName.serviceName}
                         </Typography>
                       </td>
                       <td className={`${classes} ${tdStyle}`}>

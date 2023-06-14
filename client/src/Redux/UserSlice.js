@@ -18,8 +18,7 @@ const userSlice = createSlice({
       state.name = action.payload.name;
       state.email = action.payload.email;
       state.mobile = action.payload.mobile;
-      state.image = action.payload.image;
-      state.token = action.payload.token;
+      // state.image = action.payload.image;
     },
     userlogin:(state,action)=>{
       state.value={...action.payload,

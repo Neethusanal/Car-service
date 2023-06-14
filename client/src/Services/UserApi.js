@@ -12,8 +12,14 @@ const userSignin = (data) => {
 const authUser = () => {
   return userAxiosInstance.get("/isUserAuth");
 };
+//get Banners
 const getUserBanners = () => {
   return userAxiosInstance.get("/getallbanner");
 };
+//get Services
+const getUserServices = () => {
+  return userAxiosInstance.get("/getallservices");
+};
 
-export { userRegister, userOtpsubmit, userSignin, authUser, getUserBanners };
+
+export { userRegister, userOtpsubmit, userSignin, authUser, getUserBanners,getUserServices  };

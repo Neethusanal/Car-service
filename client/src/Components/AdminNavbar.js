@@ -1,18 +1,26 @@
 import { useState, useEffect } from "react";
-import {
-  Navbar,
-  MobileNav,
-  Typography,
-  Button,
-  IconButton,
-} from "@material-tailwind/react";
+import {Navbar,MobileNav,Typography,Button,IconButton,} from "@material-tailwind/react";
+import { adminlogout } from "../Redux/AdminSlice";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+
  
 export const AdminNavbar=()=> {
   
   const [openNav, setOpenNav] = useState(false);
+  const [adminLoggedIn, setAdminLoggedIn] = useState(false);
+  const navigate=useNavigate()
+  const dispatch=useDispatch()
+  const handleLogout = () => {
+    localStorage.removeItem("admintoken");
+    dispatch(adminlogout()); 
+    navigate("/admin/login");
+    setAdminLoggedIn(false);
+  };
  
   useEffect(() => {
     window.addEventListener("resize", () => window.innerWidth >= 960 && setOpenNav(false));
+   
   }, []);
  
   const navList = (
@@ -68,12 +76,28 @@ export const AdminNavbar=()=> {
           href="#"
           className="mr-4 cursor-pointer py-1.5 font-medium"
         >
-          Material Tailwind
+       CAR CLINIC
         </Typography>
         <div className="hidden lg:block">{navList}</div>
-        {/* <Button variant="gradient" size="sm" className="hidden lg:inline-block">
-          <span>Login</span>
-        </Button> */}
+        {adminLoggedIn ? (
+          <div className="flex items-center">
+            <Typography
+              as="span"
+              variant="small"
+              color="blue-gray"
+              className="mr-4"
+            >
+              Admin Name
+            </Typography>
+            <Button variant="gradient" size="sm" onClick={handleLogout}>
+              Logout
+            </Button>
+          </div>
+        ) : (
+          <Button variant="gradient" size="sm" className="hidden lg:inline-block">
+            <span>Login</span>
+          </Button>
+        )}
         <IconButton
           variant="text"
           className="ml-auto h-6 w-6 text-inherit hover:bg-transparent focus:bg-transparent active:bg-transparent lg:hidden"
@@ -89,11 +113,7 @@ export const AdminNavbar=()=> {
               stroke="currentColor"
               strokeWidth={2}
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M6 18L18 6M6 6l12 12"
-              />
+              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
             </svg>
           ) : (
             <svg
@@ -103,11 +123,7 @@ export const AdminNavbar=()=> {
               stroke="currentColor"
               strokeWidth={2}
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M4 6h16M4 12h16M4 18h16"
-              />
+              <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
             </svg>
           )}
         </IconButton>
@@ -115,9 +131,15 @@ export const AdminNavbar=()=> {
       <MobileNav open={openNav}>
         <div className="container mx-auto">
           {navList}
-           <Button variant="gradient" size="sm" fullWidth className="mb-2">
-            <span>Login</span>
-          </Button> 
+          {adminLoggedIn ? (
+            <Button variant="gradient" size="sm" fullWidth onClick={handleLogout}>
+              Logout
+            </Button>
+          ) : (
+            <Button variant="gradient" size="sm" fullWidth className="mb-2">
+              <span>Login</span>
+            </Button>
+          )}
         </div>
       </MobileNav>
     </Navbar>

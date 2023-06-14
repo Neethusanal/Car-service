@@ -19,7 +19,7 @@ const Mechlogin = () => {
   });
   useEffect(() => {
     if (localStorage.getItem("mechanictoken")) {
-      navigate('/mechanic/')
+      navigate('/mechanic/home')
 
     }
   }, [])
@@ -55,7 +55,7 @@ const Mechlogin = () => {
         Swal.fire(data.message)
 
 
-        navigate("/mechanic/");
+        navigate("/mechanic/home");
 
       }
       else {

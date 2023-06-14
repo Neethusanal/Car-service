@@ -1,10 +1,12 @@
 const UserModel=require("../Models/UserModel")
+const BannerModel = require("../Models/BannerModel");
+const ServicesModel = require("../Models/ServicesModel");
 const jwt =require('jsonwebtoken')
 const bcrypt = require("bcrypt")
 const maxAge=3*24*60*60;
 const nodemailer = require("nodemailer");
 const { sendEmailOTP } = require('../Middleware/Nodemailer');
-const BannerModel = require("../Models/BannerModel");
+
 
 const handleError=(err)=>{
     let errors={email:"",password:""}
@@ -172,3 +174,18 @@ module.exports.userSignup=async(req,res,next)=>{
       }
     
     }
+    module.exports.getServices= async (req, res) => {
+      try {
+      
+        const services = await ServicesModel.find({status:true})
+        
+        res.json({ success: true, result:services  })
+
+      } catch (error) {
+        console.log(error)
+        res.status(400).json({ success:false, message: error.message })
+    
+      }
+    
+    }
+
