@@ -19,6 +19,10 @@ const mechanicSlice = createSlice({
       state.email = action.payload.email;
       state.phone = action.payload.phone;
       state.image = action.payload.image;
+      state.experience=action.payload.experience;
+      state.qualification=action.payload.qualofication;
+      state.certificate=action.payload.certificate;
+
       
     },
     mechlogin:(state,action)=>{

@@ -9,8 +9,8 @@ router.post('/register',usercontroller.userSignup)
 router.post('/userotp',usercontroller.verifyOtp)
 router.post('/login',usercontroller.loginUser)
 router.get('/isUserAuth',VerifyUser,usercontroller.isUserAuth)
-router.get('/getallbanner',VerifyUser,usercontroller.getBanners)
-router.get('/getallservices',VerifyUser,usercontroller.getServices)
+router.get('/getallbanner',usercontroller.getBanners)
+router.get('/getallservices',usercontroller.getServices)
 
 
 
