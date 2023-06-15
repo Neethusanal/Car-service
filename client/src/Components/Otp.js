@@ -32,6 +32,7 @@ export const Otp = () => {
           Swal.fire(response.data.message);
           navigate("/mechanic/login");
         }
+        
       }
     } catch (response) {
       Swal.fire(response.data.message);

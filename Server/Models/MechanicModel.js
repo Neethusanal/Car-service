@@ -32,7 +32,8 @@ const mechanicSchema=  new mongoose.Schema({
         type:String
     },
     brandsserved:{
-        type:Array
+        type:mongoose.Types.ObjectId,
+        ref: "Brands",
     },
     slots:{
         type:Array

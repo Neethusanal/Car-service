@@ -4,9 +4,9 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   name: "",
   email: "",
-  mobile: "",
+  phone: "",
   image: "",
-  token: "",
+  
 };
 
 const mechanicSlice = createSlice({

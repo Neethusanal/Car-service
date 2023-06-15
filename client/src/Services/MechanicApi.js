@@ -12,5 +12,11 @@ const mechanicSignin = (data) => {
 const authMechanic = () => {
   return mechanicAxiosInstance.get("/isMechanicAuth");
 };
+const getMechBrands = () => {
+  return mechanicAxiosInstance.get("/getallbrands");
+};
+const updateProfile= (data) => {
+  return mechanicAxiosInstance.put("/updateprofile", data);
+};
 
-export { Mechanicregister, otpSubmit, mechanicSignin, authMechanic };
+export { Mechanicregister, otpSubmit, mechanicSignin, authMechanic,getMechBrands,updateProfile};

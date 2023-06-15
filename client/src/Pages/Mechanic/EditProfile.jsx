@@ -1,14 +1,10 @@
 import React, { useEffect, useState } from "react";
 import {
-  Card,
-  CardBody,
-  CardFooter,
-  Typography,
-  CardHeader,
-  Button,
-} from "@material-tailwind/react";
+  Card,CardBody,Typography,CardHeader,Button} from "@material-tailwind/react";
 import { useSelector } from "react-redux";
-
+import profile from '../../Images/profile.jpg'
+import { getMechBrands, updateProfile } from "../../Services/MechanicApi";
+import Swal from "sweetalert2";
 export const Editprofile = () => {
   const mechanic = useSelector((state) => state.mechanic)
   console.log(mechanic)
@@ -21,11 +17,24 @@ export const Editprofile = () => {
   const [certificate, setCertificate] = useState("");
   const [profileImage, setProfileImage] = useState(null);
   const [isEditMode, setIsEditMode] = useState(false);
+  const[brandData,setBrandData]=useState([])
   useEffect(()=>{
+    getMechanicBrands()
     setFullName(mechanic.name)
      setEmail(mechanic.email)
      setPhone(mechanic.phone)
+     setProfileImage(mechanic.image)
+    
   },[])
+  const getMechanicBrands = () => {
+    getMechBrands().then((res) => {
+
+        if (res.data.success) {
+
+            setBrandData(res?.data?.result);
+        }
+    });
+};
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
     setProfileImage(file);
@@ -39,6 +48,41 @@ export const Editprofile = () => {
     setIsEditMode(false);
     setProfileImage(null);
   };
+
+  const handleProfileData = async (e) => {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append("fullName", fullName);
+    formData.append("email", email);
+    formData.append("phone", phone);
+    formData.append("brand", brand);
+    formData.append("qualification", qualification);
+    formData.append("experience", experience);
+    formData.append("certificate", certificate);
+    if (profileImage) {
+      formData.append("profileImage", profileImage);
+    }
+    console.log(experience, qualification)
+    try
+    { let {data}=updateProfile(formData)
+    console.log(data)
+    if(data.success)
+    {
+      Swal.fire(data.message)
+      setProfileImage(data.result.image)
+      setQualification(data.result.qualification)
+      setExperience(data.result.experience)
+      setBrand(data.result.brandserved)
+    }
+    else{
+      Swal.fire(data.error)
+    }
+
+    }catch(error)
+    {
+      console.log(error)
+    }
+  }
   return (
     <>
       <div className=" justify-item items-center w-auto h-24 ">
@@ -53,13 +97,13 @@ export const Editprofile = () => {
             </Typography>
           </CardHeader>
           <CardBody>
-            <form>
+            <form onSubmit={handleProfileData}>
             <div className="container w-auto ml-10 ">
               <div className="h-32">
                 <div className="flex items-center mb-4">
                   <div className="relative w-20 h-20 rounded-full overflow-hidden">
                     <img
-                      src="/default-profile-image.jpg" // Replace with your default profile image
+                      src={profileImage? profileImage:profile} // Replace with your default profile image
                       alt="Profile"
                       className="w-32 h-20 object-cover"
                     />
@@ -172,36 +216,41 @@ export const Editprofile = () => {
                 />
               </div>
               <div className="mb-4">
-                <label
-                  htmlFor="phone"
-                  className="block mb-2 font-medium text-gray-700"
-                >
-                  Brand work for
-                </label>
-                <input
-                  type="tel"
-                  id="phone"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  value={brand}
-                  onChange={(e) => setBrand(e.target.value)}
-                  required
-                />
-              </div>
+              <label htmlFor="items" className="block font-bold mb-1">
+                Brand served
+              </label>
+              <select
+                id="items"
+                value={brand||""}
+                onChange={(e) => setBrand(e.target.value)}
+                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-blue-500"
+                required
+              >
+                <option value="">Select the brand</option>
+                {brandData?.map((brand, index) => {
+                  return (
+                    <option  key={brand._id}  value={brand._id}>{brand.brandName}</option>
+                  )
+                })}
+
+
+              </select>
+            </div>
 
               <div className="mb-4">
                 <label htmlFor="brand" className="block font-bold mb-1">
                   Experience Certificate
                 </label>
                 <input
-                  type="file"
-                  name="file"
-                  onChange={(e) => setCertificate(e.target.files[0])}
-                  className="file-input w-full max-w-xs"
-                  required
-                />
+  type="file"
+  name="file"
+  onChange={(e) => setCertificate(e.target.files[0])}
+  className="file-input w-full max-w-xs"
+  required
+/>
               </div>
             </div>
-            <Button  >save</Button>
+            <Button type="submit"   >save</Button>
           </form>
 
           </CardBody>
@@ -211,3 +260,4 @@ export const Editprofile = () => {
     </>
   );
 };
+

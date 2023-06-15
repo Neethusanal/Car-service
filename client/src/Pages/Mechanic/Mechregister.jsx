@@ -10,7 +10,7 @@ const Mechregister = () => {
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
-  const [cpassword, setCpassword] = useState("");
+  
   const navigate = useNavigate()
 
 
@@ -122,22 +122,7 @@ const Mechregister = () => {
                 />
               </div>
             </div>
-            <div className="mt-4">
-              <label
-                htmlFor="password_confirmation"
-                className="block text-sm font-medium text-gray-700 undefined"
-              >
-                Confirm Password
-              </label>
-              <div className="flex flex-col items-start">
-                <input
-                  type="password" placeholder="confirmpassword"
-                  name="Cpassword" onChange={(e) => setCpassword(e.target.value)}
-                  className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                />
-              </div>
-            </div>
-
+            
             <div className="flex items-center justify-end mt-4"><Link to='/mechanic/login'>
               <a
                 className="text-sm text-gray-600 underline hover:text-gray-900"
