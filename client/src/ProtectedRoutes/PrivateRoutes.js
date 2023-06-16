@@ -9,7 +9,7 @@ import { adminlogin, adminlogout } from '../Redux/AdminSlice';
 import {  setmechanicDetails, mechlogout } from '../Redux/MechanicSlice';
 
 function PrivateRoutes({role,route}){
-    let [auth, setAuth] = useState();
+    let [auth, setAuth] = useState(null);
     const navigate=useNavigate()
     const dispatch=useDispatch()
     useEffect(()=> {

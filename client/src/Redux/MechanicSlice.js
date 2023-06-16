@@ -6,6 +6,9 @@ const initialState = {
   email: "",
   phone: "",
   image: "",
+  experience:"",
+  qualification:"",
+  brandserved:""
   
 };
 
@@ -20,7 +23,7 @@ const mechanicSlice = createSlice({
       state.phone = action.payload.phone;
       state.image = action.payload.image;
       state.experience=action.payload.experience;
-      state.qualification=action.payload.qualofication;
+      state.qualification=action.payload.qualification;
       state.certificate=action.payload.certificate;
 
       

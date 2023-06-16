@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import profile from '../../Images/profile.jpg'
 import { getMechBrands, updateProfile } from "../../Services/MechanicApi";
 import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 export const Editprofile = () => {
   const mechanic = useSelector((state) => state.mechanic)
   console.log(mechanic)
@@ -18,13 +19,15 @@ export const Editprofile = () => {
   const [profileImage, setProfileImage] = useState(null);
   const [isEditMode, setIsEditMode] = useState(false);
   const[brandData,setBrandData]=useState([])
+  const navigate=useNavigate()
   useEffect(()=>{
     getMechanicBrands()
     setFullName(mechanic.name)
      setEmail(mechanic.email)
      setPhone(mechanic.phone)
      setProfileImage(mechanic.image)
-    
+  
+      
   },[])
   const getMechanicBrands = () => {
     getMechBrands().then((res) => {
@@ -44,10 +47,10 @@ export const Editprofile = () => {
     setIsEditMode(true);
   };
 
-  const handleCancelEdit = () => {
-    setIsEditMode(false);
-    setProfileImage(null);
-  };
+  // const handleCancelEdit = () => {
+  //   setIsEditMode(false);
+  //   setProfileImage(null);
+  // };
 
   const handleProfileData = async (e) => {
     e.preventDefault();
@@ -82,6 +85,9 @@ export const Editprofile = () => {
     {
       console.log(error)
     }
+  }
+  const handleClose=()=>{
+    navigate('/mechanic/home')
   }
   return (
     <>
@@ -251,6 +257,7 @@ export const Editprofile = () => {
               </div>
             </div>
             <Button type="submit"   >save</Button>
+            <Button type="submit" className="ml-2" onClick={()=>handleClose()}  >close</Button>
           </form>
 
           </CardBody>
