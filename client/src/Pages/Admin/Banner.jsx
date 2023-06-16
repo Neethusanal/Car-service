@@ -1,17 +1,7 @@
-import { PencilIcon } from "@heroicons/react/24/solid";
+
 
 import {
-  Card,
-  CardHeader,
-  Typography,
-  Button,
-  CardBody,
-  Chip,
-  CardFooter,
-  Avatar,
-  IconButton,
-  Tooltip,
-  Input,
+  Card, CardHeader, Typography, Button, CardBody, CardFooter, IconButton
 } from "@material-tailwind/react";
 import Modal from "react-modal";
 import React, { useEffect, useState } from "react";
@@ -70,6 +60,9 @@ export const Banner = () => {
     console.log(data)
     if (data.success) {
       Swal.fire(data.message)
+      setBannerName("")
+      setDescription("")
+      setImage(null)
     }
     else {
       Swal.fire(data.error)

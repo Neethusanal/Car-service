@@ -1,6 +1,8 @@
 const UserModel=require("../Models/UserModel")
 const BannerModel = require("../Models/BannerModel");
 const ServicesModel = require("../Models/ServicesModel");
+const BrandModel=require("../Models/BrandModel")
+const CarsModel=require('../Models/CarsModel')
 const jwt =require('jsonwebtoken')
 const bcrypt = require("bcrypt")
 const maxAge=3*24*60*60;
@@ -186,6 +188,30 @@ module.exports.userSignup=async(req,res,next)=>{
         res.status(400).json({ success:false, message: error.message })
     
       }
-    
     }
+    module.exports.getBrands= async (req, res) => {
+      try {
+        console.log("entrered brands")
+        const brands = await BrandModel.find()
+        
+        res.json({ success: true, result:brands  })
 
+      } catch (error) {
+        console.log(error)
+        res.status(400).json({ success:false, message: error.message })
+    
+      }
+    }
+    module.exports.getModels= async (req, res) => {
+      try {
+      console.log("entrered")
+        const cars = await CarsModel.find()
+        
+        res.json({ success: true, result:cars  })
+
+      } catch (error) {
+        console.log(error)
+        res.status(400).json({ success:false, message: error.message })
+    
+      }
+    }

@@ -20,6 +20,12 @@ const getUserBanners = () => {
 const getUserServices = () => {
   return userAxiosInstance.get("/getallservices");
 };
+const getUserBrands = () => {
+  return userAxiosInstance.get("/getallbrands");
+};
+const getUserModel = () => {
+  return userAxiosInstance.get("/getallmodels");
+};
 
 
-export { userRegister, userOtpsubmit, userSignin, authUser, getUserBanners,getUserServices  };
+export { userRegister, userOtpsubmit, userSignin, authUser, getUserBanners,getUserServices ,getUserBrands,getUserModel  };

@@ -5,6 +5,7 @@ const CarsSchema = new mongoose.Schema({
     carName:{
         type:String,
         required:[true,"Name is required"],
+        
 
     },
     brandName: {

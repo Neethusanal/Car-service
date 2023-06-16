@@ -23,8 +23,6 @@ export const Adminmechmanagement = () => {
   const [mechanic, setMechanic] = useState()
   useEffect(() => {
     getAllMechanic().then((res) => {
-      console.log("first")
-
       if (res.data.status == 'success') {
         setMechanic(res?.data?.result)
       }
@@ -103,13 +101,11 @@ export const Adminmechmanagement = () => {
                     </td> 
                      */}
                     <td className={classes}>
-                      <Button size="sm">Approved</Button>
+                      <Button size="sm" >Approved</Button>
+                      <Button size="sm"  >Reject</Button>
                     </td>
 
-                    {/* 
-                    <td className={classes}>
-                      <Button size="sm">Block</Button>
-                    </td> */}
+                  
 
 
                   </tr>
