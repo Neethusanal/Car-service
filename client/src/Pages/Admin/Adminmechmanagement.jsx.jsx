@@ -16,7 +16,7 @@ import {
 import { useEffect, useState } from "react";
 import { getAllMechanic } from "../../Services/AdminApi";
 
-const TABLE_HEAD = ["Image", "Name", "Email", , "Adminapproval",];
+const TABLE_HEAD = ["Image", "Name", "Email" ,"Adminapproval",];
 
 
 export const Adminmechmanagement = () => {
@@ -65,16 +65,16 @@ export const Adminmechmanagement = () => {
           </thead>
           <tbody>
             {mechanic?.map(
-              ({ image, name, email, brandsserved, }, index) => {
+              (items, index) => {
                 const isLast = index === mechanic.length - 1;
                 const classes = isLast ? "p-4" : "p-4 border-b border-blue-gray-50";
 
                 return (
-                  <tr key={name}>
+                  <tr key={index}>
                     <td className={classes}>
                       <div className="flex items-center gap-3">
                         <Avatar
-                          src={image}
+                          src={items.image}
                           alt={""}
                           size="md"
                           className="border border-blue-gray-50 bg-blue-gray-50/50 object-contain p-1"
@@ -86,20 +86,20 @@ export const Adminmechmanagement = () => {
                     </td>
                     <td className={classes}>
                       <Typography variant="small" color="blue-gray" className="font-normal">
-                        {name}
+                        {items.name}
                       </Typography>
                     </td>
                     <td className={classes}>
                       <Typography variant="small" color="blue-gray" className="font-normal">
-                        {email}
+                        {items.email}
                       </Typography>
                     </td>
                     {/* <td className={classes}>
                       <Typography variant="small" color="blue-gray" className="font-normal">
-                        {brandsserved}
+                        {items.brandsserved}
                       </Typography>
-                    </td> 
-                     */}
+                    </td>  */}
+                    
                     <td className={classes}>
                       <Button size="sm" >Approved</Button>
                       <Button size="sm"  >Reject</Button>

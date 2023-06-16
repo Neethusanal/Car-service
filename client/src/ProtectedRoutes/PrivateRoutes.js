@@ -5,7 +5,7 @@ import { authAdmin } from '../Services/AdminApi';
 import { authMechanic } from '../Services/MechanicApi';
 import { authUser} from '../Services/UserApi';
 import { setUserDetails, userlogout } from '../Redux/UserSlice';
-import { adminlogin, adminlogout } from '../Redux/AdminSlice';
+import { adminlogin, adminlogout, setadminDetails } from '../Redux/AdminSlice';
 import {  setmechanicDetails, mechlogout } from '../Redux/MechanicSlice';
 
 function PrivateRoutes({role,route}){
@@ -33,7 +33,7 @@ function PrivateRoutes({role,route}){
                      localStorage.removeItem('admintoken')
                      dispatch(adminlogout())
                  }else if(resp.data.auth){
-                     dispatch(adminlogin(resp.data))
+                     dispatch(setadminDetails(resp.data.result))
                  }
                  setAuth(resp.data.auth)
              }).catch(resp=>{

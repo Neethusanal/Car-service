@@ -96,7 +96,8 @@ module.exports.isAdminAuth = async (req, res) => {
 
 module.exports.getAllMechanicDetails = async (req, res, next) => {
   try {
-    const mechanic = await MechanicModel.find({});
+    console.log("kkkk")
+    const mechanic = await MechanicModel.find()
     console.log(mechanic, "kjhgf");
     res.json({ status: "success", result: mechanic });
   } catch (error) {
