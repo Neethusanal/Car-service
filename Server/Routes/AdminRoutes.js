@@ -33,7 +33,8 @@ router.get('/getallServiceNames',admincontroller.getServiceName)
 router.post('/addserviceslist',admincontroller.addServicesList)
 router.get('/getallSiervicelsts',admincontroller.getAllServiceList)
 router.put('/updateservicelist',admincontroller.updateServiceList)
-
+router.post('/approvemechanic/:id',admincontroller.mechanicApproval)
+router.post('/rejectmechanic/:id',admincontroller.mechanicReject)
 
 
 module.exports = router;

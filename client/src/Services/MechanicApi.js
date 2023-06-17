@@ -6,6 +6,10 @@ const Mechanicregister = (data) => {
 const otpSubmit = (data) => {
   return mechanicAxiosInstance.post("/verifyOtp", data);
 };
+const updateDetails= (data) => {
+  return mechanicAxiosInstance.put("/updatedetails", data);
+};
+
 const mechanicSignin = (data) => {
   return mechanicAxiosInstance.post("/login", data);
 };
@@ -19,4 +23,4 @@ const updateProfile= (data) => {
   return mechanicAxiosInstance.put("/updateprofile", data);
 };
 
-export { Mechanicregister, otpSubmit, mechanicSignin, authMechanic,getMechBrands,updateProfile};
+export { Mechanicregister, otpSubmit, mechanicSignin, authMechanic,getMechBrands,updateProfile,updateDetails};

@@ -1,35 +1,63 @@
-import { PencilIcon } from "@heroicons/react/24/solid";
-import { ArrowDownTrayIcon, MagnifyingGlassIcon } from "@heroicons/react/24/outline";
-import {
-  Card,
-  CardHeader,
-  Typography,
-  Button,
-  CardBody,
-  Chip,
-  CardFooter,
-  Avatar,
-  IconButton,
-  Tooltip,
-  Input,
-} from "@material-tailwind/react";
-import { useEffect, useState } from "react";
-import { getAllMechanic } from "../../Services/AdminApi";
 
+import {  MagnifyingGlassIcon } from "@heroicons/react/24/outline";
+import {Card,CardHeader,Typography,Button,CardBody,CardFooter,Avatar,IconButton,} from "@material-tailwind/react";
+import { useEffect, useState } from "react";
+import { approveMechanic, getAllMechanic, rejectMechanic } from "../../Services/AdminApi";
+
+import Swal from "sweetalert2"
 const TABLE_HEAD = ["Image", "Name", "Email" ,"Adminapproval",];
 
 
 export const Adminmechmanagement = () => {
   const [mechanic, setMechanic] = useState()
+  const [initialstatus, setInitialstatus] = useState(true)
   useEffect(() => {
     getAllMechanic().then((res) => {
-      if (res.data.status == 'success') {
+      if (res.data.status === 'success') {
         setMechanic(res?.data?.result)
       }
     });
-  }, []);
+  }, [initialstatus]);
+  const handleMechanic=(mechanic)=>{
+    const id=mechanic?._id
+    console.log(id,"mechanicid")
+    if (mechanic?.isBanned) {
+    approveMechanic(id).then((res)=>{
+      console.log(res)
+      if (res.data.success) {
+       setInitialstatus(!initialstatus)
+   
+       Swal.fire(res.data.message)
+     }
+     else {
+   
+   
+       Swal.fire(res.data.message)
+     }
+   
+   
+    })
+  
+  }else if(!mechanic?.isBanned) {
+    rejectMechanic(id).then((res)=>{
+      console.log(res)
+      if (res.data.success) {
+       setInitialstatus(!initialstatus)
+   
+       Swal.fire(res.data.message)
+     }
+     else {
+   
+   
+       Swal.fire(res.data.message)
+     }
+      
+    })
+   
+ 
+  }
 
-
+  }
 
   return (
     <Card className="h-screen w-fit">
@@ -101,8 +129,9 @@ export const Adminmechmanagement = () => {
                     </td>  */}
                     
                     <td className={classes}>
-                      <Button size="sm" >Approved</Button>
-                      <Button size="sm"  >Reject</Button>
+                      <Button size="sm" onClick={() => handleMechanic(items)}>
+                      {items?.isBanned ? "Rejected" : "Approved"}
+                      </Button>
                     </td>
 
                   

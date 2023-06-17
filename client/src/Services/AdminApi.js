@@ -87,6 +87,14 @@ const getAllServiceList = () => {
 const updateServicesList = (data) => {
   return adminAxiosInstance.put("/updateservicelist", data);
 };
+const approveMechanic = (id) =>{ 
+  console.log(id,"approve")
+  return adminAxiosInstance.post(`/approvemechanic/${id}`);
+};
+const rejectMechanic = (id) =>{
+  console.log(id,"reject")
+  return adminAxiosInstance.post(`/rejectmechanic/${id}`)
+};
 
 export {
   adminSignin,
@@ -116,4 +124,6 @@ export {
   addServicelist,
   getAllServiceList,
   updateServicesList,
+  approveMechanic,
+  rejectMechanic
 };

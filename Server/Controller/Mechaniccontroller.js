@@ -88,6 +88,32 @@ module.exports.verifyOtp = async (req, res, next) => {
   }
 };
 
+
+module.exports.updateDetails = async (req, res, ) => {
+  try {
+    console.log(req.body);
+    const {email,experience,qualification,} = req.body;
+
+    const certificate = await cloudinary.uploader.upload(req.files.certificate[0].path, {
+      format: "WebP",
+    });
+    const mechanic = await MechanicModel.findOneAndUpdate(
+      { email: email },
+      {
+        $set: {
+          experience: experience,
+          brandserved: brands,
+          certificate : image.secure_url,
+          
+        },
+      }
+    );
+    res.json({ success: true, message:"Details Updated" });
+    }catch(err)
+    {
+      console.log(err)
+    }
+  }
 module.exports.mechanicLogin = async (req, res, next) => {
   try {
     const { email, password } = req.body;
@@ -146,6 +172,8 @@ module.exports.isMechanicAuth = async (req, res) => {
     res.json({ auth: false, message: error.message });
   }
 };
+
+
 module.exports.getAllBrands = async (req, res) => {
   try {
     const brands = await BrandModel.find({});
@@ -190,8 +218,6 @@ module.exports.updateProfile = async (req, res) => {
         },
       }
     );
-
-    console.log(mechanic, "mechanicDatassssssssssssssssssssssssssssssss");
     res.status(200).json({success: true,message: "successfully updated ", result:mechanic });
   } catch (err) {
     console.log(err);

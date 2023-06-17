@@ -6,7 +6,7 @@ const adminUrl = process.env.REACT_APP_ADMIN_URL;
 const createAxiosClient = (baseURL) => {
   const client = axios.create({
     baseURL,
-    timeout: 8000,
+    timeout: 9000,
     timeoutErrorMessage: "Request timeout... Please Try Again!!!",
   });
   return client;

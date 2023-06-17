@@ -104,6 +104,47 @@ module.exports.getAllMechanicDetails = async (req, res, next) => {
     res.status(400).json({ status: "error", message: error.message });
   }
 };
+module.exports.mechanicApproval = async (req, res) => {
+  try {
+   
+    const id = req.params.id;
+
+
+    const mechanic = await MechanicModel.findByIdAndUpdate(
+      { _id: id },
+      {
+        $set: {
+          isBanned: false,
+        },
+      }
+    );
+
+    res.status(200).json({ message: "Approved Successfully", success: true ,result:mechanic});
+  } catch (err) {
+    console.log(err);
+  }
+};
+module.exports.mechanicReject = async (req, res) => {
+  try {
+    console.log("tttttttttt")
+    const id = req.params.id;
+    console.log(id)
+
+    const mechanic = await MechanicModel.findByIdAndUpdate(
+      { _id: id },
+      {
+        $set: {
+          isBanned: true,
+        },
+      }
+    );
+   
+    res.status(200).json({ message: "Rejected", success: true });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 
 module.exports.getAllUserDetails = async (req, res, next) => {
   try {
@@ -456,7 +497,7 @@ module.exports.blockBanner = async (req, res, next) => {
 };
 module.exports.unblockBanner = async (req, res, next) => {
   try {
-    let id = req.params.id;
+    const id = req.params.id;
 
     const banner = await BannerModel.findByIdAndUpdate(
       { _id: id },

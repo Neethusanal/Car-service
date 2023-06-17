@@ -30,7 +30,7 @@ export const Otp = () => {
         console.log(response, "response");
         if (response.data.success) {
           Swal.fire(response.data.message);
-          navigate("/mechanic/login");
+          navigate("/mechanic/details");
         }
         
       }
