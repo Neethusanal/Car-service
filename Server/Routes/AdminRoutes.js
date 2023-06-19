@@ -35,6 +35,7 @@ router.get('/getallSiervicelsts',admincontroller.getAllServiceList)
 router.put('/updateservicelist',admincontroller.updateServiceList)
 router.post('/approvemechanic/:id',admincontroller.mechanicApproval)
 router.post('/rejectmechanic/:id',admincontroller.mechanicReject)
+router.post('/blockmechanic/:id',admincontroller.mechanicBlock)
 
 
 module.exports = router;

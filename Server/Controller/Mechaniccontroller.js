@@ -92,9 +92,10 @@ module.exports.verifyOtp = async (req, res, next) => {
 module.exports.updateDetails = async (req, res, ) => {
   try {
     console.log(req.body);
-    const {email,experience,qualification,} = req.body;
+    console.log(req.files)
+    const {email,experience,qualification,brand} = req.body;
 
-    const certificate = await cloudinary.uploader.upload(req.files.certificate[0].path, {
+    const doc = await cloudinary.uploader.upload(req.files.certificate[0].path, {
       format: "WebP",
     });
     const mechanic = await MechanicModel.findOneAndUpdate(
@@ -102,8 +103,10 @@ module.exports.updateDetails = async (req, res, ) => {
       {
         $set: {
           experience: experience,
-          brandserved: brands,
-          certificate : image.secure_url,
+          brandserved: brand,
+          certificate : doc.secure_url,
+          qualification:qualification,
+          status:"pending"
           
         },
       }
@@ -166,6 +169,7 @@ module.exports.isMechanicAuth = async (req, res) => {
         isVerified: mechanicDetails.isVerified,
         qualifiation: mechanicDetails.qualification,
         experience: mechanicDetails.experience,
+        status:mechanicDetails.status
       });
     }
   } catch (error) {
@@ -188,7 +192,7 @@ module.exports.updateProfile = async (req, res) => {
     console.log(req.files, "datas in file");
     const id = req.mechanicId;
 
-    const { fullName, email, phone, brand, qualification, experience } =
+    const { fullName, email, phone, brand,  experience } =
       req.body;
     const image = await cloudinary.uploader.upload(
       req.files.profileImage[0].path,
@@ -196,12 +200,7 @@ module.exports.updateProfile = async (req, res) => {
         format: "WebP",
       }
     );
-    const document = await cloudinary.uploader.upload(
-      req.files.certificate[0].path,
-      {
-        format: "pdf",
-      }
-    );
+   
 
     const mechanic = await MechanicModel.findByIdAndUpdate(
       { _id: id },
@@ -211,14 +210,14 @@ module.exports.updateProfile = async (req, res) => {
           email: email,
           phone: phone,
           brandsserved: brand,
-          qualification: qualification,
+         
           experience: experience,
-          certificate: document.secure_url,
+         
           image: image.secure_url,
         },
       }
     );
-    res.status(200).json({success: true,message: "successfully updated ", result:mechanic });
+    res.status(200).json({success: true,message: " profile successfully updated ", result:mechanic });
   } catch (err) {
     console.log(err);
     const errors = handleErrorManagent(err);

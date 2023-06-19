@@ -106,7 +106,7 @@ module.exports.getAllMechanicDetails = async (req, res, next) => {
 };
 module.exports.mechanicApproval = async (req, res) => {
   try {
-   
+   console.log("working")
     const id = req.params.id;
 
 
@@ -114,10 +114,12 @@ module.exports.mechanicApproval = async (req, res) => {
       { _id: id },
       {
         $set: {
-          isBanned: false,
+          isVerified: true,
+          status:"Approved"
         },
       }
     );
+   
 
     res.status(200).json({ message: "Approved Successfully", success: true ,result:mechanic});
   } catch (err) {
@@ -134,12 +136,34 @@ module.exports.mechanicReject = async (req, res) => {
       { _id: id },
       {
         $set: {
-          isBanned: true,
+          isVerified: false,
+          status:"Rejected"
         },
       }
     );
    
-    res.status(200).json({ message: "Rejected", success: true });
+    res.status(200).json({ message: "Rejected ,Minimum 3 year exoerience needed", success: true,result:mechanic });
+  } catch (err) {
+    console.log(err);
+  }
+};
+module.exports.mechanicBlock = async (req, res) => {
+  try {
+    console.log("block")
+    const id = req.params.id;
+    console.log(id)
+
+    const mechanic = await MechanicModel.findByIdAndUpdate(
+      { _id: id },
+      {
+        $set: {
+          isBanned: true,
+         
+        },
+      }
+    );
+   
+    res.status(200).json({ message: "Mechanic has been Blocked", success: true,result:mechanic });
   } catch (err) {
     console.log(err);
   }

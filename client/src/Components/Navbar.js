@@ -64,7 +64,7 @@ const Navbar = () => {
                 <span className="text-white">{username}</span>
                 <button
                   onClick={handleLogout}
-                  className="text-white hover:text-gray-300"
+                  className="text-white hover:text-gray-300 ml-4"
                 >
                   Logout
                 </button>

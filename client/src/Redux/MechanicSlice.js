@@ -8,7 +8,8 @@ const initialState = {
   image: "",
   experience:"",
   qualification:"",
-  brandserved:""
+  brandserved:"",
+  status:""
   
 };
 
@@ -25,6 +26,7 @@ const mechanicSlice = createSlice({
       state.experience=action.payload.experience;
       state.qualification=action.payload.qualification;
       state.certificate=action.payload.certificate;
+      state.status=action.payload.status
 
       
     },

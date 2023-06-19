@@ -2,62 +2,81 @@
 import {  MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import {Card,CardHeader,Typography,Button,CardBody,CardFooter,Avatar,IconButton,} from "@material-tailwind/react";
 import { useEffect, useState } from "react";
-import { approveMechanic, getAllMechanic, rejectMechanic } from "../../Services/AdminApi";
+import { approveMechanic, blockMechanic, getAllMechanic, rejectMechanic } from "../../Services/AdminApi";
 
 import Swal from "sweetalert2"
-const TABLE_HEAD = ["Image", "Name", "Email" ,"Adminapproval",];
+const TABLE_HEAD = ["Image", "Name", "Email" ,"status" ,"  ","Adminapproval",""];
 
 
 export const Adminmechmanagement = () => {
   const [mechanic, setMechanic] = useState()
-  const [initialstatus, setInitialstatus] = useState(true)
+ 
   useEffect(() => {
     getAllMechanic().then((res) => {
       if (res.data.status === 'success') {
         setMechanic(res?.data?.result)
       }
     });
-  }, [initialstatus]);
-  const handleMechanic=(mechanic)=>{
+  }, []);
+  const handleApprove=(mechanic)=>{
     const id=mechanic?._id
     console.log(id,"mechanicid")
-    if (mechanic?.isBanned) {
+    if (mechanic?.status ==="pending") {
     approveMechanic(id).then((res)=>{
       console.log(res)
       if (res.data.success) {
-       setInitialstatus(!initialstatus)
-   
-       Swal.fire(res.data.message)
-     }
-     else {
-   
-   
-       Swal.fire(res.data.message)
-     }
-   
-   
-    })
-  
-  }else if(!mechanic?.isBanned) {
-    rejectMechanic(id).then((res)=>{
-      console.log(res)
-      if (res.data.success) {
-       setInitialstatus(!initialstatus)
-   
-       Swal.fire(res.data.message)
-     }
-     else {
-   
-   
-       Swal.fire(res.data.message)
-     }
       
-    })
    
- 
+       Swal.fire(res.data.message)
+     }
+     else {
+   
+   
+       Swal.fire(res.data.message)
+     }
+   
+   
+    })
   }
+}
+    const handleReject =(mechanic)=>{
 
-  }
+      const id=mechanic?._id
+      if (mechanic?.status ==="pending") {
+        rejectMechanic(id).then((res)=>{
+          console.log(res)
+          if (res.data.success) {
+           
+       
+           Swal.fire(res.data.message)
+         }
+         else {
+       
+       
+           Swal.fire(res.data.message)
+         }
+          
+        })
+       
+     
+      }
+    
+    }  
+    const handleBlock=(mechanic)=>{
+      const id=mechanic?._id
+      blockMechanic(id).then((res)=>{
+        if(res.data.success)
+        {
+          Swal.fire(res.data.message)
+        }
+        
+
+      })
+    }
+
+    
+  
+  
 
   return (
     <Card className="h-screen w-fit">
@@ -122,6 +141,11 @@ export const Adminmechmanagement = () => {
                         {items.email}
                       </Typography>
                     </td>
+                    <td className={classes}>
+                      <Typography variant="small" color="blue-gray" className="font-normal">
+                        {items.status}
+                      </Typography>
+                    </td>
                     {/* <td className={classes}>
                       <Typography variant="small" color="blue-gray" className="font-normal">
                         {items.brandsserved}
@@ -129,11 +153,23 @@ export const Adminmechmanagement = () => {
                     </td>  */}
                     
                     <td className={classes}>
-                      <Button size="sm" onClick={() => handleMechanic(items)}>
-                      {items?.isBanned ? "Rejected" : "Approved"}
-                      </Button>
-                    </td>
-
+      <Button size="sm" onClick={() => handleApprove(items)}>
+        Approve
+      </Button>
+    </td>
+    {items.status === "pending" ? (
+      <td className={classes}>
+        <Button size="sm" onClick={() => handleReject(items)}>
+          Reject
+        </Button>
+      </td>
+    ) : (
+      <td className={classes}>
+        <Button size="sm"  onClick={()=>handleBlock(items)}> 
+          Block
+        </Button>
+      </td>
+    )}
                   
 
 

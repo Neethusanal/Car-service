@@ -22,7 +22,11 @@ const Editbanners = () => {
         e.preventDefault();
 
         const formData = new FormData();
-        formData.append('image', image);
+        if (image) {
+            formData.append('image', image);
+          } else {
+            formData.append('image', banner.image); // Append previous image if no new image is added
+          }
         formData.append('bannerName', bannerName)
         formData.append('description', description)
         formData.append('id', id)

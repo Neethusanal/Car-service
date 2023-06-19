@@ -2,6 +2,7 @@
 import Navbar from '../../Components/Navbar'
 
 import { UserBanner } from '../../Components/UserBanner';
+import { UserBrands } from '../../Components/UserBrands';
 import { UserServices } from '../../Components/UserServices';
 
 
@@ -13,6 +14,7 @@ export const Homepage = () => {
       <Navbar/>
       <UserBanner/>
       <UserServices/>
+      <UserBrands/>
       
     </div>
   )

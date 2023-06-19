@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { getUserBrands, getUserModel, getUserServices } from "../Services/UserApi";
 import {Card,CardHeader,CardBody,CardFooter,Typography,Button,} from "@material-tailwind/react";
+import { useNavigate } from "react-router-dom";
 
 
 export const UserServices = () => {
@@ -9,6 +10,7 @@ export const UserServices = () => {
   const [model,setModel]=useState([])
   const [brandName,setBrandName]=useState()
   const [modelName,setModelName]=useState()
+  const navigate=useNavigate()
   useEffect(() => {
     getServiceData();
     getBrandData()
@@ -38,6 +40,9 @@ export const UserServices = () => {
         setModel(res.data.result);
       }
     });
+  }
+  const handleBooking=()=>{
+    navigate('/services')
   }
   return (
     <div className="flex flex-col sm:flex-row h-auto">
@@ -118,8 +123,9 @@ export const UserServices = () => {
           className="text-black-500 hover:scale-[1.02] focus:scale-[1.02] active:scale-100"
           ripple={false}
           fullWidth={true}
+          onClick={()=>handleBooking()}
         >
-          check the Price
+          Book an appointment
         </Button>
       </CardFooter>
     </Card>

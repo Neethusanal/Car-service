@@ -51,7 +51,7 @@ const mechanicSchema=  new mongoose.Schema({
     },
     isBanned:{
         type:Boolean,
-        default:true
+        default:false
     },
     status:{
         type:String

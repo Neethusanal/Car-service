@@ -95,6 +95,10 @@ const rejectMechanic = (id) =>{
   console.log(id,"reject")
   return adminAxiosInstance.post(`/rejectmechanic/${id}`)
 };
+const blockMechanic=(id)=>{
+  console.log("block mechanic")
+  return adminAxiosInstance.post(`/blockmechanic/${id}`)
+}
 
 export {
   adminSignin,
@@ -125,5 +129,6 @@ export {
   getAllServiceList,
   updateServicesList,
   approveMechanic,
-  rejectMechanic
+  rejectMechanic,
+  blockMechanic
 };

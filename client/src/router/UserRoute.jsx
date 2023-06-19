@@ -5,6 +5,7 @@ import Login from '../Pages/User/Login'
 import { Otppage } from '../Pages/User/Otppage'
 import { Homepage } from '../Pages/User/Homepage'
 import PrivateRoutes from '../ProtectedRoutes/PrivateRoutes'
+import { Services } from '../Pages/User/Services'
 
 
 const UserRoute = () => {
@@ -17,6 +18,7 @@ const UserRoute = () => {
         <Route exact path='/' element={<Homepage />} />
         <Route element={<PrivateRoutes role={"user"} route={"/"} />}>
           <Route exact path='/home' element={<Homepage />} />
+          <Route exact path='/services' element={<Services />} />
         </Route>
       </Routes>
     </>
