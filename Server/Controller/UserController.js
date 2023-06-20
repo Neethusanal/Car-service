@@ -234,4 +234,5 @@ module.exports.userSignup=async(req,res,next)=>{
     module.exports.addToCart=async(req,res)=>{
       const id=req.params.id
       console.log(id)
+      const IsCartExist=await 
     }
