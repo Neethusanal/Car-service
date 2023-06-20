@@ -8,6 +8,7 @@ const bcrypt = require("bcrypt")
 const maxAge=3*24*60*60;
 const nodemailer = require("nodemailer");
 const { sendEmailOTP } = require('../Middleware/Nodemailer');
+const ServicelistModel = require("../Models/ServicelistModel");
 
 
 const handleError=(err)=>{
@@ -204,7 +205,8 @@ module.exports.userSignup=async(req,res,next)=>{
     }
     module.exports.getModels= async (req, res) => {
       try {
-      console.log("entrered")
+       
+      
         const cars = await CarsModel.find()
         
         res.json({ success: true, result:cars  })
@@ -214,4 +216,22 @@ module.exports.userSignup=async(req,res,next)=>{
         res.status(400).json({ success:false, message: error.message })
     
       }
+    }
+    module.exports.getAllServicesList= async (req, res) => {
+      try {
+        let id = req.params.id
+        
+        const servicelist = await ServicelistModel.find({serviceName:id})
+        
+        res.json({ success: true, result:servicelist  })
+
+      } catch (error) {
+        console.log(error)
+        res.status(400).json({ success:false, message: error.message })
+    
+      }
+    }
+    module.exports.addToCart=async(req,res)=>{
+      const id=req.params.id
+      console.log(id)
     }

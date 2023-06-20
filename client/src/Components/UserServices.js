@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { getUserBrands, getUserModel, getUserServices } from "../Services/UserApi";
+import { authUser, getUserBrands, getUserModel, getUserServices } from "../Services/UserApi";
 import {Card,CardHeader,CardBody,CardFooter,Typography,Button,} from "@material-tailwind/react";
 import { useNavigate } from "react-router-dom";
 
+import Swal from "sweetalert2"
 
 export const UserServices = () => {
+  
   const [services, setService] = useState([]);
   const [brand ,setBrand]=useState([])
   const [model,setModel]=useState([])
@@ -42,7 +44,14 @@ export const UserServices = () => {
     });
   }
   const handleBooking=()=>{
-    navigate('/services')
+    if(authUser){
+      navigate('/services')
+    }
+    else
+    {
+      Swal.fire("please login")
+    }
+  
   }
   return (
     <div className="flex flex-col sm:flex-row h-auto">

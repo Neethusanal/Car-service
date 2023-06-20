@@ -26,6 +26,13 @@ const getUserBrands = () => {
 const getUserModel = () => {
   return userAxiosInstance.get("/getallmodels");
 };
+const getServicePlans = (id) => {
+  return userAxiosInstance.get(`/getallserviceplans/${id}`);
+};
+const addPlansToCart=(id)=>{
+  console.log(id,"id sending to back end for adding to caert")
+  return userAxiosInstance.post(`/addtocart/${id}`)
+}
 
 
-export { userRegister, userOtpsubmit, userSignin, authUser, getUserBanners,getUserServices ,getUserBrands,getUserModel  };
+export { userRegister, userOtpsubmit, userSignin, authUser, getUserBanners,getUserServices ,getUserBrands,getUserModel,getServicePlans,addPlansToCart  };

@@ -2,10 +2,12 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { userlogout } from "../Redux/UserSlice";
+import { FaShoppingCart } from "react-icons/fa";
 
 const Navbar = () => {
   const user = useSelector((state) => state.user);
-  const [username, setUserName] = useState();
+  const [showDropdown, setShowDropdown] = useState(false); 
+  
   const navigate = useNavigate();
   const dispatch=useDispatch()
   console.log(user);
@@ -17,8 +19,11 @@ const Navbar = () => {
   };
 
   useEffect(() => {
-    setUserName(user.name);
+   
   }, [user]);
+  const toggleDropdown = () => {
+    setShowDropdown(!showDropdown);
+  };
 
   return (
     <nav className="bg-gray-800 shadow-lg">
@@ -54,20 +59,47 @@ const Navbar = () => {
                   Contact
                 </a>
               </li>
+              {user.name && (
+                <li>
+                  <Link to="/cart" className="text-white hover:text-gray-300">
+                    Cart
+                  </Link>
+                </li>
+              )}
             </ul>
           </div>
 
           {/* Login button */}
           <div className="flex items-center">
-            {user.isUserAuth ? (
+            {user.name ? (
               <>
-                <span className="text-white">{username}</span>
-                <button
-                  onClick={handleLogout}
+                <span className="text-white">Hi {user.name}</span>
+                <Link
+                  to="/cart"
                   className="text-white hover:text-gray-300 ml-4"
                 >
-                  Logout
+                  <FaShoppingCart size={20} />
+                </Link>
+                <button
+                  onClick={toggleDropdown}
+                  className="text-white hover:text-gray-300 ml-4 focus:outline-none"
+                >
+                  &#9662; {/* Downward arrow character */}
                 </button>
+                {showDropdown && (
+                  <div className="absolute right-0 mt-2 w-48 bg-white border rounded shadow-lg">
+                    <ul className="py-2">
+                      <li>
+                        <button
+                          onClick={handleLogout}
+                          className="block w-full px-4 py-2 text-gray-800 hover:bg-gray-300"
+                        >
+                          Logout
+                        </button>
+                      </li>
+                    </ul>
+                  </div>
+                )}
               </>
             ) : (
               <Link to="/login" className="text-white hover:text-gray-300">
