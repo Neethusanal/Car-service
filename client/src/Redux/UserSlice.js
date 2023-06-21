@@ -7,6 +7,7 @@ const initialState = {
   mobile: "",
   image: "",
   token: "",
+  cart:[]
 };
 
 const userSlice = createSlice({
@@ -18,7 +19,10 @@ const userSlice = createSlice({
       state.name = action.payload.name;
       state.email = action.payload.email;
       state.mobile = action.payload.mobile;
-      // state.image = action.payload.image;
+      state.cart=action.payload.cart
+      state.services=action.payload.services
+      state.packages=action.payload.packages
+      
     },
     userlogin:(state,action)=>{
       state.value={...action.payload,

@@ -30,7 +30,6 @@ const getServicePlans = (id) => {
   return userAxiosInstance.get(`/getallserviceplans/${id}`);
 };
 const addPlansToCart=(id)=>{
-  console.log(id,"id sending to back end for adding to caert")
   return userAxiosInstance.post(`/addtocart/${id}`)
 }
 

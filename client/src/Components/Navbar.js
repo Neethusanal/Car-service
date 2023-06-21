@@ -79,6 +79,9 @@ const Navbar = () => {
                   className="text-white hover:text-gray-300 ml-4"
                 >
                   <FaShoppingCart size={20} />
+                  {user.cart && user.cart.length > 0 && ( // Add null check and length check
+                <span className="text-white ml-1">{user.cart.length}</span>
+              )}
                 </Link>
                 <button
                   onClick={toggleDropdown}
