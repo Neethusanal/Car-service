@@ -13,6 +13,8 @@ export const ServicePlans = () => {
   const [services, setServices] = useState([]);
   const [servicelist,setServiceList]=useState([])
   const [selectedServiceId, setSelectedServiceId] = useState(null);
+  const [selectedPlans, setSelectedPlans] = useState({});
+  const[selectedPlanId,setSelectedPlanId]=useState()
   useEffect(() => {
     getAllServices();
    
@@ -46,14 +48,17 @@ export const ServicePlans = () => {
 
     })
   };
-  const handleAddtoCart=(id)=>{
-    console.log(id,"addtocart")
-    addPlansToCart(id).then((res)=>{
-      console.log(res.data.result)
-
-    })
-
-  }
+  const handleAddtoCart = (planId) => {
+    console.log(planId, "addtocart");
+    addPlansToCart(selectedServiceId, planId).then((res) => {
+      console.log(res.data.result);
+    });
+  
+    setSelectedPlans((prevSelectedPlans) => ({
+      ...prevSelectedPlans,
+      [selectedServiceId]: planId,
+    }));
+  };
   return (
     <>
       <nav class="bg-white border-gray-200 dark:bg-gray-900 dark:border-gray-700">
@@ -104,7 +109,12 @@ export const ServicePlans = () => {
         return(
 
           <div className="py-20 px-20 " key={index} >
-          <Card className="w-96  white">
+    <Card
+  className={`w-96 white ${selectedPlans[selectedServiceId] === plans._id ? 'bg-blue-200' : ''}`}
+  key={index}
+  onClick={() => setSelectedPlanId(plans._id)}
+>
+
             <CardHeader
               shadow={false}
               floated={false}
@@ -136,15 +146,21 @@ export const ServicePlans = () => {
               </div>
             </CardBody>
             <CardFooter className="pt-0">
-              <Button
-                ripple={false}
-                fullWidth={true}
-                className="bg-black text-white shadow-none hover:shadow-none hover:scale-105 focus:shadow-none focus:scale-105 active:scale-100"
-             onClick={()=>handleAddtoCart(plans._id)} >
-                Add to Cart
-              </Button>
+            <Button
+  ripple={false}
+  fullWidth={true}
+  className={`bg-black text-white shadow-none hover:shadow-none hover:scale-105 focus:shadow-none focus:scale-105 active:scale-100 ${
+    selectedPlans[selectedServiceId] && selectedPlans[selectedServiceId] !== plans._id ? 'opacity-50 cursor-not-allowed' : ''
+  }`}
+  onClick={() => handleAddtoCart(plans._id)}
+  disabled={selectedPlans[selectedServiceId] && selectedPlans[selectedServiceId] !== plans._id}
+>
+  Add to Cart
+</Button>
             </CardFooter>
-          </Card>
+           
+</Card>
+
         </div>
         )
        })
