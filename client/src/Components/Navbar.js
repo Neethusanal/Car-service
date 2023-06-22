@@ -4,10 +4,13 @@ import { Link, useNavigate } from "react-router-dom";
 import { userlogout } from "../Redux/UserSlice";
 import { FaShoppingCart } from "react-icons/fa";
 
+
 const Navbar = () => {
   const user = useSelector((state) => state.user);
   const [showDropdown, setShowDropdown] = useState(false); 
+ 
   
+  console.log(user,"navbarpage")
   const navigate = useNavigate();
   const dispatch=useDispatch()
   console.log(user);
@@ -19,11 +22,14 @@ const Navbar = () => {
   };
 
   useEffect(() => {
-   
-  }, [user]);
+ 
+  }, []);
   const toggleDropdown = () => {
     setShowDropdown(!showDropdown);
   };
+const handleCart=()=>{
+  navigate('/cart')
+}
 
   return (
     <nav className="bg-gray-800 shadow-lg">
@@ -74,15 +80,15 @@ const Navbar = () => {
             {user.name ? (
               <>
                 <span className="text-white">Hi {user.name}</span>
-                <Link
-                  to="/cart"
+                <button
+                 onClick={()=>handleCart()}
                   className="text-white hover:text-gray-300 ml-4"
                 >
                   <FaShoppingCart size={20} />
                   {user.cart && user.cart.length > 0 && ( // Add null check and length check
                 <span className="text-white ml-1">{user.cart.length}</span>
               )}
-                </Link>
+                </button>
                 <button
                   onClick={toggleDropdown}
                   className="text-white hover:text-gray-300 ml-4 focus:outline-none"

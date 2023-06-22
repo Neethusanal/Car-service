@@ -8,16 +8,16 @@ import { UserServices } from '../../Components/UserServices';
 
 
 
+
 export const Homepage = () => {
   
 
   return (
     <div>
-      <Navbar/>
-      <UserBanner/>
-      <UserServices/>
-      <UserBrands/>
-      
-    </div>
+    <Navbar/>
+    <UserBanner/>
+    <UserServices />
+    <UserBrands />
+  </div>
   )
 }
