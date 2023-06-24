@@ -13,6 +13,8 @@ import {
 import { useSelector } from 'react-redux';
 import { AiOutlineDelete } from 'react-icons/ai';
 import { deleteItem } from '../Services/UserApi';
+import { useNavigate } from 'react-router-dom';
+
 
 
 
@@ -21,6 +23,7 @@ export const Cart = () => {
   const user=useSelector((state)=>state.user)
   console.log(user)
   const [cartdata,setCartData]=useState([])
+  const navigate=useNavigate()
   useEffect(()=>{
    setCartData(user.cart)
 
@@ -47,6 +50,9 @@ const deleteCartData= (id)=>{
     }
   })
  
+}
+const handleContinue=()=>{
+  navigate('/bookslot')
 }
 
   return (
@@ -109,14 +115,11 @@ const deleteCartData= (id)=>{
       </CardBody>
       <CardFooter className="mt-12 p-0">
         <Button
-          size="small"
-          color="white"
-          className="text-blue-500 hover:scale-[1.02] focus:scale-[1.02] active:scale-100"
-          ripple={false}
-          fullWidth={false}
          
+         onClick={()=>handleContinue()}
         >
-          continue
+         
+          continue  
         </Button>
       </CardFooter>
     </Card>

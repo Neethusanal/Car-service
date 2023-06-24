@@ -8,6 +8,7 @@ import PrivateRoutes from '../ProtectedRoutes/PrivateRoutes'
 import { Services } from '../Pages/User/Services'
 
 import { UserCart } from '../Pages/User/UserCart'
+import { SlotPage } from '../Pages/User/SlotPage'
 
 
 const UserRoute = () => {
@@ -24,6 +25,7 @@ const UserRoute = () => {
         <Route exact path='/home' element={<Homepage />} />
           <Route exact path='/services' element={<Services />} />
           <Route exact path='/cart' element={<UserCart />} />
+          <Route exact path='/bookslot' element={<SlotPage />} />
         </Route>
       </Routes>
     </>
