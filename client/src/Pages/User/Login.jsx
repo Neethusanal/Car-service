@@ -50,6 +50,7 @@ const Login = () => {
                 name: res.data.name,
                 email: res.data.email,
                 mobile: res.data.mobile,
+                cart:res.data.cart,
 
               }))
             navigate("/home");

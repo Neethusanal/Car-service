@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { userlogout } from "../Redux/UserSlice";
+import { setUserDetails, userlogout } from "../Redux/UserSlice";
 import { FaShoppingCart } from "react-icons/fa";
 
 
@@ -17,7 +17,7 @@ const Navbar = () => {
 
   const handleLogout = () => {
     localStorage.removeItem("usertoken");
-    dispatch(userlogout()); 
+    dispatch(setUserDetails({})); 
     navigate("/");
   };
 
@@ -83,11 +83,11 @@ const handleCart=()=>{
                 <button
                  onClick={()=>handleCart()}
                   className="text-white hover:text-gray-300 ml-4"
-                >
-                  <FaShoppingCart size={20} />
-                  {user.cart && user.cart.length > 0 && ( // Add null check and length check
-                <span className="text-white ml-1">{user.cart.length}</span>
-              )}
+                >   {user.cart && user.cart.length > 0 && ( // Add null check and length check
+                <span className="text-white ml-2">{user.cart.length}</span>
+               )}
+                  <FaShoppingCart size={20} /> 
+               
                 </button>
                 <button
                   onClick={toggleDropdown}

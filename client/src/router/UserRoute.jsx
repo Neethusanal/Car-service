@@ -6,7 +6,8 @@ import { Otppage } from '../Pages/User/Otppage'
 import { Homepage } from '../Pages/User/Homepage'
 import PrivateRoutes from '../ProtectedRoutes/PrivateRoutes'
 import { Services } from '../Pages/User/Services'
-import { Cart } from '../Components/Cart'
+
+import { UserCart } from '../Pages/User/UserCart'
 
 
 const UserRoute = () => {
@@ -22,7 +23,7 @@ const UserRoute = () => {
         <Route element={<PrivateRoutes role={"user"} route={"/"} />}>
         <Route exact path='/home' element={<Homepage />} />
           <Route exact path='/services' element={<Services />} />
-          <Route exact path='/cart' element={<Cart />} />
+          <Route exact path='/cart' element={<UserCart />} />
         </Route>
       </Routes>
     </>

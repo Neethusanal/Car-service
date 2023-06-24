@@ -1,83 +1,126 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
     Card,
     CardHeader,
     CardBody,
     Typography,
     Button,
-    CardFooter
+    CardFooter,
+  
   } from "@material-tailwind/react";
-  import { CheckIcon } from "@heroicons/react/24/outline";
- 
+
+  import Swal from "sweetalert2";
+import { useSelector } from 'react-redux';
+import { AiOutlineDelete } from 'react-icons/ai';
+import { deleteItem } from '../Services/UserApi';
+
+
 
 
 export const Cart = () => {
-    
-    
+  const user=useSelector((state)=>state.user)
+  console.log(user)
+  const [cartdata,setCartData]=useState([])
+  useEffect(()=>{
+   setCartData(user.cart)
 
+  },[cartdata])
+  //Delete the items in cart
+const deleteCartData= (id)=>{
+  Swal.fire({
+    title: 'Are you sure?',
+    text: "You won't be able to revert this!",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Yes, delete it!'
+  }).then(async (result) => {
+    if (result.isConfirmed) {
+        let { data } = await deleteItem(id)
+        if (data.success) {
+            Swal.fire(
+                'The item has be Removed',
+                
+            )
+        }
+    }
+  })
+ 
+}
 
   return (
     <>
-   <div className="w-full md:w-96 mt-32 flex justify-center md:justify-end pr-5 h-full">
-      <Card color="gray" variant="gradient" className="w-full max-w-[20rem] p-8">
-        <CardHeader
-          floated={false}
-          shadow={false}
-          color="transparent"
-          className="m-0 mb-8 rounded-none border-b border-white/10 pb-8 text-center"
+    <div className='flex flex-col items-center  mt-24'>
+
+   
+   <Card color="gray" variant="gradient" className="w-full max-w-[60rem] p-8 ">
+      <CardHeader
+        floated={false}
+        shadow={false}
+        color="transparent"
+        className="m-0 mb-8 rounded-none border-b border-white/10 pb-8 text-center"
+      >
+        <Typography
+          variant="small"
+          color="Black"
+          className="font-extrabold-uppercase text-white"
         >
-          <Typography variant="small" color="white" className="font-normal uppercase">
-            Shopping cart
-          </Typography>
-        </CardHeader>
-        <CardBody className="p-0">
-          <ul className="flex flex-col gap-4">
-            <li className="flex items-center gap-4">
-              <span className="rounded-full border border-white/20 bg-white/20 p-1">
-                <CheckIcon strokeWidth={2} className="h-3 w-3" />
-              </span>
-              <Typography className="font-normal">5 team members</Typography>
-            </li>
-            <li className="flex items-center gap-4">
-              <span className="rounded-full border border-white/20 bg-white/20 p-1">
-                <CheckIcon strokeWidth={2} className="h-3 w-3" />
-              </span>
-              <Typography className="font-normal">200+ components</Typography>
-            </li>
-            <li className="flex items-center gap-4">
-              <span className="rounded-full border border-white/20 bg-white/20 p-1">
-                <CheckIcon strokeWidth={2} className="h-3 w-3" />
-              </span>
-              <Typography className="font-normal">40+ built-in pages</Typography>
-            </li>
-            <li className="flex items-center gap-4">
-              <span className="rounded-full border border-white/20 bg-white/20 p-1">
-                <CheckIcon strokeWidth={2} className="h-3 w-3" />
-              </span>
-              <Typography className="font-normal">1 year free updates</Typography>
-            </li>
-            <li className="flex items-center gap-4">
-              <span className="rounded-full border border-white/20 bg-white/20 p-1">
-                <CheckIcon strokeWidth={2} className="h-3 w-3" />
-              </span>
-              <Typography className="font-normal">Life time technical support</Typography>
-            </li>
-          </ul>
-        </CardBody>
-        <CardFooter className="mt-12 p-0">
-          <Button
-            size="lg"
-            color="white"
-            className="text-blue-500 hover:scale-[1.02] focus:scale-[1.02] active:scale-100"
-            ripple={false}
-            fullWidth={true}
-          >
-            Buy Now
-          </Button>
-        </CardFooter>
-      </Card>
+     Shopping Cart
+        </Typography>
+       
+      </CardHeader>
+      <CardBody className="p-0">
+      <table className="min-w-full divide-y divide-gray-800">
+      <thead className="bg-gray-50">
+        
+            <tr>
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Services selected</th>
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Price</th>
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Action</th>
+            
+        </tr>
+       
+      </thead>
+      <tbody className="bg-white divide-y divide-gray-500">
+      {cartdata.map((data,index)=>{
+          return(
+        <tr>
+          <td className="px-6 py-4 text-black whitespace-nowrap">{data.servicelistName}</td>
+          <td className="px-6 py-4  text-black whitespace-nowrap">{data.price}</td>
+          <td >
+          
+          <button type="submit" class="inline-flex items-center px-4 py-2 ml-4 text-xs font-semibold tracking-widest text-white uppercase transition duration-150 ease-in-out bg-gray-900 border border-transparent rounded-md active:bg-gray-900 false"
+          onClick={()=>deleteCartData(data._id)}>
+                 <AiOutlineDelete />
+                </button>
+
+          </td>
+         
+        </tr>
+        
+           
+            )
+  
+          })}
+         
+      </tbody>
+    </table>
+      </CardBody>
+      <CardFooter className="mt-12 p-0">
+        <Button
+          size="small"
+          color="white"
+          className="text-blue-500 hover:scale-[1.02] focus:scale-[1.02] active:scale-100"
+          ripple={false}
+          fullWidth={false}
+         
+        >
+          continue
+        </Button>
+      </CardFooter>
+    </Card>
     </div>
-    
     </>
   )
 }

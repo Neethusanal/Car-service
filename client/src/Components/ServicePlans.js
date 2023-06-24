@@ -8,7 +8,7 @@ import {
   Button,
   CardFooter,
 } from "@material-tailwind/react";
-import { Cart } from "./Cart";
+
 
 export const ServicePlans = () => {
   const [services, setServices] = useState([]);
@@ -104,7 +104,7 @@ export const ServicePlans = () => {
       </div>
     </div>
   </nav>
-  <div className="flex flex-wrap">
+
     {selectedServiceId && (
       <div className="flex sticky top-0 flex-wrap md:flex-nowrap">
         {servicelist.map((plans, index) => {
@@ -176,10 +176,10 @@ export const ServicePlans = () => {
       </div>
     )}
    
-    <Cart />
+  
     
    
-  </div>
+
   </>
 );
 };

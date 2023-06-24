@@ -148,7 +148,7 @@ module.exports.userSignup=async(req,res,next)=>{
     module.exports.isUserAuth = async (req, res) => {
       try {
         
-        let userDetails = await UserModel.findById(req.userId)
+        let userDetails = await UserModel.findById(req.userId).populate({path:"cart"})
         userDetails.auth = true;
     
         res.json({
@@ -157,7 +157,10 @@ module.exports.userSignup=async(req,res,next)=>{
           mobile: userDetails.mobile,
           name: userDetails.name,
           email: userDetails.email,
-          image: userDetails.image || null,
+          //address:userDetails.address,
+          cart:userDetails.cart,
+          
+
          
         });
       } catch (error) {
@@ -269,3 +272,17 @@ module.exports.userSignup=async(req,res,next)=>{
      
 
     }
+    module.exports.deleteCartItem = async (req, res) => {
+      try {
+       
+        const id = req.params.id;
+        console.log(id,"forr deleting")
+        let cart= await UserModel.updateOne({_id:req.userId},{$pull: { cart: id }})
+        console.log(cart)
+        return res.status(200).json({success:true });
+
+      }catch(err)
+      {
+        console.log(err)
+      }
+    };

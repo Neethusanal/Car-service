@@ -12,9 +12,9 @@ const userSchema=  new mongoose.Schema({
         unique : true
     },
     
-    cart:{
-        type:Array
-    },
+    cart:[{
+        type:mongoose.Schema.Types.ObjectId, ref:'Serviceslist'
+    }],
     password:{
         type:String,
         required:[true,"password is required"],

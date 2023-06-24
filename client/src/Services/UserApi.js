@@ -33,6 +33,17 @@ const addPlansToCart=(selectedserviceId,planId)=>{
   console.log(selectedserviceId)
   return userAxiosInstance.post(`/addtocart/${selectedserviceId,planId}`)
 }
+const  deleteItem=(id)=>{
+  console.log(id,"delete service")
+  return userAxiosInstance.post(`/deletecartitem/${id}`)
+}
 
 
-export { userRegister, userOtpsubmit, userSignin, authUser, getUserBanners,getUserServices ,getUserBrands,getUserModel,getServicePlans,addPlansToCart  };
+
+
+export { userRegister, userOtpsubmit, userSignin, authUser, getUserBanners,getUserServices ,getUserBrands,
+  getUserModel,
+  getServicePlans,
+  addPlansToCart,
+  deleteItem
+ };

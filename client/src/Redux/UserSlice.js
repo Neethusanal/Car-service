@@ -5,8 +5,6 @@ const initialState = {
   name: "",
   email: "",
   mobile: "",
-  image: "",
-  token: "",
   cart:[]
 };
 

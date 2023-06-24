@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Axios from "axios";
+
 import { useNavigate } from "react-router-dom";
 import { userOtpsubmit } from "../Services/UserApi";
 
