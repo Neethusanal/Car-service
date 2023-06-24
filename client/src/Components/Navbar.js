@@ -45,9 +45,16 @@ const handleCart=()=>{
           {/* Navigation links */}
           <div className="hidden md:block">
             <ul className="flex space-x-4">
+            
+               
               <li>
                 <a href="/" className="text-white hover:text-gray-300">
                   Home
+                </a>
+              </li>
+              <li>
+              <a href="/staff" className="text-white hover:text-gray-300">
+                  Staff
                 </a>
               </li>
               <li>

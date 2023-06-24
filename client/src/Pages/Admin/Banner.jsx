@@ -6,7 +6,7 @@ import React, { useEffect, useState } from "react";
 import { addBanner, blockBanner, getBanner, unblockBanner } from "../../Services/AdminApi";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
-import { ArrowDownTrayIcon, MagnifyingGlassIcon } from "@heroicons/react/24/outline";
+import {  MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 
 const TABLE_HEAD = ["BannerName", "Description ", "Image", "Action", ""];
 const customStyles = {
