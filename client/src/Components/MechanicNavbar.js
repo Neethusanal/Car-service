@@ -1,27 +1,35 @@
 import { useState, useEffect } from "react";
-import {Navbar,MobileNav,Typography,Button,IconButton} from "@material-tailwind/react";
+import {
+  Navbar,
+  MobileNav,
+  Typography,
+  Button,
+  IconButton,
+} from "@material-tailwind/react";
 import { Link, useNavigate } from "react-router-dom";
 import { mechlogout } from "../Redux/MechanicSlice";
-import { useDispatch } from "react-redux";
- 
-export const MechanicNavbar=()=> {
-  const [openNav, setOpenNav] = useState(false);
-  const navigate=useNavigate()
-  const dispatch=useDispatch()
+import { useDispatch, useSelector } from "react-redux";
 
- 
+export const MechanicNavbar = () => {
+  const mechanic = useSelector((state) => state.mechanic);
+  const [openNav, setOpenNav] = useState(false);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   useEffect(() => {
-    window.addEventListener("resize", () => window.innerWidth >= 960 && setOpenNav(false));
+    window.addEventListener(
+      "resize",
+      () => window.innerWidth >= 960 && setOpenNav(false)
+    );
   }, []);
-  const handleLogout=()=>{
+  const handleLogout = () => {
     localStorage.removeItem("mechanictoken");
-    dispatch(mechlogout()); 
+    dispatch(mechlogout());
     navigate("/mechanic/login");
-  }
- 
+  };
+
   const navList = (
     <ul className="mb-4 mt-2 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
-      
       <Typography
         as="li"
         variant="small"
@@ -29,7 +37,7 @@ export const MechanicNavbar=()=> {
         className="p-1 font-normal"
       >
         <a href="#" className="flex items-center">
-         <Link to="/mechanic/home">  Account </Link>
+          <Link to="/mechanic/home"> Account </Link>
         </a>
       </Typography>
       <Typography
@@ -39,7 +47,9 @@ export const MechanicNavbar=()=> {
         className="p-1 font-normal"
       >
         <a href="#" className="flex items-center">
-          Slots
+        {mechanic.status === "Approved" ? (
+            <Link to="/mechanic/mechanicslot">Slots</Link>
+          ) : null}
         </a>
       </Typography>
       <Typography
@@ -49,13 +59,12 @@ export const MechanicNavbar=()=> {
         className="p-1 font-normal"
       >
         <a href="#" className="flex items-center">
-         ServiceHistory
+          ServiceHistory
         </a>
       </Typography>
-     
     </ul>
   );
- 
+
   return (
     <Navbar className="mx-auto max-w-screen-xl py-2 px-4 lg:px-8 lg:py-4 bg-gray-600">
       <div className="container mx-auto flex items-center justify-between text-blue-gray-900">
@@ -64,11 +73,15 @@ export const MechanicNavbar=()=> {
           href="#"
           className="mr-4 cursor-pointer py-1.5 font-medium"
         >
-        CAR CLINIC
+          CAR CLINIC
         </Typography>
         <div className="hidden lg:block">{navList}</div>
-        <Button variant="gradient" size="sm" className="hidden lg:inline-block "onClick={()=>handleLogout()}>
-         
+        <Button
+          variant="gradient"
+          size="sm"
+          className="hidden lg:inline-block "
+          onClick={() => handleLogout()}
+        >
           <span>Logout</span>
         </Button>
         <IconButton
@@ -112,11 +125,17 @@ export const MechanicNavbar=()=> {
       <MobileNav open={openNav}>
         <div className="container mx-auto">
           {navList}
-          <Button variant="gradient" size="sm" fullWidth className="mb-2"onClick={()=>handleLogout()}>
+          <Button
+            variant="gradient"
+            size="sm"
+            fullWidth
+            className="mb-2"
+            onClick={() => handleLogout()}
+          >
             <span>Logout</span>
           </Button>
         </div>
       </MobileNav>
     </Navbar>
   );
-}
+};

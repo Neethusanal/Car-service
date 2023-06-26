@@ -8,6 +8,8 @@ import Mechaniclayout from "../Layout/Mechaniclayout";
 import PrivateRoutes from "../ProtectedRoutes/PrivateRoutes";
 import { Editprofile } from "../Pages/Mechanic/EditProfile";
 import { MechanicApproval } from "../Pages/Mechanic/MechanicApproval";
+import { SlotMechanic } from "../Pages/Mechanic/SlotMechanic";
+
 
 const MechanicRoute = () => {
   return (
@@ -23,6 +25,7 @@ const MechanicRoute = () => {
           <Route element={<Mechaniclayout />}>
             <Route exact path="/home" element={<MechHome/>} />
             <Route exact path="/updateprofile" element={<Editprofile/>} />
+            <Route exact path="/mechanicslot" element={<SlotMechanic/>} />
           </Route>
         </Route>
       </Routes>
