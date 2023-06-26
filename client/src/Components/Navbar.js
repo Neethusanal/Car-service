@@ -30,6 +30,9 @@ const Navbar = () => {
 const handleCart=()=>{
   navigate('/cart')
 }
+const handleProfile=()=>{
+  navigate('/profile')
+}
 
   return (
     <nav className="bg-gray-800 shadow-lg">
@@ -105,6 +108,14 @@ const handleCart=()=>{
                 {showDropdown && (
                   <div className="absolute right-0 mt-2 w-48 bg-white border rounded shadow-lg">
                     <ul className="py-2">
+                      <li>
+                      <button
+                          onClick={handleProfile}
+                          className="block w-full px-4 py-2 text-gray-800 hover:bg-gray-300"
+                        >
+                        Profile
+                        </button>
+                      </li>
                       <li>
                         <button
                           onClick={handleLogout}

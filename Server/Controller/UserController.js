@@ -286,3 +286,25 @@ module.exports.userSignup=async(req,res,next)=>{
         console.log(err)
       }
     };
+    module.exports.EditUserProfile = async (req, res) => {
+      try {
+      
+        const { address ,email} = req.body;
+        console.log(email)
+    
+        const user = await UserModel.findOneAndUpdate({email:email},{
+          $set:{
+            address:address
+          },
+         
+        });
+
+        console.log(user)
+        res
+          .status(200)
+          .json({ message: "successfully updated ", success: true });
+      } catch (err) {
+        const errors = handleErrorManagent(err);
+        res.json({ message: "something went wrong", status: false, errors });
+      }
+    };

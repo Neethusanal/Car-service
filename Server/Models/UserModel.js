@@ -31,8 +31,11 @@ const userSchema=  new mongoose.Schema({
     },
     
     model:{
-        type:Number,
+        type:String,
       
+    },
+    address:{
+        type:String
     },
     brand:{
         type:String,

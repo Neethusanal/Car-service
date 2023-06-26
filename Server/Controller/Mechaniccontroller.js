@@ -192,7 +192,7 @@ module.exports.updateProfile = async (req, res) => {
     console.log(req.files, "datas in file");
     const id = req.mechanicId;
 
-    const { fullName, email, phone, brand,  experience } =
+    const { fullName, email, phone, brand,  experience,address } =
       req.body;
     const image = await cloudinary.uploader.upload(
       req.files.profileImage[0].path,
@@ -210,7 +210,7 @@ module.exports.updateProfile = async (req, res) => {
           email: email,
           phone: phone,
           brandsserved: brand,
-         
+     
           experience: experience,
          
           image: image.secure_url,

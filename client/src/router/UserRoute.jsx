@@ -10,6 +10,7 @@ import { Services } from '../Pages/User/Services'
 import { UserCart } from '../Pages/User/UserCart'
 import { SlotPage } from '../Pages/User/SlotPage'
 import { Staff } from '../Pages/User/Staff'
+import { UserProfile } from '../Pages/User/UserProfile'
 
 
 const UserRoute = () => {
@@ -27,6 +28,7 @@ const UserRoute = () => {
           <Route exact path='/services' element={<Services />} />
           <Route exact path='/cart' element={<UserCart />} />
           <Route exact path='/bookslot' element={<SlotPage />} />
+          <Route exact path='/profile' element={<UserProfile />} />
           <Route exact path='/staff' element={<Staff/>} />
        
         </Route>

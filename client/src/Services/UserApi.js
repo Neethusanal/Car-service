@@ -37,6 +37,10 @@ const  deleteItem=(id)=>{
   console.log(id,"delete service")
   return userAxiosInstance.post(`/deletecartitem/${id}`)
 }
+const updateUserProfile= (data) => {
+  return userAxiosInstance.put("/updateprofile", data);
+};
+
 
 
 
@@ -45,5 +49,7 @@ export { userRegister, userOtpsubmit, userSignin, authUser, getUserBanners,getUs
   getUserModel,
   getServicePlans,
   addPlansToCart,
-  deleteItem
+  deleteItem,
+updateUserProfile
+
  };

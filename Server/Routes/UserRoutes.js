@@ -16,6 +16,7 @@ router.get('/getallmodels',usercontroller.getModels)
 router.get('/getallserviceplans/:id',usercontroller.getAllServicesList)
 router.post('/addtocart/:id',VerifyUser,usercontroller.addToCart)
  router.post('/deletecartitem/:id',VerifyUser,usercontroller.deleteCartItem)
+ router.put('/updateprofile',VerifyUser,usercontroller.EditUserProfile)
 
 
 

@@ -13,9 +13,8 @@ export const Editprofile = () => {
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const[brand ,setBrand]=useState()
-  const [qualification, setQualification] = useState("");
+  const [address,setAddress]=useState()
   const [experience, setExperience] = useState("");
-  const [certificate, setCertificate] = useState("");
   const [profileImage, setProfileImage] = useState(null);
   const [isEditMode, setIsEditMode] = useState(false);
   const[brandData,setBrandData]=useState([])
@@ -26,7 +25,6 @@ export const Editprofile = () => {
      setEmail(mechanic.email)
      setPhone(mechanic.phone)
      setProfileImage(mechanic?.image)
-    
      setExperience(mechanic?.experience)
   
       
@@ -58,13 +56,13 @@ export const Editprofile = () => {
     formData.append("email", email);
     formData.append("phone", phone);
     formData.append("brand", brand);
-    
     formData.append("experience", experience);
-    formData.append("certificate", certificate);
+
+  
     if (profileImage) {
       formData.append("profileImage", profileImage);
     }
-    console.log(experience, qualification)
+
     try
     { let data=updateProfile(formData)
     console.log(data)
@@ -207,6 +205,7 @@ export const Editprofile = () => {
                   required
                 />
               </div>
+             
               <div className="mb-4">
               <label htmlFor="items" className="block font-bold mb-1">
                 Brand served
@@ -218,12 +217,12 @@ export const Editprofile = () => {
                 className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-blue-500"
                 required
               >
-                <option value="">Select the brand</option>
+                 <option value="">Select the brand</option>
                 {brandData?.map((brand, index) => {
                   return (
                     <option  key={brand._id}  value={brand._id}>{brand.brandName}</option>
                   )
-                })}
+                })} 
 
 
               </select>

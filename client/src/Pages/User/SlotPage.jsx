@@ -18,7 +18,7 @@ export const SlotPage = () => {
   return (
     <div>
         <div className="flex justify-center items-center h-screen ">
-      <Card className="max-w-sm ">
+      <Card className="max-w-sm w-auto">
         <CardHeader color="indigo" className="text-white">
           <Typography className="text-center font-bold text-lg">Slot Booking</Typography>
         </CardHeader>
@@ -27,25 +27,21 @@ export const SlotPage = () => {
             <div className="mb-4">
               <Typography className="text-gray-600">Select a slot:</Typography>
             </div>
-            <div className="flex justify-between w-full mb-4 ">
+            <div className="flex justify-between w-full mb-4 ml-2">
               <Button
                 color={selectedSlot === 'Morning' ? 'indigo' : 'gray'}
                 onClick={() => handleSlotSelection('Morning')}
               >
                 Morning
               </Button>
-              <Button
+              <Button  
                 color={selectedSlot === 'Afternoon' ? 'indigo' : 'gray'}
                 onClick={() => handleSlotSelection('Afternoon')}
               >
                 Afternoon
               </Button>
-              <Button
-                color={selectedSlot === 'Evening' ? 'indigo' : 'gray'}
-                onClick={() => handleSlotSelection('Evening')}
-              >
-                Evening
-              </Button>
+            
+              
             </div>
             <Button
               color="indigo"
