@@ -8,6 +8,7 @@ import {
   Button,
   CardFooter,
 } from "@material-tailwind/react";
+import { Link, useNavigate } from "react-router-dom";
 
 
 export const ServicePlans = () => {
@@ -16,6 +17,7 @@ export const ServicePlans = () => {
   const [selectedServiceId, setSelectedServiceId] = useState(null);
   const [selectedPlans, setSelectedPlans] = useState({});
   const[selectedPlanId,setSelectedPlanId]=useState()
+  
   useEffect(() => {
     getAllServices();
    
@@ -60,6 +62,7 @@ export const ServicePlans = () => {
       [selectedServiceId]: planId,
     }));
   };
+  
   return (
     <>
     <nav className="bg-white border-gray-200 dark:bg-gray-900 dark:border-gray-700">
@@ -170,16 +173,16 @@ export const ServicePlans = () => {
                   </Button>
                 </CardFooter>
               </Card>
+              
             </div>
           );
         })}
       </div>
+     
     )}
    
+ 
   
-    
-   
-
-  </>
+  </> 
 );
 };

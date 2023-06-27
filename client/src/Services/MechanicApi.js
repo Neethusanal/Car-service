@@ -6,7 +6,7 @@ const Mechanicregister = (data) => {
 const otpSubmit = (data) => {
   return mechanicAxiosInstance.post("/verifyOtp", data);
 };
-const updateDetails= (data) => {
+const updateDetails = (data) => {
   return mechanicAxiosInstance.put("/updatedetails", data);
 };
 
@@ -19,8 +19,16 @@ const authMechanic = () => {
 const getMechBrands = () => {
   return mechanicAxiosInstance.get("/getallbrands");
 };
-const updateProfile= (data) => {
+const updateProfile = (data) => {
   return mechanicAxiosInstance.put("/updateprofile", data);
 };
 
-export { Mechanicregister, otpSubmit, mechanicSignin, authMechanic,getMechBrands,updateProfile,updateDetails};
+export {
+  Mechanicregister,
+  otpSubmit,
+  mechanicSignin,
+  authMechanic,
+  getMechBrands,
+  updateProfile,
+  updateDetails,
+};

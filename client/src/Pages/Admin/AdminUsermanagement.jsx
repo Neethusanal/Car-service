@@ -20,14 +20,14 @@ import { blockUser } from "../../Services/AdminApi";
 
 
 
-const TABLE_HEAD = ["Name", "Email", "phonenumber", "services", "  " ,"Actions"];
+const TABLE_HEAD = ["Name", "Email", "phonenumber", "services", "  ", "Actions"];
 
 
 export const AdminUsermanagement = () => {
     const [users, setUsers] = useState()
     useEffect(() => {
         getAdminUser()
-       
+
     }, []);
 
     const getAdminUser = () => {
@@ -80,7 +80,7 @@ export const AdminUsermanagement = () => {
                         </Typography>
                     </div>
                     <div className="flex w-full shrink-0 gap-2 md:w-max">
-                        
+
 
                     </div>
                 </div>

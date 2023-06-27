@@ -29,27 +29,29 @@ const getUserModel = () => {
 const getServicePlans = (id) => {
   return userAxiosInstance.get(`/getallserviceplans/${id}`);
 };
-const addPlansToCart=(selectedserviceId,planId)=>{
-  console.log(selectedserviceId)
-  return userAxiosInstance.post(`/addtocart/${selectedserviceId,planId}`)
-}
-const  deleteItem=(id)=>{
-  console.log(id,"delete service")
-  return userAxiosInstance.post(`/deletecartitem/${id}`)
-}
-const updateUserProfile= (data) => {
+const addPlansToCart = (selectedserviceId, planId) => {
+  console.log(selectedserviceId);
+  return userAxiosInstance.post(`/addtocart/${(selectedserviceId, planId)}`);
+};
+const deleteItem = (id) => {
+  console.log(id, "delete service");
+  return userAxiosInstance.post(`/deletecartitem/${id}`);
+};
+const updateUserProfile = (data) => {
   return userAxiosInstance.put("/updateprofile", data);
 };
 
-
-
-
-
-export { userRegister, userOtpsubmit, userSignin, authUser, getUserBanners,getUserServices ,getUserBrands,
+export {
+  userRegister,
+  userOtpsubmit,
+  userSignin,
+  authUser,
+  getUserBanners,
+  getUserServices,
+  getUserBrands,
   getUserModel,
   getServicePlans,
   addPlansToCart,
   deleteItem,
-updateUserProfile
-
- };
+  updateUserProfile,
+};

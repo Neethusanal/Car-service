@@ -1,6 +1,6 @@
-import { PencilIcon } from "@heroicons/react/24/solid";
+
 import {
-    ArrowDownTrayIcon,
+
     MagnifyingGlassIcon,
 } from "@heroicons/react/24/outline";
 import {
@@ -21,9 +21,9 @@ import { AddNewBrands, brandDelete, getAllBrands } from "../../Services/AdminApi
 import Modal from "react-modal";
 
 import Swal from "sweetalert2"
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-const TABLE_HEAD = [, "BrandName", "BasicPay", "Description"," ", "Actions", " "];
+const TABLE_HEAD = ["", "BrandName", "BasicPay", "Description", " ", "Actions", " "];
 const customStyles = {
     content: {
         top: "50%",
@@ -41,10 +41,14 @@ export const Brandmanagement = () => {
     const [brand, setBrand] = useState("");
     const [description, setDescription] = useState("");
     const [basicPay, setBasicPay] = useState("")
-    const [getBrands, setGetBrands] = useState();
+    const [getBrands, setGetBrands] = useState([]);
     const [modalIsOpen, setIsOpen] = React.useState(false);
     const [deleted, setDeleted] = useState("")
     const [image, setImage] = useState()
+    const [searchInput, setSearchInput] = useState("");
+
+    const [currentPage, setCurrentPage] = useState(1);
+    const [brandsPerPage] = useState(10);
     const navigate = useNavigate()
 
 
@@ -62,10 +66,12 @@ export const Brandmanagement = () => {
 
     const getAdminBrands = () => {
         getAllBrands().then((res) => {
-
             if (res.data.success) {
-
-                setGetBrands(res?.data?.result);
+                // Filter brands based on searchInput
+                const filteredBrands = res.data.result.filter((brand) =>
+                    brand.brandName.toLowerCase().includes(searchInput.toLowerCase())
+                );
+                setGetBrands(filteredBrands);
             }
         });
     };
@@ -124,6 +130,20 @@ export const Brandmanagement = () => {
 
 
     }
+    const indexOfLastBrand = currentPage * brandsPerPage;
+    const indexOfFirstBrand = indexOfLastBrand - brandsPerPage;
+    const currentBrands = getBrands
+        .filter((brand) =>
+            brand.brandName.toLowerCase().includes(searchInput.toLowerCase())
+        )
+        .slice(indexOfFirstBrand, indexOfLastBrand);
+    const totalPages = Math.ceil(
+        getBrands.filter((brand) =>
+            brand.brandName.toLowerCase().includes(searchInput.toLowerCase())
+        ).length / brandsPerPage
+    );
+
+    const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
 
     return (
@@ -140,11 +160,23 @@ export const Brandmanagement = () => {
                             </Typography>
                         </div>
                         <div className="flex w-full shrink-0 gap-2 md:w-max">
-                            <div className=" w-full md:w-72 ">
-                                <Button size="sm" onClick={openModal}>
-                                    Add Brands
-                                </Button>
+                            <div className="flex justify-end mb-4">
+                                <Input
+                                    type="text"
+                                    placeholder="Search by brand name"
+                                    value={searchInput}
+                                    onChange={(e) => setSearchInput(e.target.value)}
+                                    icon={<MagnifyingGlassIcon />}
+                                    color="lightBlue"
+                                    size="regular"
+                                    outline={true}
+                                />
                             </div>
+
+                            <Button size="sm" onClick={openModal}>
+                                Add Brands
+                            </Button>
+
                         </div>
                     </div>
                 </CardHeader>
@@ -169,7 +201,8 @@ export const Brandmanagement = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {getBrands?.map((brand, index) => {
+                            {currentBrands?.map((brand, index) => {
+
                                 const isLast = index === getBrands.length - 1;
                                 const classes = isLast
                                     ? "p-4"
@@ -209,7 +242,7 @@ export const Brandmanagement = () => {
 
                                         <td className={`${classes} p-4 md:p-2`}>
                                             <img
-                                                className="h-14 w-20 rounded-lg shadow-xl shadow-blue-gray-900/50"
+                                                className="h-14 w-24 rounded-lg shadow-xl shadow-blue-gray-900/50"
                                                 src={brand.image}
                                                 alt="nature image"
                                             />
@@ -230,28 +263,46 @@ export const Brandmanagement = () => {
                                     </tr>
                                 );
                             })}
+
                         </tbody>
                     </table>
                 </CardBody>
+
+
                 <CardFooter className="flex items-center justify-between border-t border-blue-gray-50 p-4">
-                    <Button variant="outlined" color="blue-gray" size="sm">
+                    <Button
+                        variant="outlined"
+                        color="blue-gray"
+                        size="sm"
+                        disabled={currentPage === 1}
+                        onClick={() => setCurrentPage(currentPage - 1)}
+                    >
                         Previous
                     </Button>
                     <div className="flex items-center gap-2">
-                        <IconButton variant="outlined" color="blue-gray" size="sm">
-                            1
-                        </IconButton>
-                        <IconButton variant="text" color="blue-gray" size="sm">
-                            2
-                        </IconButton>
-                        <IconButton variant="text" color="blue-gray" size="sm">
-                            3
-                        </IconButton>
+                        {[...Array(totalPages)].map((_, index) => (
+                            <IconButton
+                                key={index}
+                                variant={currentPage === index + 1 ? "outlined" : "text"}
+                                color="blue-gray"
+                                size="sm"
+                                onClick={() => setCurrentPage(index + 1)}
+                            >
+                                {index + 1}
+                            </IconButton>
+                        ))}
                     </div>
-                    <Button variant="outlined" color="blue-gray" size="sm">
+                    <Button
+                        variant="outlined"
+                        color="blue-gray"
+                        size="sm"
+                        disabled={currentPage === totalPages}
+                        onClick={() => setCurrentPage(currentPage + 1)}
+                    >
                         Next
                     </Button>
                 </CardFooter>
+
             </Card>
             <div>
                 <Modal

@@ -16,7 +16,7 @@ const Mechlogin = () => {
   const [values, setValues] = useState({
     email: "",
     password: "",
-    
+
   });
   useEffect(() => {
     if (localStorage.getItem("mechanictoken")) {
@@ -48,9 +48,9 @@ const Mechlogin = () => {
         dispatch(
           setmechanicDetails({
             name: data.mechanic.name,
-            Phone:data.mechanic.phone,
+            Phone: data.mechanic.phone,
             email: data.mechanic.email,
-            status:data.mechanic.status
+            status: data.mechanic.status
 
 
           }))

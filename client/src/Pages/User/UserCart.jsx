@@ -7,8 +7,8 @@ import Navbar from '../../Components/Navbar'
 export const UserCart = () => {
   return (
     <div>
-      <Navbar/>
-      <Cart/>
+      <Navbar />
+      <Cart />
     </div>
   )
 }

@@ -38,7 +38,7 @@ export const EditService = () => {
 
         }
         else {
-         
+
             Swal.fire(data.message)
 
         }

@@ -6,7 +6,7 @@ import React, { useEffect, useState } from "react";
 import { addBanner, blockBanner, getBanner, unblockBanner } from "../../Services/AdminApi";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
-import {  MagnifyingGlassIcon } from "@heroicons/react/24/outline";
+import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 
 const TABLE_HEAD = ["BannerName", "Description ", "Image", "Action", ""];
 const customStyles = {
@@ -72,23 +72,23 @@ export const Banner = () => {
     }
   };
   const pageNumbers = [];
-for (let i = 1; i <= totalPages; i++) {
-  pageNumbers.push(i);
-}
+  for (let i = 1; i <= totalPages; i++) {
+    pageNumbers.push(i);
+  }
   const paginate = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
   const getAllBanners = () => {
     const startIndex = (currentPage - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
-    
+
     getBanner().then((res) => {
       if (res.data.success) {
         setBanner(res?.data?.result.slice(startIndex, endIndex));
       }
     });
   };
-  
+
   const handleEdit = (bannerdata) => {
     navigate("/admin/editbanner", { state: { bannerdata } });
   };
@@ -133,7 +133,7 @@ for (let i = 1; i <= totalPages; i++) {
   const currentItems = filteredBanner.slice(indexOfFirstItem, indexOfLastItem);
 
   // Change page
-  
+
 
   return (
     <>
@@ -247,18 +247,18 @@ for (let i = 1; i <= totalPages; i++) {
             Previous
           </Button>
           <div className="flex items-center gap-2">
-  {pageNumbers.map((number) => (
-    <IconButton
-      key={number}
-      variant="outlined"
-      color="blue-gray"
-      size="sm"
-      onClick={() => paginate(number)}
-    >
-      {number}
-    </IconButton>
-  ))}
-</div>
+            {pageNumbers.map((number) => (
+              <IconButton
+                key={number}
+                variant="outlined"
+                color="blue-gray"
+                size="sm"
+                onClick={() => paginate(number)}
+              >
+                {number}
+              </IconButton>
+            ))}
+          </div>
           <Button variant="outlined" color="blue-gray" size="sm">
             Next
           </Button>

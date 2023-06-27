@@ -18,14 +18,14 @@ const MechanicRoute = () => {
         <Route exact path="/register" element={<Mechregister />} />
         <Route exact path="/login" element={<Mechlogin />} />
         <Route exact path="/otp" element={<Mechanicotp />} />
-        <Route exact path="/details" element={< MechanicApproval/>} />
+        <Route exact path="/details" element={< MechanicApproval />} />
         <Route
           element={<PrivateRoutes role={"mechanic"} route={"/mechanic/login"} />}
         >
           <Route element={<Mechaniclayout />}>
-            <Route exact path="/home" element={<MechHome/>} />
-            <Route exact path="/updateprofile" element={<Editprofile/>} />
-            <Route exact path="/mechanicslot" element={<SlotMechanic/>} />
+            <Route exact path="/home" element={<MechHome />} />
+            <Route exact path="/updateprofile" element={<Editprofile />} />
+            <Route exact path="/mechanicslot" element={<SlotMechanic />} />
           </Route>
         </Route>
       </Routes>

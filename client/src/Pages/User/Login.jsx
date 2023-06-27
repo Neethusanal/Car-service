@@ -8,7 +8,7 @@ import logo from '../../Images/logo.png'
 import { userSignin } from '../../Services/UserApi';
 
 const Login = () => {
-  
+
   const [errors, setError] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -50,7 +50,7 @@ const Login = () => {
                 name: res.data.name,
                 email: res.data.email,
                 mobile: res.data.mobile,
-                cart:res.data.cart,
+                cart: res.data.cart,
 
               }))
             navigate("/home");

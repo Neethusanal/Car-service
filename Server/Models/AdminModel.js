@@ -5,22 +5,20 @@ const AdminSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  email:{
-    type:String,
-    required:true
-},
-  password:{
-    type:String,
-    required:true
-},
-created:{
-  type:Date,
-  required:true,
-  default:Date.now
-}
+  email: {
+    type: String,
+    required: true,
+  },
+  password: {
+    type: String,
+    required: true,
+  },
+  created: {
+    type: Date,
+    required: true,
+    default: Date.now,
+  },
 });
 
- 
-
-const AdminModel = mongoose.model("Admin",AdminSchema )
-module.exports = AdminModel
+const AdminModel = mongoose.model("Admin", AdminSchema);
+module.exports = AdminModel;

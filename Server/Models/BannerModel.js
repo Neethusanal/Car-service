@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const bannerSchema = new mongoose.Schema({
   bannerName: {
@@ -20,6 +20,6 @@ const bannerSchema = new mongoose.Schema({
   },
 });
 
-const BannerModel = mongoose.model('Banner', bannerSchema);
+const BannerModel = mongoose.model("Banner", bannerSchema);
 
 module.exports = BannerModel;

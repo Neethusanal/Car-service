@@ -19,9 +19,9 @@ const MechHome = () => {
   const [fullName, setFullName] = useState()
   const [email, setEmail] = useState()
   const [image, setImage] = useState()
-  const [phone,setPhone]=useState()
-  const[status,setstatus]=useState()
-  const navigate=useNavigate()
+  const [phone, setPhone] = useState()
+  const [status, setstatus] = useState()
+  const navigate = useNavigate()
   useEffect(() => {
 
     setFullName(mechanic?.name)
@@ -29,39 +29,39 @@ const MechHome = () => {
     setImage(mechanic?.image)
     setPhone(mechanic?.phone)
     setstatus(mechanic?.status)
-   
+
 
   }, [])
   const handleEditProfile = () => {
-navigate('/mechanic/updateprofile')
+    navigate('/mechanic/updateprofile')
   }
 
   return (
     <div className="flex items-center justify-center h-screen mt-10">
-    <Card className="w-96 sm:w-auto md:w-auto lg:w-auto">
-      <CardHeader floated={false} className="h-80">
-        <img src={Image?image:profile} alt="profile-picture" className="h-80 w-96 sm:w-auto md:w-auto lg:w-auto" />
-      </CardHeader>
-      <CardBody className="text-center">
-        <Typography variant="h4" color="blue-gray" className="font-serif">
-          {fullName}
-        </Typography>
-        <Typography color="blue" className="font-medium" textGradient>
-          {email}
-        </Typography>
-        <Typography variant="h6" color="blue-gray"  className="font-serif">
-          {phone}
-        </Typography>
-        <Typography variant="h6" color="blue-gray" className="font-thin">
-          {status}
-        </Typography>
-      </CardBody>
-      <CardFooter className="flex justify-center gap-7 pt-2">
-        <Button onClick={handleEditProfile}>Edit</Button>
-      </CardFooter>
-    </Card>
-  </div>
-);
+      <Card className="w-96 sm:w-auto md:w-auto lg:w-auto">
+        <CardHeader floated={false} className="h-80">
+          <img src={Image ? image : profile} alt="profile-picture" className="h-80 w-96 sm:w-auto md:w-auto lg:w-auto" />
+        </CardHeader>
+        <CardBody className="text-center">
+          <Typography variant="h4" color="blue-gray" className="font-serif">
+            {fullName}
+          </Typography>
+          <Typography color="blue" className="font-medium" textGradient>
+            {email}
+          </Typography>
+          <Typography variant="h6" color="blue-gray" className="font-serif">
+            {phone}
+          </Typography>
+          <Typography variant="h6" color="blue-gray" className="font-thin">
+            {status}
+          </Typography>
+        </CardBody>
+        <CardFooter className="flex justify-center gap-7 pt-2">
+          <Button onClick={handleEditProfile}>Edit</Button>
+        </CardFooter>
+      </Card>
+    </div>
+  );
 };
 
 export default MechHome

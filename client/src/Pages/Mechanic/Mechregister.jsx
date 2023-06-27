@@ -10,7 +10,7 @@ const Mechregister = () => {
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
-  
+
   const navigate = useNavigate()
 
 
@@ -122,7 +122,7 @@ const Mechregister = () => {
                 />
               </div>
             </div>
-            
+
             <div className="flex items-center justify-end mt-4"><Link to='/mechanic/login'>
               <a
                 className="text-sm text-gray-600 underline hover:text-gray-900"

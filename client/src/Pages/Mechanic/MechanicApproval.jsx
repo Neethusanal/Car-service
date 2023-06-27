@@ -3,67 +3,65 @@ import {
     CardHeader,
     CardBody,
     CardFooter,
-  
+
     Button,
-   
+
 } from "@material-tailwind/react";
-import { getMechBrands, updateDetails,  } from "../../Services/MechanicApi";
+import { getMechBrands, updateDetails, } from "../../Services/MechanicApi";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 export const MechanicApproval = () => {
-    const [email,setEmail]=useState()
+    const [email, setEmail] = useState()
     const [brand, setBrand] = useState()
     const [qualification, setQualification] = useState("");
     const [experience, setExperience] = useState("");
     const [certificate, setCertificate] = useState("");
     const [brandData, setBrandData] = useState([])
-    const navigate=useNavigate()
- 
-    useEffect(()=>{
+    const navigate = useNavigate()
+
+    useEffect(() => {
         getBrands()
-      
-      },[])
-      const getBrands = () => {
+
+    }, [])
+    const getBrands = () => {
         getMechBrands().then((res) => {
-    
+
             if (res.data.success) {
-    
+
                 setBrandData(res?.data?.result);
             }
         });
     };
-    const handleDetails=(e)=>{
+    const handleDetails = (e) => {
 
-    const formData = new FormData();
-    formData.append("email",email)
-    formData.append("brand", brand);
-    formData.append("qualification", qualification);
-    formData.append("experience", experience);
-    formData.append("certificate", certificate
-    );
-    try
-    { let {data} =updateDetails(formData)
-    console.log(data)
-    if(data.success)
-    {
-      Swal.fire(data.message)
-      navigate('mechanic/login')
-      
-       
-      setQualification(data.result.qualification)
-      setExperience(data.result.experience)
-      setBrand(data.result.brandserved)
-    }
-    else{
-      Swal.fire(data.error)
-    }
+        const formData = new FormData();
+        formData.append("email", email)
+        formData.append("brand", brand);
+        formData.append("qualification", qualification);
+        formData.append("experience", experience);
+        formData.append("certificate", certificate
+        );
+        try {
+            let { data } = updateDetails(formData)
+            console.log(data)
+            if (data.success) {
+                Swal.fire(data.message)
+                navigate('mechanic/login')
 
-    }catch(error)
-    {
-      console.log(error)
+
+                setQualification(data.result.qualification)
+                setExperience(data.result.experience)
+                setBrand(data.result.brandserved)
+            }
+            else {
+                Swal.fire(data.error)
+            }
+
+        } catch (error) {
+            console.log(error)
+        }
     }
-  }
     return (
         <Card className="w-full max-w-[26rem] shadow-lg">
             <form onSubmit={handleDetails}>
@@ -72,7 +70,7 @@ export const MechanicApproval = () => {
 
                 </CardHeader>
                 <CardBody>
-                <div className="mb-4">
+                    <div className="mb-4">
                         <label
                             htmlFor="email"
                             className="block mb-2 font-medium text-gray-700"
@@ -154,7 +152,7 @@ export const MechanicApproval = () => {
                         />
                     </div>
 
-                    
+
 
 
                 </CardBody>

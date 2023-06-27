@@ -87,18 +87,18 @@ const getAllServiceList = () => {
 const updateServicesList = (data) => {
   return adminAxiosInstance.put("/updateservicelist", data);
 };
-const approveMechanic = (id) =>{ 
-  console.log(id,"approve")
+const approveMechanic = (id) => {
+  console.log(id, "approve");
   return adminAxiosInstance.post(`/approvemechanic/${id}`);
 };
-const rejectMechanic = (id) =>{
-  console.log(id,"reject")
-  return adminAxiosInstance.post(`/rejectmechanic/${id}`)
+const rejectMechanic = (id) => {
+  console.log(id, "reject");
+  return adminAxiosInstance.post(`/rejectmechanic/${id}`);
 };
-const blockMechanic=(id)=>{
-  console.log("block mechanic")
-  return adminAxiosInstance.post(`/blockmechanic/${id}`)
-}
+const blockMechanic = (id) => {
+  console.log("block mechanic");
+  return adminAxiosInstance.post(`/blockmechanic/${id}`);
+};
 
 export {
   adminSignin,
@@ -130,5 +130,5 @@ export {
   updateServicesList,
   approveMechanic,
   rejectMechanic,
-  blockMechanic
+  blockMechanic,
 };

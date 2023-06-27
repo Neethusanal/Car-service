@@ -38,10 +38,10 @@ export const Adminlogin = () => {
 
     try {
       const { data } = await adminSignin({ ...values })
-    
+
       if (data.success) {
         localStorage.setItem("admintoken", data.token)
-    
+
         dispatch(
           setadminDetails({
 

@@ -1,16 +1,16 @@
 
-import {  MagnifyingGlassIcon } from "@heroicons/react/24/outline";
-import {Card,CardHeader,Typography,Button,CardBody,CardFooter,Avatar,IconButton,} from "@material-tailwind/react";
+import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
+import { Card, CardHeader, Typography, Button, CardBody, CardFooter, Avatar, IconButton, } from "@material-tailwind/react";
 import { useEffect, useState } from "react";
 import { approveMechanic, blockMechanic, getAllMechanic, rejectMechanic } from "../../Services/AdminApi";
 
 import Swal from "sweetalert2"
-const TABLE_HEAD = ["Image", "Name", "Email" ,"status" ,"  ","Adminapproval",""];
+const TABLE_HEAD = ["Image", "Name", "Email", "status", "  ", "Adminapproval", ""];
 
 
 export const Adminmechmanagement = () => {
   const [mechanic, setMechanic] = useState()
- 
+
   useEffect(() => {
     getAllMechanic().then((res) => {
       if (res.data.status === 'success') {
@@ -18,65 +18,64 @@ export const Adminmechmanagement = () => {
       }
     });
   }, []);
-  const handleApprove=(mechanic)=>{
-    const id=mechanic?._id
-    console.log(id,"mechanicid")
-    if (mechanic?.status ==="pending") {
-    approveMechanic(id).then((res)=>{
-      console.log(res)
-      if (res.data.success) {
-      
-   
-       Swal.fire(res.data.message)
-     }
-     else {
-   
-   
-       Swal.fire(res.data.message)
-     }
-   
-   
-    })
-  }
-}
-    const handleReject =(mechanic)=>{
+  const handleApprove = (mechanic) => {
+    const id = mechanic?._id
+    console.log(id, "mechanicid")
+    if (mechanic?.status === "pending") {
+      approveMechanic(id).then((res) => {
+        console.log(res)
+        if (res.data.success) {
 
-      const id=mechanic?._id
-      if (mechanic?.status ==="pending") {
-        rejectMechanic(id).then((res)=>{
-          console.log(res)
-          if (res.data.success) {
-           
-       
-           Swal.fire(res.data.message)
-         }
-         else {
-       
-       
-           Swal.fire(res.data.message)
-         }
-          
-        })
-       
-     
-      }
-    
-    }  
-    const handleBlock=(mechanic)=>{
-      const id=mechanic?._id
-      blockMechanic(id).then((res)=>{
-        if(res.data.success)
-        {
+
           Swal.fire(res.data.message)
         }
-        
+        else {
+
+
+          Swal.fire(res.data.message)
+        }
+
 
       })
     }
+  }
+  const handleReject = (mechanic) => {
 
-    
-  
-  
+    const id = mechanic?._id
+    if (mechanic?.status === "pending") {
+      rejectMechanic(id).then((res) => {
+        console.log(res)
+        if (res.data.success) {
+
+
+          Swal.fire(res.data.message)
+        }
+        else {
+
+
+          Swal.fire(res.data.message)
+        }
+
+      })
+
+
+    }
+
+  }
+  const handleBlock = (mechanic) => {
+    const id = mechanic?._id
+    blockMechanic(id).then((res) => {
+      if (res.data.success) {
+        Swal.fire(res.data.message)
+      }
+
+
+    })
+  }
+
+
+
+
 
   return (
     <Card className="h-screen w-fit">
@@ -151,26 +150,26 @@ export const Adminmechmanagement = () => {
                         {items.brandsserved}
                       </Typography>
                     </td>  */}
-                    
+
                     <td className={classes}>
-      <Button size="sm" onClick={() => handleApprove(items)}>
-        Approve
-      </Button>
-    </td>
-    {items.status === "pending" ? (
-      <td className={classes}>
-        <Button size="sm" onClick={() => handleReject(items)}>
-          Reject
-        </Button>
-      </td>
-    ) : (
-      <td className={classes}>
-        <Button size="sm"  onClick={()=>handleBlock(items)}> 
-          Block
-        </Button>
-      </td>
-    )}
-                  
+                      <Button size="sm" onClick={() => handleApprove(items)}>
+                        Approve
+                      </Button>
+                    </td>
+                    {items.status === "pending" ? (
+                      <td className={classes}>
+                        <Button size="sm" onClick={() => handleReject(items)}>
+                          Reject
+                        </Button>
+                      </td>
+                    ) : (
+                      <td className={classes}>
+                        <Button size="sm" onClick={() => handleBlock(items)}>
+                          Block
+                        </Button>
+                      </td>
+                    )}
+
 
 
                   </tr>

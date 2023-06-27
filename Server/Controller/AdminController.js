@@ -96,8 +96,8 @@ module.exports.isAdminAuth = async (req, res) => {
 
 module.exports.getAllMechanicDetails = async (req, res, next) => {
   try {
-    console.log("kkkk")
-    const mechanic = await MechanicModel.find()
+    console.log("kkkk");
+    const mechanic = await MechanicModel.find();
     console.log(mechanic, "kjhgf");
     res.json({ status: "success", result: mechanic });
   } catch (error) {
@@ -106,69 +106,83 @@ module.exports.getAllMechanicDetails = async (req, res, next) => {
 };
 module.exports.mechanicApproval = async (req, res) => {
   try {
-   console.log("working")
+    console.log("working");
     const id = req.params.id;
-
 
     const mechanic = await MechanicModel.findByIdAndUpdate(
       { _id: id },
       {
         $set: {
           isVerified: true,
-          status:"Approved"
+          status: "Approved",
         },
       }
     );
-   
 
-    res.status(200).json({ message: "Approved Successfully", success: true ,result:mechanic});
+    res
+      .status(200)
+      .json({
+        message: "Approved Successfully",
+        success: true,
+        result: mechanic,
+      });
   } catch (err) {
     console.log(err);
   }
 };
 module.exports.mechanicReject = async (req, res) => {
   try {
-    console.log("tttttttttt")
+    console.log("tttttttttt");
     const id = req.params.id;
-    console.log(id)
+    console.log(id);
 
     const mechanic = await MechanicModel.findByIdAndUpdate(
       { _id: id },
       {
         $set: {
           isVerified: false,
-          status:"Rejected"
+          status: "Rejected",
         },
       }
     );
-   
-    res.status(200).json({ message: "Rejected ,Minimum 3 year exoerience needed", success: true,result:mechanic });
+
+    res
+      .status(200)
+      .json({
+        message: "Rejected ,Minimum 3 year exoerience needed",
+        success: true,
+        result: mechanic,
+      });
   } catch (err) {
     console.log(err);
   }
 };
 module.exports.mechanicBlock = async (req, res) => {
   try {
-    console.log("block")
+    console.log("block");
     const id = req.params.id;
-    console.log(id)
+    console.log(id);
 
     const mechanic = await MechanicModel.findByIdAndUpdate(
       { _id: id },
       {
         $set: {
           isBanned: true,
-         
         },
       }
     );
-   
-    res.status(200).json({ message: "Mechanic has been Blocked", success: true,result:mechanic });
+
+    res
+      .status(200)
+      .json({
+        message: "Mechanic has been Blocked",
+        success: true,
+        result: mechanic,
+      });
   } catch (err) {
     console.log(err);
   }
 };
-
 
 module.exports.getAllUserDetails = async (req, res, next) => {
   try {
@@ -366,17 +380,14 @@ module.exports.deleteService = async (req, res, next) => {
 module.exports.getAllBrandNames = async (req, res, next) => {
   const brands = await BrandModel.find({ isActive: true });
   console.log(brands, "to send to models");
-  res
-    .status(200)
-    .json({
-      message: "successfully get all brandnames",
-      result: brands,
-      success: true,
-    });
+  res.status(200).json({
+    message: "successfully get all brandnames",
+    result: brands,
+    success: true,
+  });
 };
 module.exports.addcarModels = async (req, res, next) => {
   try {
- 
     const { carName, brandName, fuelType } = req.body;
 
     const cars = await CarsModel.create({
@@ -384,19 +395,17 @@ module.exports.addcarModels = async (req, res, next) => {
       brandName: brandName,
       fuelType: fuelType,
     });
-   
+
     res.status(200).json({ message: "successfully add cars", success: true });
   } catch (err) {
-   
     const errors = handleErrorManagent(err);
     res.json({ message: "Already existing Data", status: false, errors });
   }
 };
 module.exports.getAllcarDetails = async (req, res, next) => {
   try {
-
     const cars = await CarsModel.find({ status: true }).populate("brandName");
-  
+
     res.json({ success: true, result: cars });
   } catch (error) {
     console.log(error);
@@ -405,7 +414,6 @@ module.exports.getAllcarDetails = async (req, res, next) => {
 };
 module.exports.deleteCar = async (req, res, next) => {
   try {
-   
     const carid = req.params.id;
     CarsModel.findByIdAndUpdate(
       { _id: carid },
@@ -420,7 +428,6 @@ module.exports.deleteCar = async (req, res, next) => {
 };
 module.exports.updateCar = async (req, res, next) => {
   try {
-  
     const { carName, brandName, fuelType } = req.body;
 
     const cars = await CarsModel.updateOne({
@@ -428,7 +435,7 @@ module.exports.updateCar = async (req, res, next) => {
       brandName: brandName,
       fuelType: fuelType,
     });
-    
+
     res
       .status(200)
       .json({ message: "successfully updated the cars", success: true });
@@ -462,9 +469,8 @@ module.exports.addBanner = async (req, res, next) => {
 };
 module.exports.getBanners = async (req, res, next) => {
   try {
-  
     const banners = await BannerModel.find({});
-  
+
     res.json({ success: true, result: banners });
   } catch (error) {
     console.log(error);
@@ -473,7 +479,6 @@ module.exports.getBanners = async (req, res, next) => {
 };
 module.exports.updateBanner = async (req, res, next) => {
   try {
-  
     const { id, bannerName, description } = req.body;
     const image = await cloudinary.uploader.upload(req.file.path, {
       format: "WebP",
@@ -489,7 +494,7 @@ module.exports.updateBanner = async (req, res, next) => {
         },
       }
     );
- 
+
     res
       .status(200)
       .json({ message: "successfully updated the banner", success: true });
@@ -501,9 +506,7 @@ module.exports.updateBanner = async (req, res, next) => {
 };
 module.exports.blockBanner = async (req, res, next) => {
   try {
-   
     const id = req.params.id;
-
 
     const banner = await BannerModel.findByIdAndUpdate(
       { _id: id },
@@ -531,7 +534,7 @@ module.exports.unblockBanner = async (req, res, next) => {
         },
       }
     );
-   
+
     res.status(200).json({ message: "unblocked Successfully", success: true });
   } catch (err) {
     console.log(err);
@@ -540,9 +543,8 @@ module.exports.unblockBanner = async (req, res, next) => {
 
 module.exports.getServiceName = async (req, res, next) => {
   try {
-  
     const services = await ServiceModel.find({ status: true });
-  
+
     res.json({ success: true, result: services });
   } catch (error) {
     res.status(400).json({ success: false, message: error.message });
@@ -550,7 +552,6 @@ module.exports.getServiceName = async (req, res, next) => {
 };
 module.exports.addServicesList = async (req, res, next) => {
   try {
-  
     const { serviceName, descriptionLines, name, price } = req.body;
 
     const servicelist = await ServicelistModel.create({
@@ -571,9 +572,8 @@ module.exports.addServicesList = async (req, res, next) => {
 };
 module.exports.getAllServiceList = async (req, res, next) => {
   try {
- 
     const serviceslist = await ServicelistModel.find().populate("serviceName");
-   
+
     res.json({ success: true, result: serviceslist });
   } catch (error) {
     res.status(400).json({ success: false, message: error.message });
