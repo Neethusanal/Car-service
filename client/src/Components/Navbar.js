@@ -5,9 +5,12 @@ import { setUserDetails, userlogout } from "../Redux/UserSlice";
 import { FaShoppingCart } from "react-icons/fa";
 
 
+
+
 const Navbar = () => {
   const user = useSelector((state) => state.user);
   const [showDropdown, setShowDropdown] = useState(false); 
+
  
   
   console.log(user,"navbarpage")
@@ -35,19 +38,20 @@ const handleProfile=()=>{
 }
 
   return (
-    <nav className="bg-gray-800 shadow-lg">
+    <nav className="bg-black shadow-lg">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
-          {/* Logo */}
+          {/* {logo} */}
           <div className="flex-shrink-0">
             <a href="/" className="text-white font-bold text-xl">
-              Car Service
+           CAR⛨DOC
+          
             </a>
           </div>
 
           {/* Navigation links */}
           <div className="hidden md:block">
-            <ul className="flex space-x-4">
+            <ul className="flex space-x-4 mt-5">
             
                
               <li>
@@ -82,6 +86,9 @@ const handleProfile=()=>{
                   </Link>
                 </li>
               )}
+               {/* <li>
+             <Location/>
+              </li> */}
             </ul>
           </div>
 

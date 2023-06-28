@@ -10,6 +10,7 @@ const bcrypt = require("bcrypt");
 const BannerModel = require("../Models/BannerModel");
 const fs = require("fs");
 const ServicelistModel = require("../Models/ServicelistModel");
+const LocationModel = require("../Models/LocationModel");
 const maxAge = 3 * 24 * 60 * 60;
 
 // const handleError = (err) => {
@@ -596,5 +597,38 @@ module.exports.updateServiceList = async (req, res, next) => {
   } catch (err) {
     const errors = handleErrorManagent(err);
     res.json({ message: "something went wrong", status: false, errors });
+  }
+};
+module.exports .addPlaces = async (req, res) => {
+  try {
+    const {locationname } = req.body;
+    const loc = await LocationModel.create({
+      Locationname: locationname,
+    });
+    res.status(200).json({ message: "successfully added", success: true });
+  } catch (err) {
+    const errors = handleErrorManagent(err);
+    res.json({ message: "Already existing Data", status: false, errors });
+  }
+};
+module.exports.allLocations = async (req, res) => {
+  try {
+    const loc= await LocationModel.find()
+    console.log(loc)
+
+    res.json({ success: true, result:loc });
+  } catch (error) {
+    res.status(400).json({ success: false, message: error.message });
+  }
+};
+module.exports.deleteLocation = async (req, res) => {
+  try {
+    const id = req.params.id;
+  let loc=await LocationModel.findByIdAndDelete({_id:id})
+      res.status(200).json({ message: "Deleted Successful", success: true });
+
+  } catch (error) {
+    console.log(error);
+    res.json({ message: "Something went wrong", status: false });
   }
 };

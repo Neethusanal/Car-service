@@ -215,31 +215,66 @@ module.exports.getAllServicesList = async (req, res) => {
     res.status(400).json({ success: false, message: error.message });
   }
 };
+// module.exports.addToCart = async (req, res) => {
+//   const serviceId = req.params.serviceId;
+//   const planId = req.params.planId;
+//   console.log(serviceId,"sss")
+//   console.log(planId,"yyy")
+//   const userId = req.userId;
+
+//   try {
+//     const user = await UserModel.find({ _id: userId });
+//     if (!user) {
+//       return res.status(404).json({ error: "User not found" });
+//     } else {
+//       const IsExist = await ServicelistModel.findOne({ _id: id });
+//       if (!IsExist) {
+//         res.status(400).json({ message: "serviceplan doesnt exist" });
+//       } else {
+//         let cart = await UserModel.findOneAndUpdate(
+//           { _id: userId },
+//           { $addToSet: { cart: req.params.id } }
+//         );
+//         console.log(cart);
+//         return res
+//           .status(200)
+//           .json({
+//             message: "Service has added to the cart successfully",
+//             success: true,
+//           });
+//       }
+//     }
+//   } catch (error) {
+//     console.error(error);
+//     return res.status(500).json({ error: "Internal server error" });
+//   }
+// };
 module.exports.addToCart = async (req, res) => {
-  const id = req.params.id;
-  let userId = req.userId;
-  console.log(userId, "userid");
+  const serviceId = req.params.serviceId;
+  const planId = req.params.planId;
+  const userId = req.userId;
 
   try {
-    const user = await UserModel.find({ _id: userId });
+    const user = await UserModel.findById(userId);
     if (!user) {
       return res.status(404).json({ error: "User not found" });
     } else {
-      const IsExist = await ServicelistModel.findOne({ _id: id });
-      if (!IsExist) {
-        res.status(400).json({ message: "serviceplan doesnt exist" });
+      const service = await ServicelistModel.findById(planId);
+      if (!service) {
+        return res.status(400).json({ message: "Plan does not exist" });
       } else {
-        let cart = await UserModel.findOneAndUpdate(
+        const cart = await UserModel.findOneAndUpdate(
           { _id: userId },
-          { $addToSet: { cart: req.params.id } }
+          { $set: { cart: planId}},
+          { new: true }
         );
+    
         console.log(cart);
-        return res
-          .status(200)
-          .json({
-            message: "Service has added to the cart successfully",
-            success: true,
-          });
+
+        return res.status(200).json({
+          message: "Service has been added to the cart successfully",
+          success: true,
+        });
       }
     }
   } catch (error) {

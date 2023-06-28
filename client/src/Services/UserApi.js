@@ -29,9 +29,9 @@ const getUserModel = () => {
 const getServicePlans = (id) => {
   return userAxiosInstance.get(`/getallserviceplans/${id}`);
 };
-const addPlansToCart = (selectedserviceId, planId) => {
-  console.log(selectedserviceId);
-  return userAxiosInstance.post(`/addtocart/${(selectedserviceId, planId)}`);
+const addPlansToCart = (selectedServiceId, planId) => {
+  console.log(selectedServiceId, planId, "ffff");
+  return userAxiosInstance.post(`/addtocart/${selectedServiceId}/${planId}`);
 };
 const deleteItem = (id) => {
   console.log(id, "delete service");

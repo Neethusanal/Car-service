@@ -40,27 +40,35 @@ export const ServicePlans = () => {
     });
   };
   const handleServicePlans = (id) => {
-    setSelectedServiceId(id); 
-    getServicePlans(id).then((res)=>{
-      console.log(res.data.result,"response from backend")
-      if(res.data.success )
-      {
-        setServiceList(res.data.result)
-        
-      }
+    setSelectedServiceId(id);
+    setSelectedPlanId(null);
 
-    })
-  };
-  const handleAddtoCart = (planId) => {
-    console.log(planId, "addtocart");
-    addPlansToCart(selectedServiceId, planId).then((res) => {
-      console.log(res.data.result);
-    });
   
+    getServicePlans(id).then((res) => {
+      if (res.data.success) {
+        const plans = res.data.result;
+        setServiceList(plans);
+  
+        if (plans.length > 0) {
+          const selectedPlanId = plans[0]._id; // Select the first plan from the new service
+          setSelectedPlanId(selectedPlanId);
+          addPlansToCart(id, selectedPlanId).then((res) => {
+            console.log(res.data.result);
+          });
+        }
+      }
+    });
+  };
+  
+  const handleAddtoCart = (planId) => {
     setSelectedPlans((prevSelectedPlans) => ({
       ...prevSelectedPlans,
       [selectedServiceId]: planId,
     }));
+  
+    addPlansToCart(selectedServiceId, planId).then((res) => {
+      console.log(res.data.result);
+    });
   };
   
   return (
@@ -108,20 +116,20 @@ export const ServicePlans = () => {
     </div>
   </nav>
 
-    {selectedServiceId && (
-      <div className="flex sticky top-0 flex-wrap md:flex-nowrap">
-        {servicelist.map((plans, index) => {
-          return (
-            <div className="w-full md:w-1/3 px-5 py-20" key={index}>
-              <Card
-                className={`w-auto white ${
-                  selectedPlans[selectedServiceId] === plans._id
-                    ? "bg-blue-200"
-                    : ""
-                }`}
-                key={index}
-                onClick={() => setSelectedPlanId(plans._id)}
-              >
+  {selectedServiceId && (
+  <div className="flex sticky top-0 flex-wrap md:flex-nowrap">
+    {servicelist.map((plans, index) => {
+      const isSelectedPlan = selectedPlans[selectedServiceId] === plans._id;
+      return (
+        <div className="w-full md:w-1/3 px-5 py-20" key={index}>
+          <Card
+            className={`w-auto white ${
+              isSelectedPlan ? "bg-blue-200" : ""
+            }`}
+            key={index}
+            onClick={() => setSelectedPlanId(plans._id)}
+          >
+       
                 <CardHeader
                   shadow={false}
                   floated={false}
@@ -154,24 +162,21 @@ export const ServicePlans = () => {
                   </div>
                 </CardBody>
                 <CardFooter className="pt-0">
-                  <Button
-                    ripple={false}
-                    fullWidth={true}
-                    className={`bg-black text-white shadow-none hover:shadow-none hover:scale-105 focus:shadow-none focus:scale-105 active:scale-100 ${
-                      selectedPlans[selectedServiceId] &&
-                      selectedPlans[selectedServiceId] !== plans._id
-                        ? "opacity-50 cursor-not-allowed"
-                        : ""
-                    }`}
-                    onClick={() => handleAddtoCart(plans._id)}
-                    disabled={
-                      selectedPlans[selectedServiceId] &&
-                      selectedPlans[selectedServiceId] !== plans._id
-                    }
-                  >
-                    Add to Cart
-                  </Button>
-                </CardFooter>
+              {isSelectedPlan ? (
+                <Typography color="blue-gray" className="text-black">
+                  Plan selected
+                </Typography>
+              ) : (
+                <Button
+                  ripple={false}
+                  fullWidth={true}
+                  className="bg-black text-white shadow-none hover:shadow-none hover:scale-105 focus:shadow-none focus:scale-105 active:scale-100"
+                  onClick={() => handleAddtoCart(plans._id)}
+                >
+                  Add to Cart
+                </Button>
+              )}
+            </CardFooter>
               </Card>
               
             </div>

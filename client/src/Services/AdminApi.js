@@ -99,6 +99,15 @@ const blockMechanic = (id) => {
   console.log("block mechanic");
   return adminAxiosInstance.post(`/blockmechanic/${id}`);
 };
+const addLocation = (data) => {
+  return adminAxiosInstance.post('/addlocation', data);
+};
+const getAllLocations = () => {
+  return adminAxiosInstance.get("/getalllocations");
+};
+const deleteLoc = (id) => {
+  return adminAxiosInstance.post(`/deleteloc/${id}`);
+};
 
 export {
   adminSignin,
@@ -131,4 +140,7 @@ export {
   approveMechanic,
   rejectMechanic,
   blockMechanic,
+  addLocation ,
+  getAllLocations,
+  deleteLoc, 
 };

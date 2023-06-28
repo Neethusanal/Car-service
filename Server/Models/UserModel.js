@@ -64,6 +64,9 @@ const userSchema=  new mongoose.Schema({
         type:Date,
         required:true,
         default:Date.now
+      },
+      location:{
+        type:String
       }
 
 
