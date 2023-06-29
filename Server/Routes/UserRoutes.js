@@ -17,6 +17,7 @@ router.get('/getallserviceplans/:id',usercontroller.getAllServicesList)
 router.post('/addtocart/:serviceId/:planId', VerifyUser, usercontroller.addToCart);
  router.post('/deletecartitem/:id',VerifyUser,usercontroller.deleteCartItem)
  router.put('/updateprofile',VerifyUser,usercontroller.EditUserProfile)
+ router.put('/updateuserloc',VerifyUser,usercontroller.updateLocation)
 
 
 

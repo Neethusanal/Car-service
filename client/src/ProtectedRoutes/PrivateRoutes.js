@@ -7,6 +7,7 @@ import { authUser } from "../Services/UserApi";
 import { setUserDetails, userlogout } from "../Redux/UserSlice";
 import { adminlogin, adminlogout, setadminDetails } from "../Redux/AdminSlice";
 import { setmechanicDetails, mechlogout } from "../Redux/MechanicSlice";
+import Navbar from "../Components/Navbar";
 
 function PrivateRoutes({ role, route }) {
   let [auth, setAuth] = useState(null);
@@ -61,9 +62,8 @@ function PrivateRoutes({ role, route }) {
         });
     }
   }, []);
-  if (auth == null) return;
+  if (auth === null) return;
 
   return auth ? <Outlet /> : <Navigate to={route} />;
 }
-
 export default PrivateRoutes;

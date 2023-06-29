@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { setUserDetails, userlogout } from "../Redux/UserSlice";
+import { setUserDetails} from "../Redux/UserSlice";
 import { FaShoppingCart } from "react-icons/fa";
+import { ServingLocation } from "./ServingLocation";
 
 
 
@@ -46,9 +47,11 @@ const handleProfile=()=>{
             <a href="/" className="text-white font-bold text-xl">
            CAR⛨DOC
           
+          
             </a>
+          
           </div>
-
+          
           {/* Navigation links */}
           <div className="hidden md:block">
             <ul className="flex space-x-4 mt-5">
@@ -79,6 +82,7 @@ const handleProfile=()=>{
                   Contact
                 </a>
               </li>
+              
               {user.name && (
                 <li>
                   <Link to="/cart" className="text-white hover:text-gray-300">
@@ -86,9 +90,10 @@ const handleProfile=()=>{
                   </Link>
                 </li>
               )}
-               {/* <li>
-             <Location/>
-              </li> */}
+              <li>
+                <ServingLocation/>
+              </li>
+               
             </ul>
           </div>
 

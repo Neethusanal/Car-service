@@ -5,6 +5,7 @@ const initialState = {
   email: "",
   mobile: "",
   cart: [],
+  servicelocation: ""
 };
 
 const userSlice = createSlice({
@@ -18,6 +19,10 @@ const userSlice = createSlice({
       state.cart = action.payload.cart;
       state.services = action.payload.services;
       state.packages = action.payload.packages;
+      state.servicelocation = action.payload.servicelocation;
+    },
+    updateUserLocation: (state, action) => {
+      state.servicelocation = action.payload;
     },
     userlogin: (state, action) => {
       state.value = { ...action.payload, isUserAuth: true };
@@ -30,5 +35,7 @@ const userSlice = createSlice({
     },
   },
 });
-export const { setUserDetails, userlogin, userlogout } = userSlice.actions;
+
+export const { setUserDetails, updateUserLocation, userlogin, userlogout } =
+  userSlice.actions;
 export default userSlice.reducer;

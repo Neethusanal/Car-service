@@ -59,6 +59,9 @@ const mechanicSchema=  new mongoose.Schema({
     certificate:{
         type:String
     },
+    servinglocation:{
+        type:String
+    }
    
 
 

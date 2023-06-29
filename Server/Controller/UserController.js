@@ -122,7 +122,7 @@ module.exports.loginUser = async (req, res, next) => {
       if (validpassword) {
         const userId = user._id;
         const token = jwt.sign({ userId }, process.env.JWT_SECRET_KEY, {
-          expiresIn: 30000,
+          expiresIn: maxAge,
         });
         console.log(token, "token");
         res
@@ -155,8 +155,9 @@ module.exports.isUserAuth = async (req, res) => {
       mobile: userDetails.mobile,
       name: userDetails.name,
       email: userDetails.email,
-      //address:userDetails.address,
+      address:userDetails.address,
       cart: userDetails.cart,
+      servicelocation:userDetails?.servicelocation ||null
     });
   } catch (error) {
     res.json({ auth: false, status: "error", message: error.message });
@@ -227,13 +228,13 @@ module.exports.getAllServicesList = async (req, res) => {
 //     if (!user) {
 //       return res.status(404).json({ error: "User not found" });
 //     } else {
-//       const IsExist = await ServicelistModel.findOne({ _id: id });
+//       const IsExist = await ServicelistModel.findOne({ _id: planId });
 //       if (!IsExist) {
 //         res.status(400).json({ message: "serviceplan doesnt exist" });
 //       } else {
 //         let cart = await UserModel.findOneAndUpdate(
 //           { _id: userId },
-//           { $addToSet: { cart: req.params.id } }
+//           { $addToSet: { cart: planId } }
 //         );
 //         console.log(cart);
 //         return res
@@ -248,7 +249,7 @@ module.exports.getAllServicesList = async (req, res) => {
 //     console.error(error);
 //     return res.status(500).json({ error: "Internal server error" });
 //   }
-// };
+// }
 module.exports.addToCart = async (req, res) => {
   const serviceId = req.params.serviceId;
   const planId = req.params.planId;
@@ -259,13 +260,17 @@ module.exports.addToCart = async (req, res) => {
     if (!user) {
       return res.status(404).json({ error: "User not found" });
     } else {
-      const service = await ServicelistModel.findById(planId);
-      if (!service) {
+      const service = await ServicesModel.findById(serviceId);
+if (!service) {
+  return res.status(400).json({ message: "Service does not exist" });
+}
+      const plan = await ServicelistModel.findById(planId);
+      if (!plan) {
         return res.status(400).json({ message: "Plan does not exist" });
       } else {
         const cart = await UserModel.findOneAndUpdate(
           { _id: userId },
-          { $set: { cart: planId}},
+          { $set: { cart: planId,serviceId}},
           { new: true }
         );
     
@@ -282,6 +287,8 @@ module.exports.addToCart = async (req, res) => {
     return res.status(500).json({ error: "Internal server error" });
   }
 };
+
+
 module.exports.deleteCartItem = async (req, res) => {
   try {
     const id = req.params.id;
@@ -298,13 +305,35 @@ module.exports.deleteCartItem = async (req, res) => {
 };
 module.exports.EditUserProfile = async (req, res) => {
   try {
-    const { address, email } = req.body;
+    const { address, email,} = req.body;
     console.log(email);
     const user = await UserModel.findOneAndUpdate(
       { email: email },
       {
         $set: {
           address: address,
+         
+        },
+      }
+    );
+
+    console.log(user);
+    res.status(200).json({ message: "successfully updated ", success: true });
+  } catch (err) {
+    const errors = handleErrorManagent(err);
+    res.json({ message: "something went wrong", status: false, errors });
+  }
+};
+module.exports.updateLocation= async (req, res) => {
+  try {
+    const {  email,locationName} = req.body;
+    console.log(email,locationName);
+    const user = await UserModel.findOneAndUpdate(
+      { email: email },
+      {
+        $set: {
+          servicelocation: locationName,
+         
         },
       }
     );

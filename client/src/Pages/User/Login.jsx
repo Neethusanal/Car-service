@@ -51,6 +51,7 @@ const Login = () => {
                 email: res.data.email,
                 mobile: res.data.mobile,
                 cart: res.data.cart,
+                servicelocation:res.data?.servicelocation || null
 
               }))
             navigate("/home");

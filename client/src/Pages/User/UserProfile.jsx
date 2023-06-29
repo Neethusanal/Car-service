@@ -16,6 +16,7 @@ export const UserProfile = () => {
   const user = useSelector((state) => state.user)
   const [address, setAddress] = useState()
   const [email, setEmail] = useState()
+  
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -23,7 +24,7 @@ export const UserProfile = () => {
   })
   const handleProfile = () => {
 
-    updateUserProfile({ address, email }).then((res) => {
+    updateUserProfile({ address, email}).then((res) => {
       console.log(res)
     })
   }

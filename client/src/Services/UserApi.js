@@ -40,6 +40,10 @@ const deleteItem = (id) => {
 const updateUserProfile = (data) => {
   return userAxiosInstance.put("/updateprofile", data);
 };
+const updateUser = (data) => {
+  console.log(data)
+  return userAxiosInstance.put("/updateuserloc", data);
+};
 
 export {
   userRegister,
@@ -54,4 +58,5 @@ export {
   addPlansToCart,
   deleteItem,
   updateUserProfile,
+ updateUser,
 };
