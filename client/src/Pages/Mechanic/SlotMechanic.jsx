@@ -11,11 +11,13 @@ import Moment from 'react-moment';
 import moment from 'moment';
 
 export const SlotMechanic = () => {
+  const [selectedDate, setSelectedDate] = useState(null);
+const [selectedSlot, setSelectedSlot] = useState(null);
   const generateDateArray = () => {
     const dates = [];
-    const today = moment();
+    const today = moment().startOf("day");
 
-    for (let i = 1; i < 10; i++) {
+    for (let i = 1; i < 9; i++) {
       const date = moment(today).add(i, 'days');
 
       const morningSlotStart = moment(date).clone().set('hour', 9).set('minute', 0).set('second', 0);
@@ -28,8 +30,10 @@ export const SlotMechanic = () => {
         morningSlot: [morningSlotStart, morningSlotEnd],
         afternoonSlot: [afternoonSlotStart, afternoonSlotEnd],
         showSlots: false,
-        selectedSlot: null
+        selectedSlot: null,
+        onClick: () => handleDateClick(date),
       });
+    
     }
 
     return dates;
@@ -37,21 +41,28 @@ export const SlotMechanic = () => {
 
   const [dates, setDates] = useState(generateDateArray());
 
-  const toggleSlots = (index) => {
-    setDates((prevDates) => {
-      const updatedDates = [...prevDates];
-      updatedDates[index].showSlots = !updatedDates[index].showSlots;
-      return updatedDates;
+
+  const handleDateClick = (date) => {
+    setSelectedDate(date);
+    const updatedDates = dates.map((d) => {
+      if (moment(d.date).isSame(date, 'day')) {
+        return {
+          ...d,
+          showSlots: true,
+          selectedSlot: null, // Reset selected slot when date is clicked
+        };
+      } else {
+        return {
+          ...d,
+          showSlots: false,
+          selectedSlot: null, // Reset selected slot for other dates
+        };
+      }
     });
+    setDates(updatedDates);
   };
 
-  const selectSlot = (index, slot) => {
-    setDates((prevDates) => {
-      const updatedDates = [...prevDates];
-      updatedDates[index].selectedSlot = slot;
-      return updatedDates;
-    });
-  };
+
 
   return (
     <>
@@ -60,46 +71,29 @@ export const SlotMechanic = () => {
           <h1 className='text-center'>SLOTS</h1>
         </CardHeader>
         <CardBody className='flex'>
-          {dates.map((date, index) => (
-            <div key={index}>
-              <button
-                className='mt-10 ml-6 w-32 h-14 border-2 border-gray-600 bg-orange-50'
-                onClick={() => toggleSlots(index)}
-              >
-                <Moment format="YYYY-MM-DD">{date.date}</Moment>
-              </button>
-              {date.showSlots && (
-                <div className="mt-2">
-                  <button
-                    className={`mr-2 mb-2 w-32 h-14 border-2 border-gray-600 ${date.selectedSlot === 'morning' ? 'bg-green-500' : 'bg-orange-50'
-                      }`}
-                    onClick={() => selectSlot(index, 'morning')}
-                  >
-                    Morning Slot
-                  </button>
-                  <button
-                    className={`mr-2 mb-2 w-32 h-14 border-2 border-gray-600 ${date.selectedSlot === 'afternoon' ? 'bg-green-500' : 'bg-orange-50'
-                      }`}
-                    onClick={() => selectSlot(index, 'afternoon')}
-                  >
-                    Afternoon Slot
-                  </button>
-                  {date.selectedSlot && (
-                    <div>
-                      <div>
-                        Selected Slot: {date.selectedSlot === 'morning' ? (
-                          `${date.morningSlot[0].format('hh:mm A')} - ${date.morningSlot[1].format('hh:mm A')}`
-                        ) : (
-                          `${date.afternoonSlot[0].format('hh:mm A')} - ${date.afternoonSlot[1].format('hh:mm A')}`
-                        )}
-                      </div>
-                    </div>
-                  )}
-                </div>
-              )}
-            </div>
-          ))}
-        </CardBody>
+        {dates.map((date, index) => (
+  <div key={index}>
+    <button
+      className='mt-10 ml-6 w-32 h-14 border-2 border-gray-600 bg-orange-50'
+      onClick={() => handleDateClick(date.date)} // Pass the date to handleDateClick function
+    >
+      <Moment format="YYYY-MM-DD">{date.date}</Moment>
+    </button>
+    {date.showSlots && (
+  <>
+    <Button  onClick={() => setSelectedSlot(date.morningSlot)} className="mt-2 bg-green-300">
+     8am - 1pm
+    </Button>
+    <Button onClick={() => setSelectedSlot(date.afternoonSlot)} className="mt-2 bg-green-300">
+      2pm- 6pm
+    </Button>
+  </>
+)}
+
+  </div>
+))}
+  
+</CardBody>
         <CardFooter className="pt-0">
           {/* <Button>Read More</Button> */}
         </CardFooter>
