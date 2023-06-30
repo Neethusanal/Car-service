@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Card,
   CardHeader,
@@ -9,6 +9,7 @@ import {
 
 import Moment from 'react-moment';
 import moment from 'moment';
+import Swal from "sweetalert2"
 import { mechanicSelectedSlots } from '../../Services/MechanicApi';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
@@ -21,6 +22,7 @@ export const SlotMechanic = () => {
   const [selectedTime, setSelectedTime] = useState([]);
   const navigate=useNavigate()
   const slotsdata = useSelector((state) => state.mechanic.slots)
+  console.log(slotsdata)
   
   const generateDateArray = () => {
     const dates = [];
@@ -81,7 +83,10 @@ export const SlotMechanic = () => {
   const handleSubmit = (slotsselected) => {
     console.log(slotsselected, "timesslots")
     mechanicSelectedSlots({slotsselected}).then((res)=>{
-      console.log(res.data)
+      if(res.data.success)
+      {
+        Swal.fire(res.data.message)
+      }
       
     })
   }
@@ -107,16 +112,16 @@ export const SlotMechanic = () => {
                 <>
                   <Button
                     onClick={() => handleSlotClick(date.morningSlot)}
-                    className={`mt-2 bg-${selectedTime.includes(date.morningSlot) ? 'red' : 'green'}-300`}
+                    className={`mt-2 bg-${slotsdata.includes(date.morningSlot) ? 'red' : 'green'}-300`}
                     
-                    disabled={selectedTime.includes(date.morningSlot)}
+                    disabled={slotsdata.includes(date.morningSlot)}
                   >
                     8am - 1pm
                   </Button>
                   <Button
                     onClick={() => handleSlotClick(date.afternoonSlot)}
-                    className={`mt-2 bg-${selectedTime.includes(date.afternoonSlot) ? 'red' : 'green'}-300`}
-                    disabled={selectedTime.includes(date.afternoonSlot)}
+                    className={`mt-2 bg-${slotsdata.includes(date.afternoonSlot) ? 'red' : 'green'}-300`}
+                    disabled={slotsdata.includes(date.afternoonSlot)}
                   >
                     2pm - 6pm
                   </Button>

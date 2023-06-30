@@ -223,13 +223,16 @@ module.exports.updateProfile = async (req, res) => {
   }
 };
 //Adding Slots to MechanicDetails
-module.exports .addmechanicSlots = async (req, res) => {
+module.exports.addmechanicSlots = async (req, res) => {
   try {
-    const {slotsselected } = req.body;
-    const id= req.mechanicId
-    const mechanic= await MechanicModel.findByIdAndUpdate({_id:id},{$set:{slots:slotsselected}})
-    console.log(mechanic,"updated slot")
-    res.status(200).json({ message: "successfully added", success: true});
+    const { slotsselected } = req.body;
+    const id = req.mechanicId;
+    const mechanic = await MechanicModel.findByIdAndUpdate(
+      { _id: id },
+      { $addToSet: { slots: { $each: slotsselected } } }
+    );
+    console.log(mechanic, "updated slot");
+    res.status(200).json({ message: "successfully added", success: true });
   } catch (err) {
     const errors = handleErrorManagent(err);
     res.json({ message: "Already existing Data", status: false, errors });
