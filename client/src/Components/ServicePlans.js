@@ -119,7 +119,7 @@ const handleAddtoCart = (planId) => {
           return (
             <div className="w-full md:w-1/3 px-5 py-20" key={index}>
               <Card
-                className={`w-auto white ${isSelectedPlan ? "bg-blue-200" : ""}`}
+                className={`w-auto  bg-gray-500 white ${isSelectedPlan ? "bg-blue-200" : ""}`}
                 key={index}
                 onClick={() => setSelectedPlanId(plans._id)}
               >
@@ -127,7 +127,7 @@ const handleAddtoCart = (planId) => {
                 <CardHeader
                   shadow={false}
                   floated={false}
-                  className="h-96 bg-gray-300  overflow-y-auto"
+                  className="h-96  overflow-y-auto"
                 >
                   <ul className="text-center list-disc">
                     {plans.description.map((item, index) => {

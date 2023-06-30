@@ -48,6 +48,9 @@ const updateUser = (data) => {
 const getLocations = () => {
   return userAxiosInstance.get("/getlocations");
 };
+const availableSlots=()=>{
+  return userAxiosInstance.get('/availableslots')
+}
 
 export {
   userRegister,
@@ -64,4 +67,5 @@ export {
   updateUserProfile,
  updateUser,
  getLocations,
+ availableSlots
 };
