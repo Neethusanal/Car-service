@@ -26,7 +26,7 @@ const Navbar = () => {
   };
 
   useEffect(() => {
- 
+   
   }, []);
   const toggleDropdown = () => {
     setShowDropdown(!showDropdown);

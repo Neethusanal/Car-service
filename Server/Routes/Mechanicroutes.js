@@ -10,5 +10,5 @@ router.post('/login',mechaniccontroller.mechanicLogin)
 router.get('/isMechanicAuth',VerifyMechanic,mechaniccontroller.isMechanicAuth)
 router.get('/getallbrands',mechaniccontroller.getAllBrands)
 router.put('/updateprofile',VerifyMechanic, upload.fields([{ name: 'profileImage', maxCount: 1 }, ]),mechaniccontroller.updateProfile);
-
+router.post('/savemechanicslots',VerifyMechanic,mechaniccontroller.addmechanicSlots)
 module.exports = router;

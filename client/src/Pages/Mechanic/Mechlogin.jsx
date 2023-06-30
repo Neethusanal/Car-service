@@ -50,7 +50,9 @@ const Mechlogin = () => {
             name: data.mechanic.name,
             Phone: data.mechanic.phone,
             email: data.mechanic.email,
-            status: data.mechanic.status
+            status: data.mechanic.status,
+            slots:data.mechanic.slots,
+            
 
 
           }))

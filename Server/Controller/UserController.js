@@ -3,12 +3,14 @@ const BannerModel = require("../Models/BannerModel");
 const ServicesModel = require("../Models/ServicesModel");
 const BrandModel = require("../Models/BrandModel");
 const CarsModel = require("../Models/CarsModel");
+const ServicelistModel = require("../Models/ServicelistModel");
+const LocationModel = require("../Models/LocationModel");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const maxAge = 3 * 24 * 60 * 60;
 const nodemailer = require("nodemailer");
 const { sendEmailOTP } = require("../Middleware/Nodemailer");
-const ServicelistModel = require("../Models/ServicelistModel");
+
 
 const handleError = (err) => {
   let errors = { email: "", password: "" };
@@ -118,7 +120,7 @@ module.exports.loginUser = async (req, res, next) => {
     const user = await UserModel.findOne({ email });
     console.log("user", user);
     if (user) {
-      const validpassword = await bcrypt.compare(password, user.password);
+      const validpassword =  bcrypt.compare(password, user.password);
       if (validpassword) {
         const userId = user._id;
         const token = jwt.sign({ userId }, process.env.JWT_SECRET_KEY, {
@@ -166,7 +168,6 @@ module.exports.isUserAuth = async (req, res) => {
 module.exports.getBanners = async (req, res, next) => {
   try {
     const banners = await BannerModel.find({ status: true });
-    console.log(banners, "data");
     res.json({ success: true, result: banners });
   } catch (error) {
     console.log(error);
@@ -176,7 +177,6 @@ module.exports.getBanners = async (req, res, next) => {
 module.exports.getServices = async (req, res) => {
   try {
     const services = await ServicesModel.find({ status: true });
-
     res.json({ success: true, result: services });
   } catch (error) {
     console.log(error);
@@ -185,9 +185,8 @@ module.exports.getServices = async (req, res) => {
 };
 module.exports.getBrands = async (req, res) => {
   try {
-    console.log("entrered brands");
+   
     const brands = await BrandModel.find();
-
     res.json({ success: true, result: brands });
   } catch (error) {
     console.log(error);
@@ -197,7 +196,6 @@ module.exports.getBrands = async (req, res) => {
 module.exports.getModels = async (req, res) => {
   try {
     const cars = await CarsModel.find();
-
     res.json({ success: true, result: cars });
   } catch (error) {
     console.log(error);
@@ -207,9 +205,7 @@ module.exports.getModels = async (req, res) => {
 module.exports.getAllServicesList = async (req, res) => {
   try {
     let id = req.params.id;
-
     const servicelist = await ServicelistModel.find({ serviceName: id });
-
     res.json({ success: true, result: servicelist });
   } catch (error) {
     console.log(error);
@@ -292,7 +288,6 @@ if (!service) {
 module.exports.deleteCartItem = async (req, res) => {
   try {
     const id = req.params.id;
-    console.log(id, "forr deleting");
     let cart = await UserModel.updateOne(
       { _id: req.userId },
       { $pull: { cart: id } }
@@ -306,7 +301,6 @@ module.exports.deleteCartItem = async (req, res) => {
 module.exports.EditUserProfile = async (req, res) => {
   try {
     const { address, email,} = req.body;
-    console.log(email);
     const user = await UserModel.findOneAndUpdate(
       { email: email },
       {
@@ -316,18 +310,23 @@ module.exports.EditUserProfile = async (req, res) => {
         },
       }
     );
-
-    console.log(user);
     res.status(200).json({ message: "successfully updated ", success: true });
   } catch (err) {
     const errors = handleErrorManagent(err);
     res.json({ message: "something went wrong", status: false, errors });
   }
 };
+module.exports.allLocations = async (req, res) => {
+  try {
+    const loc= await LocationModel.find()
+    res.json({ success: true, result:loc });
+  } catch (error) {
+    res.status(400).json({ success: false, message: error.message });
+  }
+};
 module.exports.updateLocation= async (req, res) => {
   try {
     const {  email,locationName} = req.body;
-    console.log(email,locationName);
     const user = await UserModel.findOneAndUpdate(
       { email: email },
       {
@@ -337,8 +336,6 @@ module.exports.updateLocation= async (req, res) => {
         },
       }
     );
-
-    console.log(user);
     res.status(200).json({ message: "successfully updated ", success: true });
   } catch (err) {
     const errors = handleErrorManagent(err);

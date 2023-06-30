@@ -24,6 +24,7 @@ const mechanicSlice = createSlice({
       state.qualification = action.payload.qualification;
       state.certificate = action.payload.certificate;
       state.status = action.payload.status;
+      state.slots=action.payload.slots;
     },
     mechlogin: (state, action) => {
       state.value = { ...action.payload, isMechanicAuth: true };

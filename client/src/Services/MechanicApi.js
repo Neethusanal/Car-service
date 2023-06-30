@@ -22,6 +22,9 @@ const getMechBrands = () => {
 const updateProfile = (data) => {
   return mechanicAxiosInstance.put("/updateprofile", data);
 };
+const  mechanicSelectedSlots = (data)=>{
+  return mechanicAxiosInstance.post('/savemechanicslots',data)
+}
 
 export {
   Mechanicregister,
@@ -31,4 +34,5 @@ export {
   getMechBrands,
   updateProfile,
   updateDetails,
+  mechanicSelectedSlots 
 };

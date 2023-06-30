@@ -37,7 +37,7 @@ module.exports.VerifyUser = (req, res, next) => {
           res.json({
             auth: false,
             status: "failed",
-            message: "failed to authenticate",
+            message: "failed to authenticate user",
           });
         } else {
           req.userId = decoded.userId;

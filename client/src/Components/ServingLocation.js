@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import { getAllLocations } from '../Services/AdminApi'
+
 import { useDispatch, useSelector } from 'react-redux'
-import { updateUser } from '../Services/UserApi'
+import { getLocations, updateUser } from '../Services/UserApi'
 import { updateUserLocation } from '../Redux/UserSlice'
 
 
@@ -11,17 +11,17 @@ export const ServingLocation = () => {
     
     const [email,setEmail]=useState()
     const [locData,setLocData]=useState()
-    const [locationName, setLocationName] = useState(user?.servicelocation);
+    const [locationName, setLocationName] = useState();
     const dispatch = useDispatch();
     useEffect(()=>{
-        getAllLocations().then((res)=>{
+        getLocations().then((res)=>{
             setLocData(res.data.result)
         })
         setEmail(user.email)
         
     },[])
     useEffect(() => {
-      if (user) {
+      if (user?.servicelocation) {
         setLocationName(user?.servicelocation);
       }
     }, [user]);

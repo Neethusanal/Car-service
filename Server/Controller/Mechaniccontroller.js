@@ -168,6 +168,7 @@ module.exports.isMechanicAuth = async (req, res) => {
         qualifiation: mechanicDetails.qualification,
         experience: mechanicDetails.experience,
         status: mechanicDetails.status,
+        slots:mechanicDetails.slots,
       });
     }
   } catch (error) {
@@ -219,5 +220,18 @@ module.exports.updateProfile = async (req, res) => {
     console.log(err);
     const errors = handleErrorManagent(err);
     res.json({ message: "something went wrong", status: false, errors });
+  }
+};
+//Adding Slots to MechanicDetails
+module.exports .addmechanicSlots = async (req, res) => {
+  try {
+    const {slotsselected } = req.body;
+    const id= req.mechanicId
+    const mechanic= await MechanicModel.findByIdAndUpdate({_id:id},{$set:{slots:slotsselected}})
+    console.log(mechanic,"updated slot")
+    res.status(200).json({ message: "successfully added", success: true});
+  } catch (err) {
+    const errors = handleErrorManagent(err);
+    res.json({ message: "Already existing Data", status: false, errors });
   }
 };

@@ -43,6 +43,10 @@ const updateUserProfile = (data) => {
 const updateUser = (data) => {
   console.log(data)
   return userAxiosInstance.put("/updateuserloc", data);
+ 
+};
+const getLocations = () => {
+  return userAxiosInstance.get("/getlocations");
 };
 
 export {
@@ -59,4 +63,5 @@ export {
   deleteItem,
   updateUserProfile,
  updateUser,
+ getLocations,
 };
