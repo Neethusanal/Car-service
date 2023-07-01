@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { authUser, getUserBrands, getUserModel, getUserServices } from "../Services/UserApi";
+import { authUser, getUserBrands, getUserModel, getUserServices, updateBookingData } from "../Services/UserApi";
 import {Card,CardHeader,CardBody,CardFooter,Typography,Button,} from "@material-tailwind/react";
 import { useNavigate } from "react-router-dom";
 
@@ -45,6 +45,10 @@ export const UserServices = () => {
   }
   const handleBooking=()=>{
     if(authUser){
+      console.log(brandName,modelName,"bbbbbbbbbbbbbbbbbbbb")
+      updateBookingData({brandName,modelName}).then((res)=>{
+      console.log(res.data)
+      })
       navigate('/services')
     }
     else
@@ -100,7 +104,7 @@ export const UserServices = () => {
             <option value="">Select the brand</option>
             {brand?.map((items, index) => {
               return (
-                <option  key={items._id}  value={items._id}>{items.brandName}</option>
+                <option  key={items._id}  value={items.brandName}>{items.brandName}</option>
               )
             })}
           </select>
@@ -119,7 +123,7 @@ export const UserServices = () => {
             <option value="">Select the brand</option>
             {model?.map((car, index) => {
               return (
-                <option  key={index}  value={car._id}>{car.carName}</option>
+                <option  key={index}  value={car.carName}>{car.carName}</option>
               )
             })}
           </select>

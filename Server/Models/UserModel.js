@@ -43,7 +43,7 @@ const userSchema=  new mongoose.Schema({
     slots:{
         type:Array
     },
-    vehiclenumber:{
+    vehicleNumber:{
         type:String,
     },
     isVerified:

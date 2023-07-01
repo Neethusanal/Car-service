@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   Card,
   CardHeader,
@@ -7,28 +7,58 @@ import {
   Typography,
   Button
 } from "@material-tailwind/react";
+import { getExpertMechanic } from '../../Services/UserApi';
+import { useNavigate } from 'react-router-dom';
+import Navbar from '../../Components/Navbar';
 
 export const Staff = () => {
+  const [staff,setStaff]=useState([])
+  const navigate=useNavigate()
+  useEffect(()=>{
+    getStaff()
+
+  },[])
+  const handleClick=(mechanic)=>{
+    console.log(mechanic,"mechanicdetails")
+    navigate('/bookslot',{ state: { mechanic} })
+  }
+  const getStaff=()=>{
+    getExpertMechanic().then((res)=>{
+      console.log(res.data)
+      if(res.data.success)
+      {
+        setStaff(res.data.result)
+      }
+    })
+  }
+  console.log(staff,'staffdetails')
   return (
     <div>
-      <Card className="mt-40 ml-14 w-80">
-        <CardHeader color="blue-gray" className="relative h-56">
-          <img src="https://images.unsplash.com/photo-1540553016722-983e48a2cd10?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&q=80" alt="img-blur-shadow" layout="fill" />
-        </CardHeader>
-        <CardBody>
-          <Typography variant="h5" color="blue-gray" className="mb-2">
-            UI/UX Review Check
-          </Typography>
-          <Typography>
-            The place is close to Barceloneta Beach and bus stop just 2 min by walk
-            and near to &quot;Naviglio&quot; where you can enjoy the main night life
-            in Barcelona.
-          </Typography>
-        </CardBody>
-        <CardFooter className="pt-0">
-          <Button>Read More</Button>
-        </CardFooter>
-      </Card>
+      <Navbar/>
+      {staff.map((mechanic,index)=>{
+        return(
+ <Card className="mt-20 ml-14 w-80 flex">
+ <CardHeader color="blue-gray" className="relative h-56">
+   <img src={mechanic.image} className="h-72 w-80 sm:w-auto md:w-auto lg:w-auto"/>
+ </CardHeader>
+ <CardBody>
+   <Typography variant="h5" color="blue-gray" className="mb-2">
+   Name:{mechanic.name}
+   </Typography>
+   <Typography>
+    Qualification:{mechanic.qualification}
+   </Typography>
+   <Typography>
+   Experience: {mechanic.experience}
+   </Typography>
+ </CardBody>
+ <CardFooter className="pt-0">
+   <Button onClick={()=>handleClick(mechanic)}>select</Button>
+ </CardFooter>
+</Card>
+        )
+      })}
+     
     </div>
   )
 }

@@ -26,6 +26,10 @@ const getUserBrands = () => {
 const getUserModel = () => {
   return userAxiosInstance.get("/getallmodels");
 };
+const updateBookingData=(data)=>{
+  console.log(data)
+  return userAxiosInstance.post("/updatebookingdetails",data)
+}
 const getServicePlans = (id) => {
   return userAxiosInstance.get(`/getallserviceplans/${id}`);
 };
@@ -51,6 +55,9 @@ const getLocations = () => {
 const availableSlots=()=>{
   return userAxiosInstance.get('/availableslots')
 }
+const getExpertMechanic=()=>{
+  return userAxiosInstance.get('/getexpertmechanic')
+}
 
 export {
   userRegister,
@@ -61,11 +68,13 @@ export {
   getUserServices,
   getUserBrands,
   getUserModel,
+  updateBookingData,
   getServicePlans,
   addPlansToCart,
   deleteItem,
   updateUserProfile,
  updateUser,
  getLocations,
+ getExpertMechanic,
  availableSlots
 };

@@ -5,11 +5,13 @@ const BrandModel = require("../Models/BrandModel");
 const CarsModel = require("../Models/CarsModel");
 const ServicelistModel = require("../Models/ServicelistModel");
 const LocationModel = require("../Models/LocationModel");
+const MechanicModel=require("../Models/MechanicModel")
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const maxAge = 3 * 24 * 60 * 60;
 const nodemailer = require("nodemailer");
 const { sendEmailOTP } = require("../Middleware/Nodemailer");
+const mongoose = require('mongoose');
 
 
 const handleError = (err) => {
@@ -340,5 +342,72 @@ module.exports.updateLocation= async (req, res) => {
   } catch (err) {
     const errors = handleErrorManagent(err);
     res.json({ message: "something went wrong", status: false, errors });
+  }
+};
+
+module.exports.updateBookingDetails= async (req, res) => {
+  try {
+    console.log(req.body,"details coming from bookan appointment")
+    const { brandName,modelName} = req.body;
+    console.log(req.userId)
+    const user = await UserModel.findByIdAndUpdate(
+      { _id: req.userId},
+      {
+        $set: {
+          brand: brandName,
+          model:modelName
+         
+        },
+      }
+    );
+    res.status(200).json({ message: "successfully updated ", success: true });
+  } catch (err) {
+    const errors = handleErrorManagent(err);
+    res.json({ message: "something went wrong", status: false, errors });
+  }
+};
+
+
+module.exports.getBrandMechanic = async (req, res) => {
+  try {
+    const user = await UserModel.findById(req.userId, 'brand');
+
+    const userBrand = user.brand;
+    console.log(userBrand);
+
+    const mechanics = await MechanicModel.aggregate([
+      {
+        $lookup: {
+          from: 'brands', // Collection name of BrandModel
+          localField: 'brandsserved',
+          foreignField: '_id',
+          as: 'brand',
+        },
+      },
+      {
+        $match: {
+          'brand.brandName': userBrand,
+        },
+      },
+    ]);
+
+    console.log(mechanics);
+    res.json({ success: true, result: mechanics });
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({ success: false, message: error.message });
+  }
+};
+
+
+module.exports.slotsAvailable = async (req, res) => {
+  try {
+    console.log("nnn")
+    const slots= await MechanicModel.findOne(
+    )
+    console.log(slots)
+    res.json({ success: true, result:slots });
+  } catch (error) {
+    res.status(400).json({ success: false, message: error.message });
   }
 };

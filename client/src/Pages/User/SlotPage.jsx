@@ -9,8 +9,8 @@ export const SlotPage = () => {
   useEffect(()=>{
     getAvailableSlots()
   })
-  const getAvailableSlots=()=>{
-      availableSlots().then((res)=>{
+  const getAvailableSlots=async()=>{
+      await availableSlots().then((res)=>{
         console.log(res.data)
       })
   }

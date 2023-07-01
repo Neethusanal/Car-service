@@ -52,7 +52,7 @@ const deleteCartData= (id)=>{
  
 }
 const handleContinue=()=>{
-  navigate('/bookslot')
+  navigate('/staff')
 }
 
   return (
