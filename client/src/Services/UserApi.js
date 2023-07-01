@@ -52,9 +52,9 @@ const updateUser = (data) => {
 const getLocations = () => {
   return userAxiosInstance.get("/getlocations");
 };
-const availableSlots=()=>{
-  return userAxiosInstance.get('/availableslots')
-}
+// const availableSlots=()=>{
+//   return userAxiosInstance.get('/availableslots')
+// }
 const getExpertMechanic=()=>{
   return userAxiosInstance.get('/getexpertmechanic')
 }
@@ -76,5 +76,5 @@ export {
  updateUser,
  getLocations,
  getExpertMechanic,
- availableSlots
+//  availableSlots
 };

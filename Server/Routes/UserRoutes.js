@@ -21,7 +21,7 @@ router.post('/addtocart/:serviceId/:planId', VerifyUser, usercontroller.addToCar
  router.put('/updateuserloc',VerifyUser,usercontroller.updateLocation)
  router.get('/getlocations',VerifyUser,usercontroller.allLocations)
  router.get('/getexpertmechanic',VerifyUser,usercontroller.getBrandMechanic)
- router.get('/availableslots',VerifyUser,usercontroller.slotsAvailable)
+//  router.get('/availableslots',VerifyUser,usercontroller.slotsAvailable)
 
 
 

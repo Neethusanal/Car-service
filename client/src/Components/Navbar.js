@@ -14,10 +14,10 @@ const Navbar = () => {
 
  
   
-  console.log(user,"navbarpage")
+  // console.log(user,"navbarpage")
   const navigate = useNavigate();
   const dispatch=useDispatch()
-  console.log(user);
+  // console.log(user);
 
   const handleLogout = () => {
     localStorage.removeItem("usertoken");

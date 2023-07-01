@@ -390,7 +390,7 @@ module.exports.getBrandMechanic = async (req, res) => {
         },
       },
     ]);
-
+   
     console.log(mechanics);
     res.json({ success: true, result: mechanics });
   } catch (error) {
@@ -400,14 +400,14 @@ module.exports.getBrandMechanic = async (req, res) => {
 };
 
 
-module.exports.slotsAvailable = async (req, res) => {
-  try {
-    console.log("nnn")
-    const slots= await MechanicModel.findOne(
-    )
-    console.log(slots)
-    res.json({ success: true, result:slots });
-  } catch (error) {
-    res.status(400).json({ success: false, message: error.message });
-  }
-};
+// module.exports.slotsAvailable = async (req, res) => {
+//   try {
+//     console.log("nnn")
+//     const slots= await MechanicModel.findOne(
+//     )
+//     console.log(slots)
+//     res.json({ success: true, result:slots });
+//   } catch (error) {
+//     res.status(400).json({ success: false, message: error.message });
+//   }
+// };
