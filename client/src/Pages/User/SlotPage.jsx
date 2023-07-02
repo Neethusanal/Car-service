@@ -1,22 +1,29 @@
 import React, { useEffect, useState } from 'react';
 import { Card, CardHeader, CardBody, Typography, Button } from "@material-tailwind/react";
 import Navbar from '../../Components/Navbar';
-//import { availableSlots } from '../../Services/UserApi';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { FaPlus } from 'react-icons/fa';
+import { handleBookingData } from '../../Services/UserApi';
+
+
 
 export const SlotPage = () => {
   const user= useSelector((state) => state.user)
   const [selectedSlot, setSelectedSlot] = useState(null);
   const[availableslots,setAvailableSlots]=useState([])
-  const [selectaddress,setAddress]=useState()
+  const [address,setAddress]=useState([])
+  const [selectedAddress, setSelectedAddress] = useState(null);
+
+  const navigate=useNavigate()
   const location = useLocation();
   const expertmechanic = location.state?.mechanic;
   useEffect(()=>{
     setAddress(user.address)
+    
   },[])
 
-  console.log(selectaddress,"address")
+  console.log(address,"address")
   
   useEffect(()=>{
 
@@ -48,21 +55,29 @@ console.log(filteredSlots)
     return months.indexOf(month);
   }
   console.log(availableslots,"dataaaaaaaaaaaa")
-  // const getAvailableSlots=async()=>{
-  //     await availableSlots().then((res)=>{
-  //       console.log(res.data)
-  //     })
-  // }
-
+ 
   const handleSlotSelection = (slot) => {
     setSelectedSlot(slot);
   };
+  const handleAddressSelection = (item) => {
+    setSelectedAddress(item);
+  };
 
+  const handleNewAddress=()=>{
+    navigate('/profile')
+  }
   const handleBooking = () => {
     // Handle the booking logic here
-    if (selectedSlot) {
-      // Perform booking action
-      console.log(`Booking slot: ${selectedSlot}`);
+    if (selectedSlot && selectedAddress) {
+     
+      console.log(selectedSlot,selectedAddress);
+      handleBookingData({selectedSlot,selectedAddress}).then((res)=>{
+        console.log(res.data)
+        if(res.data.success)
+        {
+          navigate('/payment')
+        }
+      })
     }
   };
 
@@ -98,17 +113,41 @@ console.log(filteredSlots)
 
       </Card>
       <Card>
-  
-      <CardHeader color="gray" className="text-white">
-      <Typography className="text-center font-bold text-lg">Address</Typography>
-        </CardHeader>
-        <CardBody>
-         
-            
-        
+  <CardHeader color="gray" className="text-white">
+    <Typography className="text-center font-bold text-lg">Address</Typography>
+  </CardHeader>
+ <CardBody>
+ {address.map((item, index) => (
+  <div key={index} className="mt-4">
+    <input
+      type="radio"
+      id={`address-${index}`}
+      name="address"
+      value={item}
+      checked={selectedAddress === item}
+      onChange={() =>handleAddressSelection(item)}
+    />
+    <label htmlFor={`address-${index}`} className="ml-2">
+      {item}
+    </label>
+  </div>
+))}
 
-      </CardBody>
-      </Card>
+    <div className="mt-4">
+      <button
+        id="new-address"
+        onClick={() =>handleNewAddress()}
+        className="icon-button"
+      >
+        <FaPlus />
+      </button>
+      <label htmlFor="new-address" className="ml-2">
+        Add New Address
+      </label>
+    </div>
+  </CardBody>
+</Card>
+
       <Button
               color="indigo"
               buttonType="filled"
@@ -117,7 +156,7 @@ console.log(filteredSlots)
               onClick={handleBooking}
               disabled={!selectedSlot}
             >
-              Book Slot
+              continue to Payment
             </Button>
       </form>
       </>

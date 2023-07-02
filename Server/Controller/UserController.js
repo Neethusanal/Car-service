@@ -269,9 +269,10 @@ if (!service) {
       if (!plan) {
         return res.status(400).json({ message: "Plan does not exist" });
       } else {
-        const cart = await UserModel.findOneAndUpdate(
+        const cart = await UserModel.findByIdAndUpdate(
           { _id: userId },
           { $set: { cart: planId,serviceId}},
+          {$push: {bookedservices: planId, serviceId }},
           { new: true }
         );
     
@@ -401,16 +402,26 @@ module.exports.getBrandMechanic = async (req, res) => {
     res.status(400).json({ success: false, message: error.message });
   }
 };
+module.exports.bookingDataUpdate= async (req, res) => {
+  try {
+    console.log(req.body)
+    const {selectedSlot,selectedAddress} = req.body;
+    console.log(req.userId)
+    const user = await UserModel.findByIdAndUpdate(
+      { _id: req.userId},
+      {
+        $set: {
+          bookedSlots: selectedSlot,
+          bookedAddress:selectedAddress
+         
+        },
+      }
+    );
+    res.status(200).json({ message: "successfully updated ", success: true });
+  } catch (err) {
+    const errors = handleErrorManagent(err);
+    res.json({ message: "something went wrong", status: false, errors });
+  }
+};
 
 
-// module.exports.slotsAvailable = async (req, res) => {
-//   try {
-//     console.log("nnn")
-//     const slots= await MechanicModel.findOne(
-//     )
-//     console.log(slots)
-//     res.json({ success: true, result:slots });
-//   } catch (error) {
-//     res.status(400).json({ success: false, message: error.message });
-//   }
-// };

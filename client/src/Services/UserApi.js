@@ -49,12 +49,15 @@ const updateUser = (data) => {
   return userAxiosInstance.put("/updateuserloc", data);
  
 };
+const handleBookingData = (data) => {
+  console.log(data)
+  return userAxiosInstance.put("/handlebookingdata", data);
+ 
+};
 const getLocations = () => {
   return userAxiosInstance.get("/getlocations");
 };
-// const availableSlots=()=>{
-//   return userAxiosInstance.get('/availableslots')
-// }
+
 const getExpertMechanic=()=>{
   return userAxiosInstance.get('/getexpertmechanic')
 }
@@ -76,6 +79,6 @@ export {
  updateUser,
  getLocations,
  getExpertMechanic,
-//  availableSlots
+ handleBookingData
 
 };

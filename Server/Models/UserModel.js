@@ -40,12 +40,15 @@ const userSchema=  new mongoose.Schema({
     brand:{
         type:String,
     },
-    slots:{
+    bookedSlots:{
         type:Array
     },
-    vehicleNumber:{
-        type:String,
-    },
+    bookedAddress:[{
+        type:String
+    }],
+    bookedservices:[{
+        type:String
+    }],
     isVerified:
     {
         type:Boolean,
@@ -55,16 +58,8 @@ const userSchema=  new mongoose.Schema({
     isBanned:{
         type:Boolean,
         default:false
-    },services:{
-        type:Array
     },
-    packages:{
-        type:Array
-    },created:{
-        type:Date,
-        required:true,
-        default:Date.now
-      },
+
       servicelocation:{
         type:String
       }
