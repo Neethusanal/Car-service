@@ -3,16 +3,20 @@ import { Card, CardHeader, CardBody, Typography, Button } from "@material-tailwi
 import Navbar from '../../Components/Navbar';
 //import { availableSlots } from '../../Services/UserApi';
 import { useLocation } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 export const SlotPage = () => {
-
+  const user= useSelector((state) => state.user)
   const [selectedSlot, setSelectedSlot] = useState(null);
   const[availableslots,setAvailableSlots]=useState([])
+  const [selectaddress,setAddress]=useState()
   const location = useLocation();
   const expertmechanic = location.state?.mechanic;
-  
+  useEffect(()=>{
+    setAddress(user.address)
+  },[])
 
-
+  console.log(selectaddress,"address")
   
   useEffect(()=>{
 
@@ -66,8 +70,9 @@ console.log(filteredSlots)
  
     <>
          <Navbar/>
+         <form>
          <Card className="mt-20 w-auto">
-        <CardHeader color="indigo" className="text-white">
+        <CardHeader color="gray" className="text-white">
           <Typography className="text-center font-bold text-lg">Select your slot</Typography>
         </CardHeader>
         <CardBody>
@@ -87,7 +92,24 @@ console.log(filteredSlots)
                 </label>
               </div>
             ))}
-            <Button
+            
+          </div>
+        </CardBody>
+
+      </Card>
+      <Card>
+  
+      <CardHeader color="gray" className="text-white">
+      <Typography className="text-center font-bold text-lg">Address</Typography>
+        </CardHeader>
+        <CardBody>
+         
+            
+        
+
+      </CardBody>
+      </Card>
+      <Button
               color="indigo"
               buttonType="filled"
               size="regular"
@@ -97,9 +119,7 @@ console.log(filteredSlots)
             >
               Book Slot
             </Button>
-          </div>
-        </CardBody>
-      </Card>
+      </form>
       </>
 
   );

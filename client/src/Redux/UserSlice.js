@@ -5,7 +5,9 @@ const initialState = {
   email: "",
   mobile: "",
   cart: [],
-  servicelocation: ""
+  servicelocation: "",
+  brand:"",
+  model:""
 };
 
 const userSlice = createSlice({
@@ -20,6 +22,10 @@ const userSlice = createSlice({
       state.services = action.payload.services;
       state.packages = action.payload.packages;
       state.servicelocation = action.payload.servicelocation;
+      state.brand=action.payload.brand;
+      state.model=action.payload.model
+      state.address=action.payload.address
+
     },
     updateUserLocation: (state, action) => {
       state.servicelocation = action.payload;

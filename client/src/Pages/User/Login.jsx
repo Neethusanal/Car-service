@@ -51,7 +51,12 @@ const Login = () => {
                 email: res.data.email,
                 mobile: res.data.mobile,
                 cart: res.data.cart,
-                servicelocation:res.data?.servicelocation || null
+                servicelocation:res.data?.servicelocation || null,
+                brand:res.data.brand,
+                model:res.data.model,
+                address:res.data.address,
+                
+
 
               }))
             navigate("/home");

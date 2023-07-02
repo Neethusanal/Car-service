@@ -4,14 +4,15 @@ import {Card,CardHeader,CardBody,CardFooter,Typography,Button,} from "@material-
 import { useNavigate } from "react-router-dom";
 
 import Swal from "sweetalert2"
+import { useSelector } from "react-redux";
 
 export const UserServices = () => {
-  
+  const user= useSelector((state) => state.user)
   const [services, setService] = useState([]);
   const [brand ,setBrand]=useState([])
   const [model,setModel]=useState([])
-  const [brandName,setBrandName]=useState()
-  const [modelName,setModelName]=useState()
+  const [brandName,setBrandName]=useState(user?.brand)
+  const [modelName,setModelName]=useState(user?.model)
   const navigate=useNavigate()
   useEffect(() => {
     getServiceData();

@@ -34,9 +34,9 @@ const userSchema=  new mongoose.Schema({
         type:String,
       
     },
-    address:{
+    address:[{
         type:String
-    },
+    }],
     brand:{
         type:String,
     },

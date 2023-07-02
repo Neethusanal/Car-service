@@ -161,7 +161,10 @@ module.exports.isUserAuth = async (req, res) => {
       email: userDetails.email,
       address:userDetails.address,
       cart: userDetails.cart,
-      servicelocation:userDetails?.servicelocation ||null
+      servicelocation:userDetails?.servicelocation ||null,
+      brand:userDetails?.brand,
+      model:userDetails?.model
+
     });
   } catch (error) {
     res.json({ auth: false, status: "error", message: error.message });
