@@ -11,62 +11,54 @@ import {
 
 
 
-export const ServicePlans = () => {
-  const [services, setServices] = useState([]);
-const [servicelist, setServiceList] = useState([]);
-const [selectedServiceId, setSelectedServiceId] = useState(null);
-const [selectedPlans, setSelectedPlans] = useState({});
-const [selectedPlanId, setSelectedPlanId] = useState();
-useEffect(() => {
-  getAllServices();
-}, []);
 
-const getAllServices = () => {
-  getUserServices().then((res) => {
-    if (res.data.success) {
-      setServices(res.data.result);
-      if (res.data.result.length > 0) {
-        setSelectedServiceId(res.data.result[0]._id); // Set the first service ID as default
-        getServicePlans(res.data.result[0]._id).then((plansRes) => {
-          if (plansRes.data.success) {
-            setServiceList(plansRes.data.result);
+  export const ServicePlans = () => {
+    const [services, setServices] = useState([]);
+    const [servicelist, setServiceList] = useState([]);
+    const [selectedServiceId, setSelectedServiceId] = useState(null);
+    const [selectedPlans, setSelectedPlans] = useState({});
+  
+    useEffect(() => {
+      getAllServices();
+    }, []);
+  
+    const getAllServices = () => {
+      getUserServices().then((res) => {
+        if (res.data.success) {
+          setServices(res.data.result);
+          if (res.data.result.length > 0) {
+            setSelectedServiceId(res.data.result[0]._id); // Set the first service ID as default
+            getServicePlans(res.data.result[0]._id).then((plansRes) => {
+              if (plansRes.data.success) {
+                setServiceList(plansRes.data.result);
+              }
+            });
           }
-        });
-      }
-    }
-  });
-};
-
-const handleServicePlans = (id) => {
-  setSelectedServiceId(id);
-  setSelectedPlanId(null);
-
-  getServicePlans(id).then((res) => {
-    if (res.data.success) {
-      const plans = res.data.result;
-      setServiceList(plans);
-
-      if (plans.length > 0) {
-        const selectedPlanId = plans[0]._id; // Select the first plan from the new service
-        setSelectedPlanId(selectedPlanId);
-        addPlansToCart(id, selectedPlanId).then((res) => {
-          console.log(res.data.result);
-        });
-      }
-    }
-  });
-};
-
-const handleAddtoCart = (planId) => {
-  setSelectedPlans((prevSelectedPlans) => ({
-    ...prevSelectedPlans,
-    [selectedServiceId]: planId,
-  }));
-
-  addPlansToCart(selectedServiceId, planId).then((res) => {
-    console.log(res.data.result);
-  });
-};
+        }
+      });
+    };
+  
+    const handleServicePlans = (id) => {
+      setSelectedServiceId(id);
+  
+      getServicePlans(id).then((res) => {
+        if (res.data.success) {
+          const plans = res.data.result;
+          setServiceList(plans);
+        }
+      });
+    };
+  
+    const handleAddtoCart = (planId) => {
+      setSelectedPlans((prevSelectedPlans) => ({
+        ...prevSelectedPlans,
+        [selectedServiceId]: planId,
+      }));
+  
+      addPlansToCart(selectedServiceId, planId).then((res) => {
+        console.log(res.data.result);
+      });
+    };
   return (
     <>
     <nav className="bg-white border-gray-200 dark:bg-gray-900 dark:border-gray-700">
@@ -113,17 +105,16 @@ const handleAddtoCart = (planId) => {
   </nav>
 
   {selectedServiceId && (
-      <div className="flex sticky top-0 flex-wrap md:flex-nowrap">
-        {servicelist.map((plans, index) => {
-          const isSelectedPlan = selectedPlans[selectedServiceId] === plans._id;
-          return (
-            <div className="w-full md:w-1/3 px-5 py-20" key={index}>
-              <Card
-                className={`w-auto  bg-gray-500 white ${isSelectedPlan ? "bg-blue-200" : ""}`}
-                key={index}
-                onClick={() => setSelectedPlanId(plans._id)}
-              >
-       
+        <div className="flex sticky top-0 flex-wrap md:flex-nowrap">
+          {servicelist.map((plans, index) => {
+            const isSelectedPlan = selectedPlans[selectedServiceId] === plans._id;
+            return (
+              <div className="w-full md:w-1/3 px-5 py-20" key={index}>
+                <Card
+                  className={`w-auto  bg-gray-500 white ${isSelectedPlan ? "bg-blue-200" : ""}`}
+                  key={index}
+                  onClick={() => setSelectedPlans(plans._id)}
+                >
                 <CardHeader
                   shadow={false}
                   floated={false}

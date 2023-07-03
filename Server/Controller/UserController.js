@@ -164,7 +164,9 @@ module.exports.isUserAuth = async (req, res) => {
       servicelocation:userDetails?.servicelocation ||null,
       brand:userDetails?.brand,
       model:userDetails?.model,
-      cartTotal:userDetails?.cartTotal
+      cartTotal:userDetails?.cartTotal,
+      bookedSlots:userDetails?.bookedSlots,
+      bookedservices:userDetails?.bookedservices
 
     });
   } catch (error) {
@@ -257,7 +259,7 @@ module.exports.addToCart = async (req, res) => {
           { _id: userId },
           {
             $set: { cart: planId, serviceId},
-            $push: { bookedservices: planId, serviceId },
+            $addToSet: { bookedservices: plan.servicelistName },
             cartTotal:cartTotal
           },
           { new: true }
@@ -269,6 +271,7 @@ module.exports.addToCart = async (req, res) => {
           message: "Service has been added to the cart successfully",
           success: true,
           totalSum:  cartTotal,
+          basicPay:basicPay
         });
       }
     }
@@ -448,6 +451,35 @@ module.exports.bookingDataUpdate= async (req, res) => {
   } catch (err) {
     const errors = handleErrorManagent(err);
     res.json({ message: "something went wrong", status: false, errors });
+  }
+};
+module.exports.payment = async (req, res) => {
+  try {
+    const {cartTotal,token}=req.body
+    console.log(cartTotal,token)
+    const idempontencyKey=uuid()
+    return Stripe.customers.create({
+      email:token.email,
+      source:token.id,
+
+    }).then((customer)=>{
+      stripe.charges.create({
+        amount:cartTotal*100,
+        curreny:INR,
+        customer:userId,
+        reciept_email:token.email
+      },{idempontencyKey})
+    }).then((result)=>{
+      res.status(200).json((result))
+    }).catch(err=>
+    {
+      console.log(err)
+    })
+      
+   
+    
+  } catch (err) {
+   
   }
 };
 

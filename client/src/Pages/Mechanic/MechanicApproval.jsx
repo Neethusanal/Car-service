@@ -48,8 +48,6 @@ export const MechanicApproval = () => {
             if (data.success) {
                 Swal.fire(data.message)
                 navigate('mechanic/login')
-
-
                 setQualification(data.result.qualification)
                 setExperience(data.result.experience)
                 setBrand(data.result.brandserved)

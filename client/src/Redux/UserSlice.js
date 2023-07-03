@@ -19,13 +19,13 @@ const userSlice = createSlice({
       state.email = action.payload.email;
       state.mobile = action.payload.mobile;
       state.cart = action.payload.cart;
-      state.services = action.payload.services;
-      state.packages = action.payload.packages;
       state.servicelocation = action.payload.servicelocation;
       state.brand=action.payload.brand;
       state.model=action.payload.model
       state.address=action.payload.address
       state.cartTotal=action.payload.cartTotal
+      state.bookedSlots=action.payload.bookedSlots
+      state.bookedservices=action.payload.bookedservices
 
     },
     updateUserLocation: (state, action) => {

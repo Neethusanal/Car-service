@@ -20,10 +20,10 @@ export const SlotMechanic = () => {
   const [selectedAfternoonSlot, setSelectedAfternoonSlot] = useState(null);
   const [slots, setSlots] = useState([]);
   const [selectedTime, setSelectedTime] = useState([]);
-  const navigate=useNavigate()
+  const navigate = useNavigate()
   const slotsdata = useSelector((state) => state.mechanic.slots)
   console.log(slotsdata)
-  
+
   const generateDateArray = () => {
     const dates = [];
     const today = moment().startOf("day");
@@ -78,22 +78,21 @@ export const SlotMechanic = () => {
       setSelectedTime([...selectedTime, startTime]);
     }
   }
-  
+
 
   const handleSubmit = (slotsselected) => {
     console.log(slotsselected, "timesslots")
-    mechanicSelectedSlots({slotsselected}).then((res)=>{
-      if(res.data.success)
-      {
+    mechanicSelectedSlots({ slotsselected }).then((res) => {
+      if (res.data.success) {
         Swal.fire(res.data.message)
       }
-      
+
     })
   }
-  
+
   return (
     <>
-   
+
       <Card className="w-full mt-28 bg-blue-gray-50">
         <CardHeader color="blue-gray" className="relative h-10">
           <h1 className='text-center'>SLOTS</h1>
@@ -112,19 +111,19 @@ export const SlotMechanic = () => {
                 <>
                   <Button
                     onClick={() => handleSlotClick(date.morningSlot)}
-                    className={`mt-2 bg-${slotsdata.includes(date.morningSlot) ? 'red' : 'green'}-300`}
-                    
+                    className={`mt-2 ${slotsdata.includes(date.morningSlot) ? 'bg-red-300' : 'bg-green-300'}`}
                     disabled={slotsdata.includes(date.morningSlot)}
                   >
                     8am - 1pm
                   </Button>
                   <Button
                     onClick={() => handleSlotClick(date.afternoonSlot)}
-                    className={`mt-2 bg-${slotsdata.includes(date.afternoonSlot) ? 'red' : 'green'}-300`}
+                    className={`mt-2 ${slotsdata.includes(date.afternoonSlot) ? 'bg-red-300' : 'bg-green-300'}`}
                     disabled={slotsdata.includes(date.afternoonSlot)}
                   >
                     2pm - 6pm
                   </Button>
+
                 </>
               )}
             </div>
@@ -133,11 +132,11 @@ export const SlotMechanic = () => {
         </CardBody>
 
         <CardFooter className="pt-0">
-          <Button  type="submit" className='flex flex-items-center' onClick={()=>handleSubmit(selectedTime)}>submit</Button>
+          <Button type="submit" className='flex flex-items-center' onClick={() => handleSubmit(selectedTime)}>submit</Button>
         </CardFooter>
       </Card>
-    
-     
+
+
 
     </>
   );

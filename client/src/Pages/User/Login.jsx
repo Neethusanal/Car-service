@@ -56,6 +56,8 @@ const Login = () => {
                 model:res.data.model,
                 address:res.data.address,
                 cartTotal:res.data.cartTotal,
+                bookedSlots:res.data.bookedSlots,
+                bookedservices:res.data.bookedservices
                 
 
 

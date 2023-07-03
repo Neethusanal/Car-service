@@ -114,7 +114,7 @@ console.log(filteredSlots)
       </Card>
       <Card>
   <CardHeader color="gray" className="text-white">
-    <Typography className="text-center font-bold text-lg">Address</Typography>
+    <Typography className="text-center font-bold text-lg"> Pickup Address</Typography>
   </CardHeader>
  <CardBody>
  {address.map((item, index) => (
@@ -156,7 +156,7 @@ console.log(filteredSlots)
               onClick={handleBooking}
               disabled={!selectedSlot}
             >
-              continue to Payment
+            Continue to checkout
             </Button>
       </form>
       </>

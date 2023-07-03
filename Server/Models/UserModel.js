@@ -41,7 +41,7 @@ const userSchema=  new mongoose.Schema({
         type:String,
     },
     bookedSlots:{
-        type:Array
+        type:String
     },
     bookedAddress:[{
         type:String
