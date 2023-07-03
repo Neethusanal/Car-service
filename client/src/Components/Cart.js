@@ -23,9 +23,11 @@ export const Cart = () => {
   const user=useSelector((state)=>state.user)
   console.log(user)
   const [cartdata,setCartData]=useState([])
+  const [totalSum, setTotalSum] = useState(0);
   const navigate=useNavigate()
   useEffect(()=>{
    setCartData(user.cart)
+   setTotalSum(user.cartTotal)
 
   },[cartdata])
   //Delete the items in cart
@@ -113,15 +115,13 @@ const handleContinue=()=>{
       </tbody>
     </table>
       </CardBody>
-      <CardFooter className="mt-12 p-0">
-        <Button
-         
-         onClick={()=>handleContinue()}
-        >
-         
-          continue  
-        </Button>
-      </CardFooter>
+      <CardFooter className="mt-12 ">
+  <Typography variant="small" color="Black" className="font-extrabold flex justify-end">
+    Total: {totalSum}
+  </Typography>
+  <Button onClick={handleContinue}>Continue</Button>
+</CardFooter>
+      
     </Card>
     </div>
     </>

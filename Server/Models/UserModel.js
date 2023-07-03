@@ -62,6 +62,9 @@ const userSchema=  new mongoose.Schema({
 
       servicelocation:{
         type:String
+      },
+      cartTotal:{
+        type:Number
       }
 
 

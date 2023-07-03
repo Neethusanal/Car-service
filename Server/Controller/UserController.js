@@ -163,7 +163,8 @@ module.exports.isUserAuth = async (req, res) => {
       cart: userDetails.cart,
       servicelocation:userDetails?.servicelocation ||null,
       brand:userDetails?.brand,
-      model:userDetails?.model
+      model:userDetails?.model,
+      cartTotal:userDetails?.cartTotal
 
     });
   } catch (error) {
@@ -217,40 +218,6 @@ module.exports.getAllServicesList = async (req, res) => {
     res.status(400).json({ success: false, message: error.message });
   }
 };
-// module.exports.addToCart = async (req, res) => {
-//   const serviceId = req.params.serviceId;
-//   const planId = req.params.planId;
-//   console.log(serviceId,"sss")
-//   console.log(planId,"yyy")
-//   const userId = req.userId;
-
-//   try {
-//     const user = await UserModel.find({ _id: userId });
-//     if (!user) {
-//       return res.status(404).json({ error: "User not found" });
-//     } else {
-//       const IsExist = await ServicelistModel.findOne({ _id: planId });
-//       if (!IsExist) {
-//         res.status(400).json({ message: "serviceplan doesnt exist" });
-//       } else {
-//         let cart = await UserModel.findOneAndUpdate(
-//           { _id: userId },
-//           { $addToSet: { cart: planId } }
-//         );
-//         console.log(cart);
-//         return res
-//           .status(200)
-//           .json({
-//             message: "Service has added to the cart successfully",
-//             success: true,
-//           });
-//       }
-//     }
-//   } catch (error) {
-//     console.error(error);
-//     return res.status(500).json({ error: "Internal server error" });
-//   }
-// }
 module.exports.addToCart = async (req, res) => {
   const serviceId = req.params.serviceId;
   const planId = req.params.planId;
@@ -261,26 +228,47 @@ module.exports.addToCart = async (req, res) => {
     if (!user) {
       return res.status(404).json({ error: "User not found" });
     } else {
+     
       const service = await ServicesModel.findById(serviceId);
-if (!service) {
-  return res.status(400).json({ message: "Service does not exist" });
-}
+      if (!service) {
+        return res.status(400).json({ message: "Service does not exist" });
+      }
       const plan = await ServicelistModel.findById(planId);
       if (!plan) {
         return res.status(400).json({ message: "Plan does not exist" });
       } else {
+        console.log(plan)
+        const brandserved= user.brand
+        console.log(brandserved,"brand")
+        // Calculate the basic pay based on the brand
+        const brandData = await BrandModel.findOne({brandName:brandserved});
+        if (!brandData) {
+          return res.status(400).json({ message: "Brand does not exist" });
+        }
+        const basicPay = brandData.basicPay;
+        console.log(basicPay)
+        let cartTotal = 0;
+        // Calculate the total sum
+        const totalSum = basicPay + plan.price;
+        cartTotal+=totalSum
+        console.log(cartTotal)
+
         const cart = await UserModel.findByIdAndUpdate(
           { _id: userId },
-          { $set: { cart: planId,serviceId}},
-          {$push: {bookedservices: planId, serviceId }},
+          {
+            $set: { cart: planId, serviceId},
+            $push: { bookedservices: planId, serviceId },
+            cartTotal:cartTotal
+          },
           { new: true }
         );
-    
+
         console.log(cart);
 
         return res.status(200).json({
           message: "Service has been added to the cart successfully",
           success: true,
+          totalSum:  cartTotal,
         });
       }
     }
@@ -289,6 +277,45 @@ if (!service) {
     return res.status(500).json({ error: "Internal server error" });
   }
 };
+
+// module.exports.addToCart = async (req, res) => {
+//   const serviceId = req.params.serviceId;
+//   const planId = req.params.planId;
+//   const userId = req.userId;
+
+//   try {
+//     const user = await UserModel.findById(userId);
+//     if (!user) {
+//       return res.status(404).json({ error: "User not found" });
+//     } else {
+//       const service = await ServicesModel.findById(serviceId);
+// if (!service) {
+//   return res.status(400).json({ message: "Service does not exist" });
+// }
+//       const plan = await ServicelistModel.findById(planId);
+//       if (!plan) {
+//         return res.status(400).json({ message: "Plan does not exist" });
+//       } else {
+//         const cart = await UserModel.findByIdAndUpdate(
+//           { _id: userId },
+//           { $set: { cart: planId,serviceId}},
+//           {$push: {bookedservices: planId, serviceId }},
+//           { new: true }
+//         );
+    
+//         console.log(cart);
+
+//         return res.status(200).json({
+//           message: "Service has been added to the cart successfully",
+//           success: true,
+//         });
+//       }
+//     }
+//   } catch (error) {
+//     console.error(error);
+//     return res.status(500).json({ error: "Internal server error" });
+//   }
+// };
 
 
 module.exports.deleteCartItem = async (req, res) => {

@@ -25,6 +25,7 @@ const userSlice = createSlice({
       state.brand=action.payload.brand;
       state.model=action.payload.model
       state.address=action.payload.address
+      state.cartTotal=action.payload.cartTotal
 
     },
     updateUserLocation: (state, action) => {

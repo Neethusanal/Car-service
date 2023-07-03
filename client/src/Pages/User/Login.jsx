@@ -55,6 +55,7 @@ const Login = () => {
                 brand:res.data.brand,
                 model:res.data.model,
                 address:res.data.address,
+                cartTotal:res.data.cartTotal,
                 
 
 
