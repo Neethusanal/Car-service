@@ -455,32 +455,35 @@ module.exports.bookingDataUpdate= async (req, res) => {
 };
 module.exports.payment = async (req, res) => {
   try {
-    const {cartTotal,token}=req.body
-    console.log(cartTotal,token)
-    const idempontencyKey=uuid()
-    return Stripe.customers.create({
-      email:token.email,
-      source:token.id,
-
-    }).then((customer)=>{
-      stripe.charges.create({
-        amount:cartTotal*100,
-        curreny:INR,
-        customer:userId,
-        reciept_email:token.email
-      },{idempontencyKey})
-    }).then((result)=>{
-      res.status(200).json((result))
-    }).catch(err=>
-    {
-      console.log(err)
-    })
-      
-   
-    
+    console.log("kkkkaaa")
+    console.log(req.body)
+    const { cartTotal, token } = req.body;
+    console.log(cartTotal, token);
+    const idempontencyKey = uuid();
+    return Stripe.customers
+      .create({
+        email: token.email,
+        source: token.id,
+      })
+      .then((customer) => {
+        stripe.charges.create(
+          {
+            amount: cartTotal * 100,
+            currency: 'INR',
+            customer: customer.id,
+            receipt_email: token.email,
+          },
+          { idempontencyKey }
+        );
+      })
+      .then((result) => {
+        res.status(200).json(result);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   } catch (err) {
-   
+    // Handle error
   }
 };
-
 

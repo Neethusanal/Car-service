@@ -9,6 +9,9 @@ import {
   CardFooter,
 } from "@material-tailwind/react";
 import { useSelector } from 'react-redux';
+import StripeCheckout from "react-stripe-checkout"
+import { completePayment } from '../../Services/UserApi';
+const secretkey = process.env.REACT_APP_STRIPE_KEY
 
 export const Payment = () => {
   const user = useSelector((state) => state.user)
@@ -16,7 +19,18 @@ export const Payment = () => {
   const [vehicleModel, setVehicleModel] = useState(user?.model);
   const [serviceType, setServiceType] = useState(user?.bookedservices);
   const [selectedslot,setSelectedSlot]=useState(user?.bookedSlots)
-
+  const [amount,setAmount]=useState(user?.cartTotal)
+const makePayment=(token)=>{
+  const body={token,
+  amount,
+  }
+  const headers={
+    "Content-Type":"application/json"
+  }
+  completePayment(headers,body).then((res)=>{
+    console.log(res)
+  })
+}
   
   return (
     <>
@@ -66,6 +80,10 @@ export const Payment = () => {
         <td className="px-6 py-4 text-black whitespace-nowrap">Booked slot </td>
           <td className="px-6 py-4  text-black whitespace-nowrap">{selectedslot}</td>
         </tr>
+        <tr>
+        <td className="px-6 py-4 text-black whitespace-nowrap">Service Charge </td>
+          <td className="px-6 py-4  text-black whitespace-nowrap">Rs:{amount}</td>
+        </tr>
         
            
            
@@ -78,7 +96,16 @@ export const Payment = () => {
         </CardBody>
         <CardFooter className="mt-12">
           <Typography variant="small" color="black" className="font-extrabold flex justify-end">
-          <Button>Pay Now</Button>
+            <StripeCheckout
+            stripeKey= {secretkey}
+            token={makePayment}
+            currency='inr'
+            name="cardoc"
+            amount={amount*100}>
+              <Button className=''>Pay Now</Button>
+            </StripeCheckout>
+           
+          
           </Typography>
         </CardFooter>
       </Card>

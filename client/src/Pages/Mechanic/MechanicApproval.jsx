@@ -46,8 +46,9 @@ export const MechanicApproval = () => {
             let { data } = updateDetails(formData)
             console.log(data)
             if (data.success) {
-                Swal.fire(data.message)
                 navigate('mechanic/login')
+                Swal.fire(data.message)
+               
                 setQualification(data.result.qualification)
                 setExperience(data.result.experience)
                 setBrand(data.result.brandserved)

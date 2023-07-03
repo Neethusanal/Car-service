@@ -108,7 +108,7 @@ module.exports.updateDetails = async (req, res) => {
           brandserved: brand,
           certificate: doc.secure_url,
           qualification: qualification,
-          status: "pending",
+          status:"pending",
         },
       }
     );

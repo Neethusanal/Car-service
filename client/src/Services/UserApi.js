@@ -61,6 +61,10 @@ const getLocations = () => {
 const getExpertMechanic=()=>{
   return userAxiosInstance.get('/getexpertmechanic')
 }
+const completePayment=(data)=>{
+  console.log(data,"payment")
+  return userAxiosInstance.post('/payment'),data
+}
 
 export {
   userRegister,
@@ -79,6 +83,7 @@ export {
  updateUser,
  getLocations,
  getExpertMechanic,
- handleBookingData
+ handleBookingData,
+ completePayment
 
 };
