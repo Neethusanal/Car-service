@@ -457,8 +457,8 @@ module.exports.payment = async (req, res) => {
   try {
     console.log("kkkkaaa")
     console.log(req.body)
-    const { cartTotal, token } = req.body;
-    console.log(cartTotal, token);
+    const { amount, token } = req.body;
+    console.log(amount, token);
     const idempontencyKey = uuid();
     return Stripe.customers
       .create({
@@ -468,7 +468,7 @@ module.exports.payment = async (req, res) => {
       .then((customer) => {
         stripe.charges.create(
           {
-            amount: cartTotal * 100,
+            amount: amount * 100,
             currency: 'INR',
             customer: customer.id,
             receipt_email: token.email,

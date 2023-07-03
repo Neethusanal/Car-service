@@ -60,7 +60,7 @@ module.exports.verifyOtp = async (req, res, next) => {
     const { otp } = req.body;
     console.log(otp);
     let { name, email, phone, password } = mechanicData;
-    console.log(mechanicData, "wesrdtfyghjkm");
+   
     let mechDetails = await verifyOtp(otp, phone);
 
     if (mechDetails.status === "approved") {

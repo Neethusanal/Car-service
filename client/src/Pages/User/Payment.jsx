@@ -27,7 +27,7 @@ const makePayment=(token)=>{
   const headers={
     "Content-Type":"application/json"
   }
-  completePayment(headers,body).then((res)=>{
+  completePayment({headers,body}).then((res)=>{
     console.log(res)
   })
 }

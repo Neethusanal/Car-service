@@ -63,7 +63,7 @@ const getExpertMechanic=()=>{
 }
 const completePayment=(data)=>{
   console.log(data,"payment")
-  return userAxiosInstance.post('/payment'),data
+  return userAxiosInstance.post('/payment',data)
 }
 
 export {
