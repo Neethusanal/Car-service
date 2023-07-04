@@ -21,8 +21,8 @@ export const Payment = () => {
   const [selectedslot,setSelectedSlot]=useState(user?.bookedSlots)
   const [amount,setAmount]=useState(user?.cartTotal)
 const makePayment=(token)=>{
-  const body={token,
-  amount,
+  const body={amount,
+  token,
   }
   const headers={
     "Content-Type":"application/json"
@@ -68,10 +68,10 @@ const makePayment=(token)=>{
           <td className="px-6 py-4  text-black whitespace-nowrap">{vehicleModel}</td>
         </tr>
         <tr>
-        <td className="px-6 py-4 text-black whitespace-nowrap">Services </td>
+        <td className="px-6 py-4 text-black whitespace-nowrap">services </td>
         {serviceType.map((service,index)=>{
           return(
-            <td className="px-6 py-4  text-black whitespace-nowrap">{service}</td>
+            <td className="px-6 py-2 block text-black whitespace-nowrap "key={index}>{service}</td>
           )
         })}
          

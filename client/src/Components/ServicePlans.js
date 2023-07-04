@@ -12,53 +12,57 @@ import {
 
 
 
-  export const ServicePlans = () => {
-    const [services, setServices] = useState([]);
-    const [servicelist, setServiceList] = useState([]);
-    const [selectedServiceId, setSelectedServiceId] = useState(null);
-    const [selectedPlans, setSelectedPlans] = useState({});
-  
-    useEffect(() => {
-      getAllServices();
-    }, []);
-  
-    const getAllServices = () => {
-      getUserServices().then((res) => {
-        if (res.data.success) {
-          setServices(res.data.result);
-          if (res.data.result.length > 0) {
-            setSelectedServiceId(res.data.result[0]._id); // Set the first service ID as default
-            getServicePlans(res.data.result[0]._id).then((plansRes) => {
-              if (plansRes.data.success) {
-                setServiceList(plansRes.data.result);
-              }
-            });
-          }
+export const ServicePlans = () => {
+  const [services, setServices] = useState([]);
+  const [serviceList, setServiceList] = useState([]);
+  const [selectedServiceId, setSelectedServiceId] = useState(null);
+  const [selectedPlans, setSelectedPlans] = useState({});
+ 
+
+  useEffect(() => {
+    getAllServices();
+  }, []);
+
+  const getAllServices = () => {
+    getUserServices().then((res) => {
+      if (res.data.success) {
+        setServices(res.data.result);
+        if (res.data.result.length > 0) {
+          setSelectedServiceId(res.data.result[0]._id); // Set the first service ID as default
+          getServicePlans(res.data.result[0]._id).then((plansRes) => {
+            if (plansRes.data.success) {
+              setServiceList(plansRes.data.result);
+            }
+          });
         }
-      });
-    };
-  
-    const handleServicePlans = (id) => {
-      setSelectedServiceId(id);
-  
-      getServicePlans(id).then((res) => {
-        if (res.data.success) {
-          const plans = res.data.result;
-          setServiceList(plans);
-        }
-      });
-    };
-  
-    const handleAddtoCart = (planId) => {
-      setSelectedPlans((prevSelectedPlans) => ({
-        ...prevSelectedPlans,
-        [selectedServiceId]: planId,
-      }));
-  
-      addPlansToCart(selectedServiceId, planId).then((res) => {
-        console.log(res.data.result);
-      });
-    };
+      }
+    });
+  };
+
+  const handleServicePlans = (id) => {
+    setSelectedServiceId(id);
+
+    getServicePlans(id).then((res) => {
+      if (res.data.success) {
+        const plans = res.data.result;
+        setServiceList(plans);
+      }
+    });
+  };
+
+  const handleAddtoCart = (planId) => {
+    setSelectedPlans((prevSelectedPlans) => ({
+      ...prevSelectedPlans,
+      [selectedServiceId]: planId,
+    }));
+
+    addPlansToCart(selectedServiceId, planId).then((res) => {
+      if (res.data.success) {
+        
+      }
+    });
+  };
+
   return (
     <>
     <nav className="bg-white border-gray-200 dark:bg-gray-900 dark:border-gray-700">
@@ -106,14 +110,15 @@ import {
 
   {selectedServiceId && (
         <div className="flex sticky top-0 flex-wrap md:flex-nowrap">
-          {servicelist.map((plans, index) => {
-            const isSelectedPlan = selectedPlans[selectedServiceId] === plans._id;
+          {serviceList.map((plans) => {
+            const isSelectedPlan =
+              selectedPlans[selectedServiceId] === plans._id;
             return (
-              <div className="w-full md:w-1/3 px-5 py-20" key={index}>
+              <div className="w-full md:w-1/3 px-5 py-20" key={plans._id}>
                 <Card
-                  className={`w-auto  bg-gray-500 white ${isSelectedPlan ? "bg-blue-200" : ""}`}
-                  key={index}
-                  onClick={() => setSelectedPlans(plans._id)}
+                  className={`w-auto bg-gray-500 white ${
+                    isSelectedPlan ? "bg-blue-200" : ""
+                  }`}
                 >
                 <CardHeader
                   shadow={false}
@@ -146,22 +151,22 @@ import {
                     </Typography>
                   </div>
                 </CardBody>
-               <CardFooter className="pt-0">
-                  {isSelectedPlan ? (
-                    <Typography color="blue-gray" className="text-black">
-                      Plan selected
-                    </Typography>
-                  ) : (
-                    <Button
-                      ripple={false}
-                      fullWidth={true}
-                      className="bg-black text-white shadow-none hover:shadow-none hover:scale-105 focus:shadow-none focus:scale-105 active:scale-100"
-                      onClick={() => handleAddtoCart(plans._id,)}
-                    >
-                      Add to Cart
-                    </Button>
-                  )}
-                </CardFooter>
+                <CardFooter className="pt-0">
+                    {isSelectedPlan ? (
+                      <Typography color="blue-gray" className="text-black">
+                        Plan selected
+                      </Typography>
+                    ) : (
+                      <Button
+                        ripple={false}
+                        fullWidth={true}
+                        className="bg-black text-white shadow-none hover:shadow-none hover:scale-105 focus:shadow-none focus:scale-105 active:scale-100"
+                        onClick={() => handleAddtoCart(plans._id)}
+                      >
+                        Add to Cart
+                      </Button>
+                    )}
+                  </CardFooter>
               </Card>
               
             </div>

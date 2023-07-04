@@ -35,6 +35,7 @@ export const Staff = () => {
   return (
     <div>
       <Navbar/>
+      <div className="flex flex-wrap">
       {staff.map((mechanic,index)=>{
         return(
  <Card className="mt-20 ml-14 w-80 flex">
@@ -52,13 +53,14 @@ export const Staff = () => {
    Experience: {mechanic.experience}
    </Typography>
  </CardBody>
- <CardFooter className="pt-0">
+ <CardFooter className="pt-0 ">
    <Button onClick={()=>handleClick(mechanic)}>select</Button>
+   <Button className="ml-2" >chat</Button>
  </CardFooter>
 </Card>
         )
       })}
-     
+     </div>
     </div>
   )
 }

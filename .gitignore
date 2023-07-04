@@ -3,3 +3,5 @@
 ./server/.env
 ./client/.env
 ./server/public
+client/.env
+server/.env
