@@ -17,7 +17,7 @@ function PrivateRoutes({ role, route }) {
     if (role === "user") {
       authUser()
         .then((response) => {
-          if (!response.data.auth) {
+          if (!response.data.auth) { 
             localStorage.removeItem("usertoken");
             dispatch(userlogout());
           } else if (response.data.auth) {

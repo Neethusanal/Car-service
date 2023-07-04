@@ -23,7 +23,7 @@ const BookingSchema=  new mongoose.Schema({
         state:{type:Boolean, default:false},
         date:{type:Date},
     }, 
-    out_for_drop:{
+    servicecompleted:{
         state:{type:Boolean, default:false},
         date:{type:Date},
     },
@@ -43,10 +43,7 @@ const BookingSchema=  new mongoose.Schema({
         type:mongoose.Schema.Types.ObjectId,
             ref:Cars
     },
-    amount:{
-        type:Number,
-    },
-
+    
     
     
 

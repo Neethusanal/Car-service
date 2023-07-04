@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { authUser } from "../Services/UserApi";
+import { setUserDetails, userlogin, userlogout } from "../Redux/UserSlice";
 
 
 
@@ -11,11 +12,11 @@ function useAuthUser(){
       
       authUser().then((response) => {
             if (!response.data.auth) {
-              dispatch(logout())
-              // localStorage.clear("token")
+              dispatch(userlogout())
+              localStorage.clear("token")
              
             } else {
-              dispatch(login(response.data));
+              dispatch(setUserDetails(response.data));
              
 
             }

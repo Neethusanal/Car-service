@@ -307,17 +307,8 @@ module.exports.addToCart = async (req, res) => {
         const basicPay = brandData.basicPay;
         let cartTotal =  0; // Get the current cart total or set it to 0 if it doesn't exist
 
-        // Check if the plan already exists in the cart
-        const existingPlan = user.cart.find(
-          (cartItem) =>
-            cartItem.serviceId === serviceId && cartItem.planId === planId
-        );
-
-        if (existingPlan) {
-          return res.status(400).json({
-            message: "Plan already exists in the cart for the selected service",
-          });
-        }
+        // Remove previously selected plans for the same service from the cart
+        await UserModel.findByIdAndUpdate(userId, { $pull: { cart:  planId  } });
 
         // Calculate the total sum
         const totalSum = basicPay + plan.price;
@@ -326,7 +317,7 @@ module.exports.addToCart = async (req, res) => {
         const cart = await UserModel.findByIdAndUpdate(
           { _id: userId },
           {
-            $push: { cart:  planId  },
+            $push: { cart: planId  },
             $addToSet: { bookedservices: plan.servicelistName },
             cartTotal: cartTotal,
           },
@@ -336,7 +327,7 @@ module.exports.addToCart = async (req, res) => {
         return res.status(200).json({
           message: "Service has been added to the cart successfully",
           success: true,
-          result:cart
+          result: cart,
         });
       }
     }

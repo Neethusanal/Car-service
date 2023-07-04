@@ -9,7 +9,7 @@ import {
   CardFooter,
 } from "@material-tailwind/react";
 import { useSelector } from 'react-redux';
-import StripeCheckout from "react-stripe-checkout"
+
 import { completePayment } from '../../Services/UserApi';
 const secretkey = process.env.REACT_APP_STRIPE_KEY
 
@@ -96,15 +96,7 @@ const makePayment=(token)=>{
         </CardBody>
         <CardFooter className="mt-12">
           <Typography variant="small" color="black" className="font-extrabold flex justify-end">
-            <StripeCheckout
-            stripeKey= {secretkey}
-            token={makePayment}
-            currency='inr'
-            name="cardoc"
-            amount={amount*100}>
-              <Button className=''>Pay Now</Button>
-            </StripeCheckout>
-           
+            
           
           </Typography>
         </CardFooter>

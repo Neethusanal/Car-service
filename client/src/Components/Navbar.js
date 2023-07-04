@@ -1,69 +1,54 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { setUserDetails} from "../Redux/UserSlice";
+import { setUserDetails } from "../Redux/UserSlice";
 import { FaShoppingCart } from "react-icons/fa";
 import { ServingLocation } from "./ServingLocation";
 
-
-
-
 const Navbar = () => {
   const user = useSelector((state) => state.user);
-  const [showDropdown, setShowDropdown] = useState(false); 
+  const [showDropdown, setShowDropdown] = useState(false);
 
- 
-  
-  // console.log(user,"navbarpage")
   const navigate = useNavigate();
-  const dispatch=useDispatch()
-  // console.log(user);
+  const dispatch = useDispatch();
 
   const handleLogout = () => {
     localStorage.removeItem("usertoken");
-    dispatch(setUserDetails({})); 
+    dispatch(setUserDetails({}));
     navigate("/");
   };
 
-  useEffect(() => {
-   
-  }, []);
   const toggleDropdown = () => {
     setShowDropdown(!showDropdown);
   };
-const handleCart=()=>{
-  navigate('/cart')
-}
-const handleProfile=()=>{
-  navigate('/profile')
-}
+
+  const handleCart = () => {
+    navigate("/cart");
+  };
+
+  const handleProfile = () => {
+    navigate("/profile");
+  };
 
   return (
     <nav className="bg-black shadow-lg">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
-          {/* {logo} */}
           <div className="flex-shrink-0">
             <a href="/" className="text-white font-bold text-xl">
-           CAR⛨DOC
-          
-          
+              CAR⛨DOC
             </a>
-          
           </div>
-          
-          {/* Navigation links */}
+
           <div className="hidden md:block">
             <ul className="flex space-x-4 mt-5">
-            
-               
               <li>
                 <a href="/" className="text-white hover:text-gray-300">
                   Home
                 </a>
               </li>
               <li>
-              <a href="/staff" className="text-white hover:text-gray-300">
+                <a href="/staff" className="text-white hover:text-gray-300">
                   Staff
                 </a>
               </li>
@@ -82,34 +67,37 @@ const handleProfile=()=>{
                   Contact
                 </a>
               </li>
-              
-              {user.name && (
-                <li>
-                  <Link to="/cart" className="text-white hover:text-gray-300">
-                    Cart
-                  </Link>
-                </li>
-              )}
-              <li>
-                <ServingLocation/>
-              </li>
-               
+
+              {user.name ? (
+                <>
+                  <li>
+                    <Link
+                      to="/cart"
+                      className="text-white hover:text-gray-300"
+                    >
+                      Cart
+                    </Link>
+                  </li>
+                  <li>
+                    <ServingLocation />
+                  </li>
+                </>
+              ) : null}
             </ul>
           </div>
 
-          {/* Login button */}
           <div className="flex items-center">
             {user.name ? (
               <>
                 <span className="text-white">Hi {user.name}</span>
                 <button
-                 onClick={()=>handleCart()}
+                  onClick={handleCart}
                   className="text-white hover:text-gray-300 ml-4"
-                >   {user.cart && user.cart.length > 0 && ( // Add null check and length check
-                <span className="text-white ml-2">{user.cart.length}</span>
-               )}
-                  <FaShoppingCart size={20} /> 
-               
+                >
+                  {user.cart && user.cart.length > 0 && (
+                    <span className="text-white ml-2">{user.cart.length}</span>
+                  )}
+                  <FaShoppingCart size={20} />
                 </button>
                 <button
                   onClick={toggleDropdown}
@@ -121,11 +109,11 @@ const handleProfile=()=>{
                   <div className="absolute right-0 mt-2 w-48 bg-white border rounded shadow-lg">
                     <ul className="py-2">
                       <li>
-                      <button
+                        <button
                           onClick={handleProfile}
                           className="block w-full px-4 py-2 text-gray-800 hover:bg-gray-300"
                         >
-                        Profile
+                          Profile
                         </button>
                       </li>
                       <li>

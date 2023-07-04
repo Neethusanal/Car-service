@@ -62,7 +62,7 @@ const Login = () => {
 
 
               }))
-            navigate("/home");
+            navigate("/");
           }
 
 
