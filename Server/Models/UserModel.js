@@ -64,7 +64,11 @@ const userSchema=  new mongoose.Schema({
         type:String
       },
       cartTotal:{
-        type:Number
+        type:Number,
+        default:0
+      },
+      basicPay:{
+        type:Number,
       }
 
 

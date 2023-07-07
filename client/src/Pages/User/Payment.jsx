@@ -11,7 +11,7 @@ import {
 import { useSelector } from 'react-redux';
 
 import { completePayment } from '../../Services/UserApi';
-const secretkey = process.env.REACT_APP_STRIPE_KEY
+// const secretkey = process.env.REACT_APP_STRIPE_KEY
 
 export const Payment = () => {
   const user = useSelector((state) => state.user)
@@ -97,7 +97,7 @@ const makePayment=(token)=>{
         <CardFooter className="mt-12">
           <Typography variant="small" color="black" className="font-extrabold flex justify-end">
             
-          
+          <Button>Pay </Button>
           </Typography>
         </CardFooter>
       </Card>

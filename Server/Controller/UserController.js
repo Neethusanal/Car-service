@@ -12,6 +12,7 @@ const maxAge = 3 * 24 * 60 * 60;
 const nodemailer = require("nodemailer");
 const { sendEmailOTP } = require("../Middleware/Nodemailer");
 const mongoose = require('mongoose');
+const Razorpay=require('razorpay')
 
 
 const handleError = (err) => {
@@ -320,6 +321,7 @@ module.exports.addToCart = async (req, res) => {
             $push: { cart: planId  },
             $addToSet: { bookedservices: plan.servicelistName },
             cartTotal: cartTotal,
+            basicPay:basicPay
           },
           { new: true }
         );
@@ -342,9 +344,10 @@ module.exports.addToCart = async (req, res) => {
 module.exports.deleteCartItem = async (req, res) => {
   try {
     const id = req.params.id;
-    let cart = await UserModel.updateOne(
+    let cart = await UserModel.updateMany(
       { _id: req.userId },
-      { $pull: { cart: id } }
+      { $pull: { cart: id } } ,
+      {$set: { cartTotal: 0 }}
     );
     console.log(cart);
     return res.status(200).json({ success: true });
@@ -475,32 +478,20 @@ module.exports.payment = async (req, res) => {
   try {
     console.log("kkkkaaa")
     console.log(req.body)
-    const { amount, token } = req.body;
-    console.log(amount, token);
-    const idempontencyKey = uuid();
-    return Stripe.customers
-      .create({
-        email: token.email,
-        source: token.id,
-      })
-      .then((customer) => {
-        stripe.charges.create(
-          {
-            amount: amount * 100,
-            currency: 'INR',
-            customer: customer.id,
-            receipt_email: token.email,
-          },
-          { idempontencyKey }
-        );
-      })
-      .then((result) => {
-        res.status(200).json(result);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  } catch (err) {
+    // Create a PaymentIntent with the order amount and currency
+  // const paymentIntent = await stripe.paymentIntents.create({
+  //   amount:amount,
+  //   currency: "inr",
+  //   automatic_payment_methods: {
+  //     enabled: true,
+  //   },
+  // });
+
+  // res.send({
+  //   clientSecret: paymentIntent.client_secret,
+  // });
+}
+   catch (err) {
     // Handle error
   }
 };

@@ -11,8 +11,8 @@ const mechanicRoutes= require('./Routes/Mechanicroutes')
 const cookieParser = require("cookie-parser");
 const multer = require('multer');
 const path = require('path');
- const stripe=require("stripe")("STRIPE_KEY")
- const uuid=require("uuid")
+//  const stripe=require("stripe")("STRIPE_KEY")
+//  const uuid=require("uuid")
 
 
 app.listen(4000,()=>{
