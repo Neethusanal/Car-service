@@ -65,6 +65,9 @@ const completePayment=(data)=>{
   console.log(data,"payment")
   return userAxiosInstance.post('/payment',data)
 }
+const verifyUserPayment=(data)=>{
+  return userAxiosInstance.post('/verifypayment',data)
+}
 
 export {
   userRegister,
@@ -84,6 +87,7 @@ export {
  getLocations,
  getExpertMechanic,
  handleBookingData,
- completePayment
+ completePayment,
+ verifyUserPayment
 
 };

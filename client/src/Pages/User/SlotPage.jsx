@@ -70,8 +70,8 @@ console.log(filteredSlots)
     // Handle the booking logic here
     if (selectedSlot && selectedAddress) {
      
-      console.log(selectedSlot,selectedAddress);
-      handleBookingData({selectedSlot,selectedAddress}).then((res)=>{
+      console.log(selectedSlot,selectedAddress,);
+      handleBookingData({selectedSlot,selectedAddress,expertmechanic}).then((res)=>{
         console.log(res.data)
         if(res.data.success)
         {

@@ -6,13 +6,17 @@ const CarsModel = require("../Models/CarsModel");
 const ServicelistModel = require("../Models/ServicelistModel");
 const LocationModel = require("../Models/LocationModel");
 const MechanicModel=require("../Models/MechanicModel")
+const BookingModel=require("../Models/BookingModel")
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
+const crypto = require('crypto')
 const maxAge = 3 * 24 * 60 * 60;
 const nodemailer = require("nodemailer");
 const { sendEmailOTP } = require("../Middleware/Nodemailer");
 const mongoose = require('mongoose');
 const Razorpay=require('razorpay')
+const key_id=process.env.KEY_ID
+const key_secret=process.env.KEY_SECRET
 
 
 const handleError = (err) => {
@@ -344,10 +348,14 @@ module.exports.addToCart = async (req, res) => {
 module.exports.deleteCartItem = async (req, res) => {
   try {
     const id = req.params.id;
-    let cart = await UserModel.updateMany(
+    console.log(id)
+    let item=await ServicelistModel.findById({_id:id}) 
+    console.log(item,"ittteeemmm")
+    let cart = await UserModel.findByIdAndUpdate(
       { _id: req.userId },
       { $pull: { cart: id } } ,
-      {$set: { cartTotal: 0 }}
+      
+     
     );
     console.log(cart);
     return res.status(200).json({ success: true });
@@ -456,21 +464,24 @@ module.exports.getBrandMechanic = async (req, res) => {
 module.exports.bookingDataUpdate= async (req, res) => {
   try {
     console.log(req.body)
-    const {selectedSlot,selectedAddress} = req.body;
+    const {selectedSlot,selectedAddress,expertmechanic} = req.body;
     console.log(req.userId)
     const user = await UserModel.findByIdAndUpdate(
       { _id: req.userId},
       {
         $set: {
           bookedSlots: selectedSlot,
-          bookedAddress:selectedAddress
+          bookedAddress:selectedAddress,
+          selectedmechanic:expertmechanic
          
         },
       }
     );
+   
     res.status(200).json({ message: "successfully updated ", success: true });
   } catch (err) {
-    const errors = handleErrorManagent(err);
+    console.log(err)
+    // const errors = handleErrorManagent(err);
     res.json({ message: "something went wrong", status: false, errors });
   }
 };
@@ -478,21 +489,74 @@ module.exports.payment = async (req, res) => {
   try {
     console.log("kkkkaaa")
     console.log(req.body)
-    // Create a PaymentIntent with the order amount and currency
-  // const paymentIntent = await stripe.paymentIntents.create({
-  //   amount:amount,
-  //   currency: "inr",
-  //   automatic_payment_methods: {
-  //     enabled: true,
-  //   },
-  // });
+    const user=await UserModel.findById({_id:req.userId})
+   
+    const instance = new Razorpay({
+      key_id,
+      key_secret
+    })
 
-  // res.send({
-  //   clientSecret: paymentIntent.client_secret,
-  // });
-}
-   catch (err) {
-    // Handle error
-  }
+    const options = {
+      amount: user.cartTotal * 100,
+      currency: "INR",
+      receipt: crypto.randomBytes(10).toString('hex')
+    }
+
+    instance.orders.create(options, (error, order) => {
+      if (error) {
+        console.log(error);
+        return res.status(500).json({ message: 'Something gone wrong' })
+      }
+      res.status(200).json({ data: order })
+    })
+
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({ message: 'Internal Server Error' })
+  }  
 };
+module.exports.verifyRazorPayment = async (req, res) => {
+  try {
+   console.log(req.body,"body data")
+    let { razorpay_order_id, razorpay_payment_id, razorpay_signature, user,selectedslot,amount,vehicleBrand,vehicleModel,serviceType} = req.body;
+    const sign = razorpay_order_id + "|" + razorpay_payment_id;
+    const expectedSign = crypto
+      .createHmac("sha256", process.env.key_secret)
+      .update(sign.toString())
+      .digest("hex");
+    console.log(expectedSign,"kkk");
+    console.log(razorpay_signature,"lll");
+    if (razorpay_signature === expectedSign) {
+      
+      console.log(user,"working")
+      console.log(serviceType,selectedslot,vehicleBrand,vehicleModel,amount)
+      const bookingdata=BookingModel.create({
+        user:user,
+        billAmount:amount,
+        bookedslot:selectedslot,
+        serviceselected:serviceType,
+        vehicleBrand:vehicleBrand,
+        vehicleModel:vehicleModel
 
+
+      })
+      return res.status(200).json({
+        success: true,
+        message: "Slot booked successfully",
+        BookingData,
+      });
+    } else {
+      return res
+        .status(400)
+        .json({ success: false, message: "invalid Signature" });
+    }
+  } catch (err) {
+    console.log(err);
+    return res
+      .status(400)
+      .json({ success: false, message: "invalid Signature" });
+  }
+
+
+    }
+ 

@@ -55,7 +55,7 @@ export const Staff = () => {
  </CardBody>
  <CardFooter className="pt-0 ">
    <Button onClick={()=>handleClick(mechanic)}>select</Button>
-   <Button className="ml-2" >chat</Button>
+  <Button className='ml-5'>chat</Button>
  </CardFooter>
 </Card>
         )

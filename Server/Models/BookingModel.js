@@ -1,16 +1,11 @@
 const mongoose=require('mongoose')
 const BookingSchema=  new mongoose.Schema({
 
-    userId:{
-        type:mongoose.Schema.Types.ObjectId,
-            required: true,
-            ref:User
-        },  
-    mechanicId:{
-        type:mongoose.Schema.Types.ObjectId,
-        required: true,
-        ref:Mechanic
-    },
+   user:{
+        type:Object,
+   },
+   
+
     billAmount:{
         type:Number
     },
@@ -34,15 +29,19 @@ const BookingSchema=  new mongoose.Schema({
     },
     bookedSlot: {
         type:String,
-    }, 
-    brand:{
-        type:mongoose.Schema.Types.ObjectId,
-            ref:Brand
     },
-    model:{
-        type:mongoose.Schema.Types.ObjectId,
-            ref:Cars
+    serviceselected:[{
+        type:String
+    }],
+    vehicleBrand:{
+        type:String
     },
+    vehicleModel:
+    {
+        type:String
+    },
+
+   
     
     
     

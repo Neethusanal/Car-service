@@ -69,7 +69,10 @@ const userSchema=  new mongoose.Schema({
       },
       basicPay:{
         type:Number,
-      }
+      },
+      selectedmechanic:{
+        type:String
+      },
 
 
 })

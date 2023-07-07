@@ -10,8 +10,10 @@ import {
 } from "@material-tailwind/react";
 import { useSelector } from 'react-redux';
 
-import { completePayment } from '../../Services/UserApi';
-// const secretkey = process.env.REACT_APP_STRIPE_KEY
+
+import { completePayment, verifyUserPayment } from '../../Services/UserApi';
+import { userAxiosInstance } from '../../axios/Instance';
+ const keyId = process.env.REACT_APP_KEY_ID
 
 export const Payment = () => {
   const user = useSelector((state) => state.user)
@@ -20,18 +22,73 @@ export const Payment = () => {
   const [serviceType, setServiceType] = useState(user?.bookedservices);
   const [selectedslot,setSelectedSlot]=useState(user?.bookedSlots)
   const [amount,setAmount]=useState(user?.cartTotal)
-const makePayment=(token)=>{
-  const body={amount,
-  token,
-  }
-  const headers={
-    "Content-Type":"application/json"
-  }
-  completePayment({headers,body}).then((res)=>{
-    console.log(res)
+  useEffect(()=>{
+    // setVehicleBrand(user?.brand)
+    // setVehicleModel(user?.model)
+    // setServiceType(user?.bookedservices)
+    // setSelectedSlot(user?.bookedSlots)
+    // setAmount(user?.cartTotal)
+  })
+  console.log(serviceType,"bbbb")
+const handlePayment=()=>{
+ 
+  completePayment({amount,selectedslot,serviceType,}).then((res)=>{
+    console.log(res,"data")
+    if(res.data){
+      initPayment(res.data)
+    }
   })
 }
   
+  const initPayment = (data) => {
+    console.log(data)
+    const options = {
+      key:keyId,
+      amount: amount*100,
+      name:"CarDoc",
+      description: "Test transaction",
+      currency: data.currency,
+      order_id: data.data.id,
+      handler: async (response) => {
+        try {
+          console.log(response)
+          const { razorpay_payment_id, razorpay_order_id, razorpay_signature } =
+            response;
+
+          const { data } =  verifyUserPayment({
+              razorpay_payment_id,
+              razorpay_order_id,
+              razorpay_signature,
+              user,
+              amount,
+              selectedslot,
+              serviceType,
+              vehicleBrand,
+              vehicleModel,
+              
+            });
+
+          if (data.verified) {
+           
+          
+          } else {
+             
+           
+          }
+        } catch (error) {
+           
+          
+        }
+      },
+      theme: {
+        color: "#3399cc",
+      },
+    };
+
+    const rzp1 = new window.Razorpay(options);
+    rzp1.open();
+  };
+
   return (
     <>
       <Navbar />
@@ -71,7 +128,7 @@ const makePayment=(token)=>{
         <td className="px-6 py-4 text-black whitespace-nowrap">services </td>
         {serviceType.map((service,index)=>{
           return(
-            <td className="px-6 py-2 block text-black whitespace-nowrap "key={index}>{service}</td>
+            <td className="px-6 py-2 block text-black whitespace-nowrap ">{service}</td>
           )
         })}
          
@@ -97,7 +154,7 @@ const makePayment=(token)=>{
         <CardFooter className="mt-12">
           <Typography variant="small" color="black" className="font-extrabold flex justify-end">
             
-          <Button>Pay </Button>
+          <Button onClick={()=>handlePayment()}>Pay </Button>
           </Typography>
         </CardFooter>
       </Card>
