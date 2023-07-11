@@ -11,6 +11,8 @@ const mechanicRoutes= require('./Routes/Mechanicroutes')
 const cookieParser = require("cookie-parser");
 const multer = require('multer');
 const path = require('path');
+const server= http.createServer()
+const { WebSocketServer } = require('ws');
 //  const stripe=require("stripe")("STRIPE_KEY")
 //  const uuid=require("uuid")
 
@@ -41,3 +43,10 @@ app.use('/',userRoutes)
 app.use('/admin',adminRoutes)
 app.use('/mechanic',mechanicRoutes)
 
+
+const wss = new WebSocketServer({ server });
+
+wss.on('connection', (connection) => {
+  console.log("connected");
+  connection.send("helloooo")
+});

@@ -12,7 +12,7 @@ import { useSelector } from 'react-redux';
 
 
 import { completePayment, verifyUserPayment } from '../../Services/UserApi';
-import { userAxiosInstance } from '../../axios/Instance';
+import { useNavigate } from 'react-router-dom';
  const keyId = process.env.REACT_APP_KEY_ID
 
 export const Payment = () => {
@@ -22,6 +22,7 @@ export const Payment = () => {
   const [serviceType, setServiceType] = useState(user?.bookedservices);
   const [selectedslot,setSelectedSlot]=useState(user?.bookedSlots)
   const [amount,setAmount]=useState(user?.cartTotal)
+  const navigate=useNavigate()
   useEffect(()=>{
     // setVehicleBrand(user?.brand)
     // setVehicleModel(user?.model)
@@ -55,7 +56,7 @@ const handlePayment=()=>{
           const { razorpay_payment_id, razorpay_order_id, razorpay_signature } =
             response;
 
-          const { data } =  verifyUserPayment({
+          verifyUserPayment({
               razorpay_payment_id,
               razorpay_order_id,
               razorpay_signature,
@@ -66,15 +67,19 @@ const handlePayment=()=>{
               vehicleBrand,
               vehicleModel,
               
-            });
+            }).then((res)=>{
+            if(res.data.success)
+            {
+              console.log (res.data.result)
+              navigate('/userservicehistory')
+            }
+             
+            })
 
-          if (data.verified) {
-           
-          
-          } else {
+         
              
            
-          }
+          
         } catch (error) {
            
           

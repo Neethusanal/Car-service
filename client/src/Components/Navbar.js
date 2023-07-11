@@ -36,7 +36,7 @@ const Navbar = () => {
         <div className="flex items-center justify-between h-16">
           <div className="flex-shrink-0">
             <a href="/" className="text-white font-bold text-xl">
-              CAR⛨DOC
+              Car Clinic
             </a>
           </div>
 
@@ -81,6 +81,7 @@ const Navbar = () => {
                   <li>
                     <ServingLocation />
                   </li>
+                 
                 </>
               ) : null}
             </ul>

@@ -530,23 +530,24 @@ module.exports.verifyRazorPayment = async (req, res) => {
       
       console.log(user,"working")
       console.log(serviceType,selectedslot,vehicleBrand,vehicleModel,amount)
-      const bookingdata=BookingModel.create({
+      const bookingdata= await BookingModel.create({
         user:user,
         billAmount:amount,
-        bookedslot:selectedslot,
+        bookedSlot:selectedslot,
         serviceselected:serviceType,
         vehicleBrand:vehicleBrand,
         vehicleModel:vehicleModel
 
 
       })
-      return res.status(200).json({
+      console.log(bookingdata,"nnnnnnnnnnnnnn")
+       res.status(200).json({
         success: true,
-        message: "Slot booked successfully",
-        BookingData,
+        message: "booked successfully",
+       result: bookingdata,
       });
     } else {
-      return res
+     res
         .status(400)
         .json({ success: false, message: "invalid Signature" });
     }

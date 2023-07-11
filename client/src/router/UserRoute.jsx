@@ -12,6 +12,8 @@ import { SlotPage } from '../Pages/User/SlotPage'
 import { Staff } from '../Pages/User/Staff'
 import { UserProfile } from '../Pages/User/UserProfile'
 import { Payment } from '../Pages/User/Payment'
+import { Userservicehistory } from '../Pages/User/Userservicehistory'
+import  {Chat}from '../Components/Chat'
 
 
 const UserRoute = () => {
@@ -32,6 +34,8 @@ const UserRoute = () => {
           <Route exact path='/profile' element={<UserProfile />} />
           <Route exact path='/staff' element={<Staff />} />
           <Route exact path='/payment' element={<Payment />} />
+          <Route exact path='/userservicehistory' element={<Userservicehistory/>}/>
+          <Route exact path='/chat' element={<Chat/>}/>
 
         </Route>
       </Routes>

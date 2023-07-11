@@ -45,20 +45,21 @@ export const ServingLocation = () => {
     <>  
         <div className="mb-2">
           
-          <select
-            id="items"
-            value={locationName}
-            onChange={handleChange}
-            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-blue-500"
-            required
-          >
-            
-            {locData?.map((loc, index) => {
-              return (
-                <option  key={index}  value={loc._id}>{loc. Locationname}</option>
-              )
-            })}
-          </select>
+        <select
+          id="items"
+          value={locationName}
+          onChange={handleChange}
+          className="text-white bg-black w-36 px-2 "
+          required
+        >
+          {locData?.map((loc, index) => {
+            return (
+              <option key={index} value={loc._id}>
+                {loc.Locationname}
+              </option>
+            );
+          })}
+        </select>
         </div>
        </>
   )

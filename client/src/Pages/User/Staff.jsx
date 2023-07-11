@@ -31,6 +31,9 @@ export const Staff = () => {
       }
     })
   }
+  const handleChat=()=>{
+    navigate('/chat')
+  }
   console.log(staff,'staffdetails')
   return (
     <div>
@@ -55,7 +58,7 @@ export const Staff = () => {
  </CardBody>
  <CardFooter className="pt-0 ">
    <Button onClick={()=>handleClick(mechanic)}>select</Button>
-  <Button className='ml-5'>chat</Button>
+  <Button className='ml-5' onClick={()=>handleChat()}>chat</Button>
  </CardFooter>
 </Card>
         )
