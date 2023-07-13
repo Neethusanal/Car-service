@@ -11,7 +11,7 @@ import { ServicePlans } from '../../Components/ServicePlans'
 export const Services = () => {
   return (
     <div>
-      <Navbar />
+      
       <ServicePlans />
 
 

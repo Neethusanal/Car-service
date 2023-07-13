@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import {
   Card,
   CardHeader,
@@ -12,8 +12,10 @@ import { getExpertMechanic } from '../../Services/UserApi';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../../Components/Navbar';
 import { useSelector } from 'react-redux';
+import { io } from "socket.io-client";
 
 export const Staff = () => {
+  const socket = useRef();
   const user= useSelector((state) => state.user)
   const [staff,setStaff]=useState([])
   const navigate=useNavigate()
@@ -21,6 +23,10 @@ export const Staff = () => {
     getStaff()
 
   },[])
+ 
+
+  
+
   const handleClick=(mechanic)=>{
     console.log(mechanic,"mechanicdetails")
     navigate('/bookslot',{ state: { mechanic} })
@@ -35,13 +41,14 @@ export const Staff = () => {
     })
   }
   const handleChat = (mechanic) => {
+
     navigate('/chat', { state: { mechanic: mechanic, user: user } });
   };
   
   console.log(staff,'staffdetails')
   return (
     <div>
-      <Navbar/>
+      
       <div className="flex flex-wrap">
       {staff.map((mechanic,index)=>{
         return(

@@ -6,7 +6,10 @@ const Mechaniclayout = () => {
   return (
     <div>
         <MechanicNavbar/>
+        <div className='container mx-auto'>
+
         <Outlet/>
+        </div>
 
     </div>
   )

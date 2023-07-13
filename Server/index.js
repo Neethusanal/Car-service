@@ -9,7 +9,7 @@ const adminRoutes = require('./Routes/AdminRoutes');
 const mechanicRoutes = require('./Routes/Mechanicroutes');
 const path = require('path');
 const server = require('http').createServer(app);
-const io = require('socket.io')(server);
+const socket = require('socket.io')
 
 
 dotenv.config();
@@ -37,6 +37,27 @@ app.use('/mechanic', mechanicRoutes);
 
 
 
-app.listen(4000, () => {
+server.listen(4000, () => {
   console.log("Server/Backend started on port 4000");
 });
+const io=socket(server,{
+  cors:{origin:"http://localhost:3000",
+  credentials:true
+}
+})
+global.onlineUsers=new Map(),
+io.on("connection",(socket)=>{
+  console.log("connected socketio")
+  global.chatSocket=socket;
+  socket.on("add-user",(userId)=>{
+    onlineUsers.set(userId,socket.id)
+  })
+
+socket.on("send-msg",(data)=>{
+  const sendUserSocket=onlineUsers.get(data.to)
+  if(sendUserSocket){
+    socket.to(sendUserSocket).emit("msg-recieve",data.msg)
+  }
+  
+})
+})

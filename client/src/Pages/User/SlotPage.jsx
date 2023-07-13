@@ -84,7 +84,7 @@ console.log(filteredSlots)
   return (
  
     <>
-         <Navbar/>
+         
          <form>
          <Card className="mt-20 w-auto">
         <CardHeader color="gray" className="text-white">

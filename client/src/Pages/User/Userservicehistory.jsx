@@ -35,7 +35,7 @@ export const Userservicehistory = () => {
 console.log(servicedata)
   return (
     <>
-<Navbar/>
+
  <div className='mt-5'>
 <Card className=" h-full w-full">
       <table className="w-full min-w-max table-auto text-left">

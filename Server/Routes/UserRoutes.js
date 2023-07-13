@@ -25,6 +25,9 @@ router.post('/addtocart/:serviceId/:planId', VerifyUser, usercontroller.addToCar
  router.post('/payment',VerifyUser,usercontroller.payment)
  router.post('/verifypayment',VerifyUser,usercontroller.verifyRazorPayment)
  router.get('/getservicdetails',VerifyUser,usercontroller.getserviceDetails)
+ router.post('/createchat',VerifyUser,usercontroller.createChat)
+ router.get('/getuserchat/:userid',VerifyUser,usercontroller.userChat)
+ router.get('/getchat/find/:firstId/:secondId',VerifyUser,usercontroller.findChat)
  
 
 

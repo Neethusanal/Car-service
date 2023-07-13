@@ -15,7 +15,7 @@ export const Homepage = () => {
 useAuthUser()
   return (
     <div>
-      <Navbar />
+      
       <UserBanner />
       <UserServices />
       <UserBrands />

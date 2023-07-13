@@ -96,7 +96,7 @@ const handlePayment=()=>{
 
   return (
     <>
-      <Navbar />
+      
       <div className="mt-10 flex  justify-center">
       <Card color="gray" variant="gradient" className="w-full max-w-[60rem] p-8">
         <CardHeader

@@ -14,6 +14,7 @@ import { UserProfile } from '../Pages/User/UserProfile'
 import { Payment } from '../Pages/User/Payment'
 import { Userservicehistory } from '../Pages/User/Userservicehistory'
 import  {Chat}from '../Components/Chat'
+import { Userlayout } from '../Layout/Userlayout'
 
 
 const UserRoute = () => {
@@ -27,6 +28,7 @@ const UserRoute = () => {
         
         <Route exact path='/' element={<Homepage />} />
         <Route element={<PrivateRoutes role={"user"} route={"/"} />}>
+        <Route element={<Userlayout/>}>
         <Route exact path='/' element={<Homepage />} /> 
           <Route exact path='/services' element={<Services />} />
           <Route exact path='/cart' element={<UserCart />} />
@@ -36,7 +38,7 @@ const UserRoute = () => {
           <Route exact path='/payment' element={<Payment />} />
           <Route exact path='/userservicehistory' element={<Userservicehistory/>}/>
           <Route exact path='/chat' element={<Chat/>}/>
-
+</Route>
         </Route>
       </Routes>
     </>

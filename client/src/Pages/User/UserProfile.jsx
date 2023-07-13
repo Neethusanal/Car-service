@@ -34,7 +34,7 @@ export const UserProfile = () => {
 
   return (
     <div>
-      <Navbar />
+      
       <Card className="mt-20 ml-10 mr-10  flex flex-justify-center">
         <CardHeader color="blue-gray" className="relative h-12">
           <h1 className='text-center font-bold'> Profile</h1>
