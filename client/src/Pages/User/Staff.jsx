@@ -7,11 +7,14 @@ import {
   Typography,
   Button
 } from "@material-tailwind/react";
+import { BsFillChatDotsFill } from 'react-icons/bs';
 import { getExpertMechanic } from '../../Services/UserApi';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../../Components/Navbar';
+import { useSelector } from 'react-redux';
 
 export const Staff = () => {
+  const user= useSelector((state) => state.user)
   const [staff,setStaff]=useState([])
   const navigate=useNavigate()
   useEffect(()=>{
@@ -31,9 +34,10 @@ export const Staff = () => {
       }
     })
   }
-  const handleChat=()=>{
-    navigate('/chat')
-  }
+  const handleChat = (mechanic) => {
+    navigate('/chat', { state: { mechanic: mechanic, user: user } });
+  };
+  
   console.log(staff,'staffdetails')
   return (
     <div>
@@ -58,7 +62,7 @@ export const Staff = () => {
  </CardBody>
  <CardFooter className="pt-0 ">
    <Button onClick={()=>handleClick(mechanic)}>select</Button>
-  <Button className='ml-5' onClick={()=>handleChat()}>chat</Button>
+  <Button className='ml-5' onClick={()=>handleChat(mechanic)}><BsFillChatDotsFill/></Button>
  </CardFooter>
 </Card>
         )

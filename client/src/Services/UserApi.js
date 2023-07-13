@@ -68,6 +68,10 @@ const completePayment=(data)=>{
 const verifyUserPayment=(data)=>{
   return userAxiosInstance.post('/verifypayment',data)
 }
+const getServiceHistory=(data)=>{
+  console.log(data)
+  return userAxiosInstance.get(`/getservicdetails?email=${data.email}`)
+}
 
 export {
   userRegister,
@@ -88,6 +92,7 @@ export {
  getExpertMechanic,
  handleBookingData,
  completePayment,
- verifyUserPayment
+ verifyUserPayment,
+ getServiceHistory
 
 };

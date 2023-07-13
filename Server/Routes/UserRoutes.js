@@ -24,7 +24,8 @@ router.post('/addtocart/:serviceId/:planId', VerifyUser, usercontroller.addToCar
  router.put('/handlebookingdata',VerifyUser,usercontroller.bookingDataUpdate)
  router.post('/payment',VerifyUser,usercontroller.payment)
  router.post('/verifypayment',VerifyUser,usercontroller.verifyRazorPayment)
-
+ router.get('/getservicdetails',VerifyUser,usercontroller.getserviceDetails)
+ 
 
 
 

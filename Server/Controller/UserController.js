@@ -14,7 +14,8 @@ const maxAge = 3 * 24 * 60 * 60;
 const nodemailer = require("nodemailer");
 const { sendEmailOTP } = require("../Middleware/Nodemailer");
 const mongoose = require('mongoose');
-const Razorpay=require('razorpay')
+const Razorpay=require('razorpay');
+const ChatModel = require("../Models/ChatModel");
 const key_id=process.env.KEY_ID
 const key_secret=process.env.KEY_SECRET
 
@@ -557,7 +558,21 @@ module.exports.verifyRazorPayment = async (req, res) => {
       .status(400)
       .json({ success: false, message: "invalid Signature" });
   }
-
-
-    }
+}
+module.exports.getserviceDetails = async (req, res) => {
+  try {
+ 
+   
+   
+   
+    const {email}=req.query
+    console.log(email)
+    const servicehistory = await BookingModel.find({'user.email':email});
+    console.log(servicehistory)
+    res.json({ success: true, result: servicehistory});
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({ success: false, message: error.message });
+  }
+};
  
