@@ -4,7 +4,7 @@ module.exports.createChat=async(req,res)=>{
     console.log(req.body)
     const{from ,to, message}=req.body
     const newchat=new ChatModel({
-      members:[req.body.senderId,req.body.receiverId]
+      members:[req.body.senderId,req.body.recieverId]
     })
     try{
       const result=await newchat.save()

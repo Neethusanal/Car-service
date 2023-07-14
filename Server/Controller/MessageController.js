@@ -12,7 +12,9 @@ res.status(200).json(result)
 }
 
 module.exports.getMessages=async(req,res)=>{
+    console.log("data")
     const {chatId}=req.params;
+    console.log(chatId)
     try{
         const result=await MessageModel.find({chatId})
         res.status(200).json(result)
