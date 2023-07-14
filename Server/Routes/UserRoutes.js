@@ -1,6 +1,8 @@
 const express = require('express')
 const router = express.Router()
 const usercontroller=require('../Controller/UserController')
+const chatcontroller=require('../Controller/ChatController')
+const messagecontroller=require('../Controller/MessageController')
 const { VerifyUser } = require('../Middleware/Auth')
 
 
@@ -25,9 +27,11 @@ router.post('/addtocart/:serviceId/:planId', VerifyUser, usercontroller.addToCar
  router.post('/payment',VerifyUser,usercontroller.payment)
  router.post('/verifypayment',VerifyUser,usercontroller.verifyRazorPayment)
  router.get('/getservicdetails',VerifyUser,usercontroller.getserviceDetails)
- router.post('/createchat',VerifyUser,usercontroller.createChat)
- router.get('/getuserchat/:userid',VerifyUser,usercontroller.userChat)
- router.get('/getchat/find/:firstId/:secondId',VerifyUser,usercontroller.findChat)
+ router.post('/createchat',VerifyUser,chatcontroller.createChat)
+ router.get('/getuserchat/:userid',VerifyUser,chatcontroller.userChat)
+ router.get('/getchat/find/:firstId/:secondId',VerifyUser,chatcontroller.findChat)
+ router.post('/addmessage',VerifyUser,messagecontroller.addMessage)
+ router.get('/getmessage:chatId',VerifyUser,messagecontroller.getMessages)
  
 
 

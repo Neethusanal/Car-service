@@ -13,8 +13,9 @@ import { Staff } from '../Pages/User/Staff'
 import { UserProfile } from '../Pages/User/UserProfile'
 import { Payment } from '../Pages/User/Payment'
 import { Userservicehistory } from '../Pages/User/Userservicehistory'
-import  {Chat}from '../Components/Chat'
+
 import { Userlayout } from '../Layout/Userlayout'
+import { Chat } from '../Pages/chat/Chat'
 
 
 const UserRoute = () => {
@@ -25,10 +26,10 @@ const UserRoute = () => {
         <Route exact path='/login' element={<Login />} />
         <Route exact path='/otp' element={<Otppage />} />
 
-        
+        <Route element={<Userlayout/>}>
         <Route exact path='/' element={<Homepage />} />
         <Route element={<PrivateRoutes role={"user"} route={"/"} />}>
-        <Route element={<Userlayout/>}>
+        
         <Route exact path='/' element={<Homepage />} /> 
           <Route exact path='/services' element={<Services />} />
           <Route exact path='/cart' element={<UserCart />} />

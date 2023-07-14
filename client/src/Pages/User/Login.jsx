@@ -47,7 +47,7 @@ const Login = () => {
 
             dispatch(
               setUserDetails({
-                id:res.data._id,
+                id:res.data.id,
                 name: res.data.name,
                 email: res.data.email,
                 mobile: res.data.mobile,

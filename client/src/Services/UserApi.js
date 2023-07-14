@@ -72,7 +72,10 @@ const getServiceHistory=(data)=>{
   console.log(data)
   return userAxiosInstance.get(`/getservicdetails?email=${data.email}`)
 }
-
+const userChats=(id)=>{
+  console.log(id)
+  return userAxiosInstance.get(`/getuserchat/${id}`)
+}
 export {
   userRegister,
   userOtpsubmit,
@@ -93,6 +96,6 @@ export {
  handleBookingData,
  completePayment,
  verifyUserPayment,
- getServiceHistory
-
+ getServiceHistory,
+ userChats,
 };
