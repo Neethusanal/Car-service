@@ -32,6 +32,9 @@ router.post('/addtocart/:serviceId/:planId', VerifyUser, usercontroller.addToCar
  router.get('/getchat/find/:firstId/:secondId',VerifyUser,chatcontroller.findChat)
  router.post('/addmessage',VerifyUser,messagecontroller.addMessage)
  router.get('/getmessage:chatId',VerifyUser,messagecontroller.getMessages)
+ router.get('/getmechanicdata/:id',usercontroller.getMechanic)
+
+
  
 
 

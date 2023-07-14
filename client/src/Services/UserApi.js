@@ -76,6 +76,10 @@ const userChats=(id)=>{
   console.log(id)
   return userAxiosInstance.get(`/getuserchat/${id}`)
 }
+ const getmechanicData=(id)=>{
+  console.log(id)
+   return userAxiosInstance.get(`/getmechanicdata/${id}`)
+ }
 export {
   userRegister,
   userOtpsubmit,
@@ -98,4 +102,5 @@ export {
  verifyUserPayment,
  getServiceHistory,
  userChats,
+  getmechanicData
 };

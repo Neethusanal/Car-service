@@ -575,3 +575,15 @@ module.exports.getserviceDetails = async (req, res) => {
     res.status(400).json({ success: false, message: error.message });
   }
 };
+module.exports.getMechanic = async (req, res) => {
+  try {
+    const id=req.params.id
+    console.log(id);
+    const mechanic = await MechanicModel.find({_id:id});
+    console.log(mechanic,'kkkkkkkkkkkkk')
+    res.json({ success: true, result: mechanic });
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({ success: false, message: error.message });
+  }
+};
