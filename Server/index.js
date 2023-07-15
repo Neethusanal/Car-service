@@ -9,7 +9,7 @@ const adminRoutes = require('./Routes/AdminRoutes');
 const mechanicRoutes = require('./Routes/Mechanicroutes');
 const path = require('path');
 const server = require('http').createServer(app);
-const socket = require('socket.io')
+ const socket = require('socket.io')
 
 
 dotenv.config();
@@ -42,22 +42,41 @@ server.listen(4000, () => {
 });
 const io=socket(server,{
   cors:{origin:"http://localhost:3000",
-  credentials:true
+ credentials:true
 }
 })
-global.onlineUsers=new Map(),
-io.on("connection",(socket)=>{
-  console.log("connected socketio")
-  global.chatSocket=socket;
-  socket.on("add-user",(userId)=>{
-    onlineUsers.set(userId,socket.id)
-  })
 
-socket.on("send-msg",(data)=>{
-  const sendUserSocket=onlineUsers.get(data.to)
-  if(sendUserSocket){
-    socket.to(sendUserSocket).emit("msg-recieve",data.msg)
-  }
-  
+let activeUsers=[]
+
+
+io.on("connection",(socket)=>{
+console.log("connected socketio")
+//Add new User
+socket.on("new-user-add",(newUserId)=>{
+//if user is not added previously
+if(activeUsers.some((user)=>user.userId===newUserId))
+{
+   activeUsers.push({
+       userId:newUserId,
+       socketId:socket.id
+   })
+}
+console.log("connected", activeUsers)
+io.emit('get-users',activeUsers)
+})
+// send Message
+socket.on("send-message",(data)=>{
+  const {recieverId}=data;
+  const user=activeUsers.find((user)=>user.userId===recieverId)
+  console.log("Data,data")
+  if(user)
+  io.to(user.socketId).emit("reciever-message",data)
+})
+
+socket.on("disconnect",()=>{
+activeUsers=activeUsers.filter((user)=>user.socketId!==socket.id)
+console.log("User disconnected",activeUsers)
+io.emit('get-users',activeUsers)
+
 })
 })

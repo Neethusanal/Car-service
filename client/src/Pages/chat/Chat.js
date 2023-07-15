@@ -3,11 +3,10 @@ import React, { useEffect, useRef, useState } from "react";
 
 import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
-import { io } from "socket.io-client";
 import { userChats } from "../../Services/UserApi";
 import { ChatConversations } from "../../Components/conversation/ChatConversations";
 import { ChatBox } from "../../Components/conversation/ChatBox";
-
+import {io} from 'socket.io-client'
 
 
 export const Chat = () => {
@@ -17,7 +16,32 @@ export const Chat = () => {
   const { mechanic} = location.state;
   const [chats ,setChats]=useState([])
   const [currentChat,setCurrentChat]=useState(null)
-  console.log(user)
+  const [onlineUsers,setOnlineUsers]=useState([])
+  const[sendMessage,setSendMessage]=useState(null)
+  const[recievedMessage,setRecievedMessage]=useState(null)
+//Sending Message to socket Server
+  
+  useEffect(()=>{
+    socket.current=io(process.env.REACT_APP_BASE_URL)
+    socket.current.emit("new-user-add",user.id)
+    socket.current.on('get-users',(user)=>{
+      setOnlineUsers(user)
+      console.log(onlineUsers,"nnnn")
+    })
+  },[user])
+  useEffect(()=>{
+    if(sendMessage!==null)
+    {
+      socket.current.emit('send-message',sendMessage)
+    }
+  },[sendMessage])
+
+  //Recieve Message to socket Server
+  useEffect(()=>{
+    socket.current.on("recieve-message",(data)=>{
+      setRecievedMessage(data)
+    })
+  },[])
  useEffect(()=>{
 
   const getChats=async()=>{
@@ -32,6 +56,12 @@ export const Chat = () => {
   }
 getChats()
  },[user])
+
+ const checkOnlinestatus=(chat)=>{
+  const chatMembers=chat.members.find((member)=>member!== user.id)
+  const online=onlineUsers.find((user)=>user.userId===chatMembers)
+  return online?true:false
+}
 
   return (
     <>
@@ -48,7 +78,7 @@ getChats()
 
           
             <div onClick={()=>setCurrentChat(chat)}>
-              < ChatConversations data={chat} currentuserId={user.id}/>
+              < ChatConversations chatdata= {chat} currentuserId={user.id} online={checkOnlinestatus(chat)}/>
               </div>
 
           )
@@ -58,9 +88,11 @@ getChats()
         </div>
         </div>
         </div>
-        <div className=" flex flex-col bg-blue-50 w-2/3 p-2">
+        <div className=" flex flex-col  bg-blue-50 w-2/3 p-2">
          {/* right side chat component */}
-         <ChatBox chat={currentChat} currentuserId={user.id}/>
+         <ChatBox chat={currentChat} currentuserId={user.id} setSendMessage={setSendMessage} recievedMessage={recievedMessage}/>
+       
+
         </div>
       </div>
       </div>

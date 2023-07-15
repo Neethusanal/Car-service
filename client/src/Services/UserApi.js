@@ -84,6 +84,10 @@ const userChats=(id)=>{
   console.log(id)
    return userAxiosInstance.get(`/getmessage/${id}`)
  }
+ const addMessage = (data) => {
+  console.log(data);
+  return userAxiosInstance.post('/addmessage',data);
+};
 export {
   userRegister,
   userOtpsubmit,
@@ -107,6 +111,6 @@ export {
  getServiceHistory,
  userChats,
   getmechanicData,
-  getMessages
-  
+  getMessages,
+  addMessage
 };

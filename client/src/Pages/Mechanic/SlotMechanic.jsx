@@ -28,7 +28,7 @@ export const SlotMechanic = () => {
     const dates = [];
     const today = moment().startOf("day");
 
-    for (let i = 1; i < 9; i++) {
+    for (let i = 1; i < 8; i++) {
       const date = moment(today).add(i, 'days');
 
       const morningSlotStart = moment(date).clone().set('hour', 9).set('minute', 0).set('second', 0);

@@ -2,10 +2,10 @@ import React, { useEffect, useState } from "react";
 import { getmechanicData } from "../../Services/UserApi";
 import profile from "../../Images/profile.jpg";
 
-export const ChatConversations = ({ data, currentuserId }) => {
+export const ChatConversations = ({ chatdata, currentuserId ,online}) => {
   const [userData, setUserData] = useState(null);
   useEffect(() => {
-    const mechanicId = data.members.find((id) => id !== currentuserId);
+    const mechanicId = chatdata.members.find((id) => id !== currentuserId);
     console.log(mechanicId, "ussssssssssss");
 
     const getUserData = async () => {
@@ -25,6 +25,8 @@ export const ChatConversations = ({ data, currentuserId }) => {
     
       <div className="follower conversation">
         <div>
+         
+
           {userData?.map((mechdata, index) => {
             return (
               <div
@@ -43,11 +45,12 @@ export const ChatConversations = ({ data, currentuserId }) => {
                 </div>
                 <div className="text-lg w-full">
                   <span>{mechdata?.name}</span>
-                  <span className="float-right mr-2">online</span>
+                  <span className="float-right mr-2">{online?"online":"offline"}</span>
                 </div>
               </div>
             );
           })}
+        
         </div>
       </div>
      
