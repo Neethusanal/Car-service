@@ -25,6 +25,22 @@ const updateProfile = (data) => {
 const  mechanicSelectedSlots = (data)=>{
   return mechanicAxiosInstance.post('/savemechanicslots',data)
 }
+const mechanicChats=(id)=>{
+  console.log(id)
+  return mechanicAxiosInstance.get(`/getmechanicchat/${id}`)
+}
+ const getUser=(id)=>{
+  console.log(id)
+   return mechanicAxiosInstance.get(`/getuserdata/${id}`)
+ }
+ const getMessages=(id)=>{
+  console.log(id)
+   return mechanicAxiosInstance.get(`/getmessage/${id}`)
+ }
+ const addMessage = (data) => {
+  console.log(data);
+  return mechanicAxiosInstance.post('/addmessage',data);
+};
 
 export {
   Mechanicregister,
@@ -34,5 +50,9 @@ export {
   getMechBrands,
   updateProfile,
   updateDetails,
-  mechanicSelectedSlots 
+  mechanicSelectedSlots, 
+  mechanicChats,
+  getUser,
+  getMessages,
+  addMessage
 };

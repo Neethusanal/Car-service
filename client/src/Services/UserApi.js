@@ -72,6 +72,10 @@ const getServiceHistory=(data)=>{
   console.log(data)
   return userAxiosInstance.get(`/getservicdetails?email=${data.email}`)
 }
+const createChatWihMechanic=(data)=>{
+  console.log(data)
+  return userAxiosInstance.post('/createchat',data)
+}
 const userChats=(id)=>{
   console.log(id)
   return userAxiosInstance.get(`/getuserchat/${id}`)
@@ -109,6 +113,7 @@ export {
  completePayment,
  verifyUserPayment,
  getServiceHistory,
+ createChatWihMechanic,
  userChats,
   getmechanicData,
   getMessages,

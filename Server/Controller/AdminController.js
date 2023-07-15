@@ -47,7 +47,7 @@ module.exports.adminLogin = async (req, res, next) => {
   try {
     let { email, password } = req.body;
     console.log(email, password);
-    let admin = await AdminModel.findOne({ email });
+    let admin = await AdminModel.findOne({email});
 
     if (admin) {
       let validPassword = await bcrypt.compare(password, admin.password);

@@ -9,7 +9,7 @@ import PrivateRoutes from "../ProtectedRoutes/PrivateRoutes";
 import { Editprofile } from "../Pages/Mechanic/EditProfile";
 import { MechanicApproval } from "../Pages/Mechanic/MechanicApproval";
 import { SlotMechanic } from "../Pages/Mechanic/SlotMechanic";
-import { Chat } from "../Pages/chat/Chat";
+import { MechanicChat } from "../Pages/chat/MechanicChat";
 
 
 const MechanicRoute = () => {

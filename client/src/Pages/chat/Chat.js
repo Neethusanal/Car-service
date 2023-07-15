@@ -2,7 +2,7 @@ import { Button } from "@material-tailwind/react";
 import React, { useEffect, useRef, useState } from "react";
 
 import { useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
+
 import { userChats } from "../../Services/UserApi";
 import { ChatConversations } from "../../Components/conversation/ChatConversations";
 import { ChatBox } from "../../Components/conversation/ChatBox";
@@ -12,8 +12,8 @@ import {io} from 'socket.io-client'
 export const Chat = () => {
   const socket = useRef();
   const user= useSelector((state) => state.user)
-  const location = useLocation();
-  const { mechanic} = location.state;
+ 
+ 
   const [chats ,setChats]=useState([])
   const [currentChat,setCurrentChat]=useState(null)
   const [onlineUsers,setOnlineUsers]=useState([])
@@ -26,7 +26,7 @@ export const Chat = () => {
     socket.current.emit("new-user-add",user.id)
     socket.current.on('get-users',(user)=>{
       setOnlineUsers(user)
-      console.log(onlineUsers,"nnnn")
+     // console.log(onlineUsers,"nnnn")
     })
   },[user])
   useEffect(()=>{
@@ -37,11 +37,12 @@ export const Chat = () => {
   },[sendMessage])
 
   //Recieve Message to socket Server
-  useEffect(()=>{
-    socket.current.on("recieve-message",(data)=>{
-      setRecievedMessage(data)
-    })
-  },[])
+  // useEffect(()=>{
+  //   socket.current.on("recieve-message",(data)=>{
+  //     setRecievedMessage(data)
+  //   })
+  // },[])
+  // console.log(recievedMessage,"recieved message")
  useEffect(()=>{
 
   const getChats=async()=>{

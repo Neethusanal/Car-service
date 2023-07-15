@@ -8,7 +8,7 @@ import {
   Button
 } from "@material-tailwind/react";
 import { BsFillChatDotsFill } from 'react-icons/bs';
-import { getExpertMechanic } from '../../Services/UserApi';
+import { createChatWihMechanic, getExpertMechanic } from '../../Services/UserApi';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../../Components/Navbar';
 import { useSelector } from 'react-redux';
@@ -40,9 +40,11 @@ export const Staff = () => {
       }
     })
   }
-  const handleChat = (mechanic) => {
+  const handleChat = (id) => {
+    const {data}=createChatWihMechanic({senderId:user.id,recieverId:id})
+    console.log(data)
 
-    navigate('/chat', { state: { mechanic: mechanic, user: user } });
+    navigate('/chat');
   };
   
   console.log(staff,'staffdetails')
@@ -69,7 +71,7 @@ export const Staff = () => {
  </CardBody>
  <CardFooter className="pt-0 ">
    <Button onClick={()=>handleClick(mechanic)}>select</Button>
-  <Button className='ml-5' onClick={()=>handleChat(mechanic)}><BsFillChatDotsFill/></Button>
+  <Button className='ml-5' onClick={()=>handleChat(mechanic._id)}><BsFillChatDotsFill/></Button>
  </CardFooter>
 </Card>
         )

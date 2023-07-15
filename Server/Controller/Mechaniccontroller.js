@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const BrandModel = require("../Models/BrandModel");
 const cloudinary = require("../config/cloudinary");
+const UserModel = require("../Models/UserModel");
 const maxAge = 3 * 24 * 60 * 60;
 
 const handleError = (err) => {
@@ -159,7 +160,7 @@ module.exports.isMechanicAuth = async (req, res) => {
     if (mechanicDetails) {
       res.json({
         auth: true,
-        _id: mechanicDetails._id,
+        id: mechanicDetails.id,
         phone: mechanicDetails.phone,
         name: mechanicDetails.name,
         email: mechanicDetails.email,
@@ -238,3 +239,16 @@ module.exports.addmechanicSlots = async (req, res) => {
     res.json({ message: "Already existing Data", status: false, errors });
   }
 };
+module.exports.getUser = async (req, res) => {
+  try {
+    console.log(req.params.id,"id")
+    const id=req.params.id
+    console.log(id);
+    const user = await UserModel.find({_id:id});
+   console.log(user,"userrrrrr")
+    res.json({ success: true, result: user});
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({ success: false, message: error.message });
+  }
+}

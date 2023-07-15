@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
+  id:"",
   name: "",
   email: "",
   phone: "",
@@ -16,6 +17,7 @@ const mechanicSlice = createSlice({
   initialState,
   reducers: {
     setmechanicDetails: (state, action) => {
+      state.id=action.payload.id
       state.name = action.payload.name;
       state.email = action.payload.email;
       state.phone = action.payload.phone;

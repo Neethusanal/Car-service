@@ -580,7 +580,7 @@ module.exports.getMechanic = async (req, res) => {
     const id=req.params.id
     console.log(id);
     const mechanic = await MechanicModel.find({_id:id});
-    console.log(mechanic,'kkkkkkkkkkkkk')
+   
     res.json({ success: true, result: mechanic });
   } catch (error) {
     console.log(error);

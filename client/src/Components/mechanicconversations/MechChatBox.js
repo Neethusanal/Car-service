@@ -1,26 +1,27 @@
 import React, { useEffect, useRef, useState } from "react";
-import { addMessage, getMessages, getmechanicData } from "../../Services/UserApi";
+
 
 import profile from "../../Images/profile.jpg";
 import { format } from "timeago.js";
 import InputEmoji from "react-input-emoji";
 import { FiSend } from "react-icons/fi";
 import { Button } from "@material-tailwind/react";
+import { addMessage, getMessages, getUser } from "../../Services/MechanicApi";
 
 
-export const ChatBox = ({ chat, currentuserId, setSendMessage,recievedMessage}) => {
+export const MechChatBox = ({ chat, currentuserId, setSendMessage,recievedMessage}) => {
   const [userData, setUserData] = useState(null);
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
   const scroll=useRef()
-  console.log(recievedMessage)
-  
+
+//   console.log(chat,currentuserId,setSendMessage,recievedMessage)
   useEffect(() => {
-    const mechanicId = chat?.members?.find((id) => id !== currentuserId);
-    console.log(mechanicId);
+    const userId = chat?.members?.find((id) => id !== currentuserId);
+    console.log(userId,);
     const getUserData = async () => {
       try {
-        const { data } = await getmechanicData(mechanicId);
+        const { data } = await getUser(userId);
 
         setUserData(data.result);
       } catch (error) {
@@ -29,6 +30,7 @@ export const ChatBox = ({ chat, currentuserId, setSendMessage,recievedMessage}) 
     };
     if (chat !== null) getUserData();
   }, [chat, currentuserId]);
+  console.log(userData,"mechanic users")
   // Fetching data for messages
   useEffect(() => {
     const fetchMessages = async () => {
