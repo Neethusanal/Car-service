@@ -19,5 +19,7 @@ router.get('/getmechanicchat/:userid',VerifyMechanic,chatcontroller.userChat)
  router.post('/addmessage',VerifyMechanic,messagecontroller.addMessage)
  router.get('/getmessage/:chatId',VerifyMechanic,messagecontroller.getMessages)
  router.get('/getuserdata/:id',VerifyMechanic,mechaniccontroller.getUser)
+ router.get('/getservicedetails',VerifyMechanic,mechaniccontroller.getBookingDetails)
+ router.put('/updatebookingstatus/:id',VerifyMechanic,mechaniccontroller.updateBookingStatus)
 
 module.exports = router;

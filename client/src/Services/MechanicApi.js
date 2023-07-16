@@ -41,6 +41,12 @@ const mechanicChats=(id)=>{
   console.log(data);
   return mechanicAxiosInstance.post('/addmessage',data);
 };
+const bookingData=()=>{
+   return mechanicAxiosInstance.get('/getservicedetails')
+ }
+ const updatedServices=(id)=>{
+  return mechanicAxiosInstance.put(`/updatebookingstatus/${id}`)
+ }
 
 export {
   Mechanicregister,
@@ -54,5 +60,7 @@ export {
   mechanicChats,
   getUser,
   getMessages,
-  addMessage
+  addMessage,
+  bookingData,
+  updatedServices
 };

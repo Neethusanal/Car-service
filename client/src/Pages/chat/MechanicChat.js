@@ -19,8 +19,21 @@ export const MechanicChat = () => {
   const [onlineUsers, setOnlineUsers] = useState([]);
   const [sendMessage, setSendMessage] = useState(null);
   const [recievedMessage, setRecievedMessage] = useState(null);
+  useEffect(() => {
+    const getChats = async () => {
+      try {
+      
+        const { data } = await mechanicChats(mechanic.id);
+        console.log(data, "ddd");
+        setChats(data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    getChats();
+  }, [mechanic]);
   //Sending Message to socket Server
-
+console.log(chats,"chats of mechanic that is ise")
   useEffect(() => {
     socket.current = io(process.env.REACT_APP_BASE_URL);
     socket.current.emit("new-user-add", mechanic.id);
@@ -35,28 +48,16 @@ export const MechanicChat = () => {
     }
   }, [sendMessage]);
 
-  //Recieve Message to socket Server
-//   useEffect(() => {
-//     socket.current.on("recieve-message", (data) => {
-//       setRecievedMessage(data);
-//     });
-//   }, []);
+ // Recieve Message to socket Server
   useEffect(() => {
-    const getChats = async () => {
-      try {
-      
-        const { data } = await mechanicChats(mechanic.id);
-        console.log(data, "ddd");
-        setChats(data);
-      } catch (err) {
-        console.log(err);
-      }
-    };
-    getChats();
-  }, [mechanic]);
+    socket.current.on("recieve-message", (data) => {
+      setRecievedMessage(data);
+    });
+  }, []);
+ 
 
   const checkOnlinestatus = (chat) => {
-    const chatMembers = chat.members.find((member) => member !== mechanic.id);
+    const chatMembers = chat?.members?.find((member) => member !== mechanic.id);
     const online = onlineUsers.find(
       (mechanic) => mechanic.mechanicId === chatMembers
     );
@@ -73,7 +74,7 @@ export const MechanicChat = () => {
             <div className="chat-container">
               <h2 className="text-2xl font-bold mb-4">Chats</h2>
               <div className="chatList">
-                {chats.map((chat) => {
+                {chats?.map((chat) => {
                   return (
                     <div onClick={() => setCurrentChat(chat)}>
                       <MechChatConversations

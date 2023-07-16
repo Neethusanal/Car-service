@@ -19,6 +19,20 @@ export const Chat = () => {
   const [onlineUsers,setOnlineUsers]=useState([])
   const[sendMessage,setSendMessage]=useState(null)
   const[recievedMessage,setRecievedMessage]=useState(null)
+  useEffect(()=>{
+
+    const getChats=async()=>{
+      try{
+          const {data}=await userChats(user.id)
+          console.log(data,"ddd")
+          setChats(data)
+      }catch(err)
+      {
+        console.log(err)
+      }
+    }
+  getChats()
+   },[user])
 //Sending Message to socket Server
   
   useEffect(()=>{
@@ -37,26 +51,13 @@ export const Chat = () => {
   },[sendMessage])
 
   //Recieve Message to socket Server
-  // useEffect(()=>{
-  //   socket.current.on("recieve-message",(data)=>{
-  //     setRecievedMessage(data)
-  //   })
-  // },[])
-  // console.log(recievedMessage,"recieved message")
- useEffect(()=>{
+  useEffect(()=>{
+    socket.current.on("recieve-message",(data)=>{
+      setRecievedMessage(data)
+    })
+  },[])
+  console.log(recievedMessage,"recieved message")
 
-  const getChats=async()=>{
-    try{
-        const {data}=await userChats(user.id)
-        console.log(data,"ddd")
-        setChats(data)
-    }catch(err)
-    {
-      console.log(err)
-    }
-  }
-getChats()
- },[user])
 
  const checkOnlinestatus=(chat)=>{
   const chatMembers=chat.members.find((member)=>member!== user.id)

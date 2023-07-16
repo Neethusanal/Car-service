@@ -5,6 +5,7 @@ const bcrypt = require("bcrypt");
 const BrandModel = require("../Models/BrandModel");
 const cloudinary = require("../config/cloudinary");
 const UserModel = require("../Models/UserModel");
+const BookingModel = require("../Models/BookingModel");
 const maxAge = 3 * 24 * 60 * 60;
 
 const handleError = (err) => {
@@ -252,3 +253,25 @@ module.exports.getUser = async (req, res) => {
     res.status(400).json({ success: false, message: error.message });
   }
 }
+module.exports.getBookingDetails = async (req, res) => {
+  try {
+   
+    
+    const bookingdetails = await BookingModel.find({});
+   console.log(bookingdetails,"booking details")
+    res.json({ success: true, result:bookingdetails});
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({ success: false, message: error.message });
+  }
+}
+
+module.exports.updateBookingStatus = async (req, res) => {
+  try {
+   
+    
+  } catch (err) {
+    const errors = handleErrorManagent(err);
+    res.json({ message: "something went wrong", status: false, errors });
+  }
+};

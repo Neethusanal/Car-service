@@ -7,7 +7,7 @@ export const ChatConversations = ({ chatdata, currentuserId ,online}) => {
   useEffect(() => {
     const mechanicId = chatdata.members.find((id) => id !== currentuserId);
     console.log(mechanicId, "ussssssssssss");
-
+    console.log(online,"mmmmmmmmmm")
     const getUserData = async () => {
       try {
         const { data } = await getmechanicData(mechanicId);
@@ -45,7 +45,7 @@ export const ChatConversations = ({ chatdata, currentuserId ,online}) => {
                 </div>
                 <div className="text-lg w-full">
                   <span>{mechdata?.name}</span>
-                  <span className="float-right mr-2">{online?"online":"offline"}</span>
+                  <span className="float-right mr-2">{online ? "online":"offline"}</span>
                 </div>
               </div>
             );

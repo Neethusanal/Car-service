@@ -67,7 +67,7 @@ export const MechanicNavbar = () => {
             color="blue-gray"
             className="p-1 font-normal"
           >
-            <Link to="/mechanic/serviceDetails">Service Details</Link>
+            <Link to="/mechanic/servicedetails">Service Details</Link>
           </Typography>
         </>
       )}

@@ -10,6 +10,7 @@ import { Editprofile } from "../Pages/Mechanic/EditProfile";
 import { MechanicApproval } from "../Pages/Mechanic/MechanicApproval";
 import { SlotMechanic } from "../Pages/Mechanic/SlotMechanic";
 import { MechanicChat } from "../Pages/chat/MechanicChat";
+import Servicedetails from "../Pages/Mechanic/Servicedetails";
 
 
 const MechanicRoute = () => {
@@ -28,6 +29,7 @@ const MechanicRoute = () => {
             <Route exact path="/updateprofile" element={<Editprofile />} />
             <Route exact path="/mechanicslot" element={<SlotMechanic />} />
             <Route exact path="/chat" element={<MechanicChat/>} />
+            <Route exact path="/servicedetails" element={<Servicedetails/>} />
           </Route>
         </Route>
       </Routes>
