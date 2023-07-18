@@ -257,7 +257,7 @@ module.exports.getBookingDetails = async (req, res) => {
   try {
    
     
-    const bookingdetails = await BookingModel.find({});
+    const bookingdetails = await BookingModel.find({mechanic:req.mechanicId});
    console.log(bookingdetails,"booking details")
     res.json({ success: true, result:bookingdetails});
   } catch (error) {
@@ -266,12 +266,105 @@ module.exports.getBookingDetails = async (req, res) => {
   }
 }
 
-module.exports.updateBookingStatus = async (req, res) => {
-  try {
+// module.exports.updateBookingStatus = async (req, res) => {
+//   try {
+//     const {id,newStatus}=req.body
+//     console.log(id,newStatus,"valueee")
+//     const booking = await BookingModel.findById({_id:id});
+
+//     if (!booking) {
+//       res.json({ success: false, message:"No Booking details found"});
+//       return;
+//     }
+
+//     // Update the service_status based on the newStatus
+//     switch (newStatus) {
+//       case 'Pickup':
+//         booking.service_status.pickup.state = true;
+//         booking.service_status.pickup.date = new Date();
+//         break;
+//       case 'On Service':
+//         booking.service_status.onService.state = true;
+//         booking.service_status.onService.date = new Date();
+//         break;
+//       case 'Completed':
+//         case 'Completed':
+//           booking.service_status.servicecompleted.state = true;
+//           booking.service_status.servicecompleted.date = new Date();
+//           break;
+        
+//       case 'Delivered':
+//         booking.service_status.dropped.state = true;
+//         booking.service_status.dropped.date = new Date();
+//         break;
+//       default:
+//         // Handle if the newStatus is not valid
+//         return;
+//     }
+
+//     await booking.save();
+
+//     res.json({ success: true, result:booking});
    
     
+//   } catch (err) {
+//     const errors = handleErrorManagent(err);
+//     res.json({ message: "something went wrong", status: false, errors });
+//   }
+// };
+
+module.exports.updateBookingStatus = async (req, res) => {
+  try {
+    const { id, newStatus } = req.body;
+    console.log(id, newStatus, "valueee");
+    const booking = await BookingModel.findById({ _id: id });
+
+    if (!booking) {
+      res.json({ success: false, message: "No Booking details found" });
+      return;
+    }
+
+    // Update the service_status based on the newStatus
+    switch (newStatus) {
+      case 'Pickup':
+        booking.service_status.pickup.state = true;
+        booking.service_status.pickup.date = new Date();
+        break;
+      case 'On Service':
+        booking.service_status.onService.state = true;
+        booking.service_status.onService.date = new Date();
+        break;
+      case 'Completed':
+        booking.service_status.servicecompleted.state = true;
+        booking.service_status.servicecompleted.date = new Date();
+        break;
+      case 'Delivered':
+        booking.service_status.dropped.state = true;
+        booking.service_status.dropped.date = new Date();
+        break;
+      default:
+        // Handle if the newStatus is not valid
+        return;
+    }
+
+    await booking.save();
+
+    const status =
+  booking?.service_status?.dropped?.state
+    ? 'Delivered'
+    : booking?.service_status?.servicecompleted?.state
+    ? 'Completed'
+    : booking?.service_status?.onService?.state
+    ? 'On Service'
+    : booking?.service_status?.pickup?.state
+    ? ' For Pickup'
+    : '';
+    console.log(status)
+    res.json({ success: true, result: booking, status });
   } catch (err) {
+    console.log(err)
     const errors = handleErrorManagent(err);
-    res.json({ message: "something went wrong", status: false, errors });
+    res.json({ message: 'something went wrong', status: false, errors });
   }
 };
+

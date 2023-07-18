@@ -108,6 +108,9 @@ const getAllLocations = () => {
 const deleteLoc = (id) => {
   return adminAxiosInstance.post(`/deleteloc/${id}`);
 };
+ const getBookingData=()=>{
+  return adminAxiosInstance.get('/getallbookingdata')
+ }
 
 export {
   adminSignin,
@@ -143,4 +146,5 @@ export {
   addLocation ,
   getAllLocations,
   deleteLoc, 
+  getBookingData,
 };

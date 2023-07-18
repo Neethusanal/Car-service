@@ -44,8 +44,9 @@ const mechanicChats=(id)=>{
 const bookingData=()=>{
    return mechanicAxiosInstance.get('/getservicedetails')
  }
- const updatedServices=(id)=>{
-  return mechanicAxiosInstance.put(`/updatebookingstatus/${id}`)
+ const updatedServices=(data)=>{
+  console.log(data,"dataaaaaaaaaaaaaaa")
+  return mechanicAxiosInstance.put("updatebookingstatus",data)
  }
 
 export {

@@ -451,6 +451,9 @@ module.exports.getBrandMechanic = async (req, res) => {
       {
         $match: {
           'brand.brandName': userBrand,
+          'isBanned':false
+
+
         },
       },
     ]);
@@ -519,7 +522,8 @@ module.exports.payment = async (req, res) => {
 module.exports.verifyRazorPayment = async (req, res) => {
   try {
    console.log(req.body,"body data")
-    let { razorpay_order_id, razorpay_payment_id, razorpay_signature, user,selectedslot,amount,vehicleBrand,vehicleModel,serviceType} = req.body;
+    let { razorpay_order_id, razorpay_payment_id, razorpay_signature, user,selectedslot,amount,vehicleBrand,vehicleModel,serviceType,mechanicid} = req.body;
+    
     const sign = razorpay_order_id + "|" + razorpay_payment_id;
     const expectedSign = crypto
       .createHmac("sha256", process.env.key_secret)
@@ -537,7 +541,8 @@ module.exports.verifyRazorPayment = async (req, res) => {
         bookedSlot:selectedslot,
         serviceselected:serviceType,
         vehicleBrand:vehicleBrand,
-        vehicleModel:vehicleModel
+        vehicleModel:vehicleModel,
+        mechanic:mechanicid
 
 
       })
@@ -552,6 +557,7 @@ module.exports.verifyRazorPayment = async (req, res) => {
         .status(400)
         .json({ success: false, message: "invalid Signature" });
     }
+    
   } catch (err) {
     console.log(err);
     return res
@@ -568,8 +574,7 @@ module.exports.getserviceDetails = async (req, res) => {
     const {email}=req.query
     console.log(email)
     const servicehistory = await BookingModel.find({'user.email':email});
-    console.log(servicehistory)
-    res.json({ success: true, result: servicehistory});
+      res.json({ success: true, servicehistory});
   } catch (error) {
     console.log(error);
     res.status(400).json({ success: false, message: error.message });

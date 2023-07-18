@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Card, CardHeader, CardBody, Typography, Button } from "@material-tailwind/react";
-import Navbar from '../../Components/Navbar';
+
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { FaPlus } from 'react-icons/fa';
@@ -75,7 +75,7 @@ console.log(filteredSlots)
         console.log(res.data)
         if(res.data.success)
         {
-          navigate('/payment')
+          navigate('/payment', { state: { expertmechanic } });
         }
       })
     }

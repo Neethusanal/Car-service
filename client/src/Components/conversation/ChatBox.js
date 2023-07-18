@@ -130,9 +130,9 @@ export const ChatBox = ({
   <div
     ref={scroll}
      key={index}
-    className="msg own justify-end flex mb-2"
+    className= " msg justify-end flex mb-2"
   >
-    <div className="msg-content bg-blue-500 text-white p-3 rounded-lg">
+    <div className=" text-white p-3 rounded-lg">
       <span className="text-lg font-semibold">{msg.text}</span>
       <span className="text-sm">{format(msg.createdAt)}</span>
     </div>

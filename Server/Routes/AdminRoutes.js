@@ -39,6 +39,7 @@ router.post('/blockmechanic/:id',VerifyAdmin,admincontroller.mechanicBlock)
 router.post('/addlocation',VerifyAdmin,admincontroller.addPlaces)
 router.get('/getalllocations',VerifyAdmin,admincontroller.allLocations)
 router.post('/deleteloc/:id',VerifyAdmin,admincontroller.deleteLocation)
+router.get('/getallbookingdata',VerifyAdmin,admincontroller.getBookingData)
 
 
 module.exports = router;

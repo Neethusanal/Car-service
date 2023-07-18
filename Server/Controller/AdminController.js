@@ -11,6 +11,7 @@ const BannerModel = require("../Models/BannerModel");
 const fs = require("fs");
 const ServicelistModel = require("../Models/ServicelistModel");
 const LocationModel = require("../Models/LocationModel");
+const BookingModel = require("../Models/BookingModel");
 const maxAge = 3 * 24 * 60 * 60;
 
 // const handleError = (err) => {
@@ -630,5 +631,15 @@ module.exports.deleteLocation = async (req, res) => {
   } catch (error) {
     console.log(error);
     res.json({ message: "Something went wrong", status: false });
+  }
+};
+module.exports.getBookingData = async (req, res) => {
+  try {
+    const bookingdata = await BookingModel.find();
+    console.log(bookingdata)
+      res.json({ success: true, result:bookingdata});
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({ success: false, message: error.message });
   }
 };

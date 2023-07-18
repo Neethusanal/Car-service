@@ -8,10 +8,11 @@ const Servicedetails = () => {
    
    
   const [services, setServices] = useState([]);
+  const[status,setStatus]=useState('')
 
   useEffect(()=>{
     getBookingDetails()
-  },[])
+  },[status])
   const getBookingDetails=()=>{
     bookingData().then((res)=>{
         console.log(res.data.result)
@@ -19,27 +20,33 @@ const Servicedetails = () => {
         
     })
   }
-useEffect(()=>{
 
-},[services])
-  const updateStatus = (id) => {
-         updatedServices (id).then((res)=>{
-            console.log(res.data)
-            setServices(updatedServices);
-         })
-      };
+const updateStatus = (id, newStatus) => {
+  updatedServices({ id, newStatus }).then((res) => {
+    const updatedService = res.data.result;
+    
+    const updatedServices = services.map((service) => {
+      if (service._id === updatedService._id) {
+        return updatedService;
+      }
+      return service;
+    });
+    setServices(updatedServices);
+    setStatus(res.data.status)
+  });
+};
 
-//   const updateStatus = (id, newStatus) => {
-//     const updatedServices = services.map((service) => {
-//       if (service._id === id) {
-//         return { ...service, status: newStatus };
-//       }
-//       return service;
-//     });
-//     setServices(updatedServices);
-//   };
+  // const updateStatus = (id, newStatus) => {
+  //   const updatedServices = services.map((service) => {
+  //     if (service._id === id) {
+  //       return { ...service, status: newStatus };
+  //     }
+  //     return service;
+  //   })
+  //   setServices(updatedServices);
+  // };
 
-
+console.log(status,"sttatuusssssss")
 
 
   return (
@@ -71,7 +78,10 @@ useEffect(()=>{
             Booked Slots: <strong>{service. bookedSlot}</strong>
           </p>
           <p className="mb-2">
-            Status: <strong>{service.status}</strong> 
+            Status:{" "}
+            <strong>
+              {status}
+            </strong>
           </p>
           <div className="mb-2">
             User Details:

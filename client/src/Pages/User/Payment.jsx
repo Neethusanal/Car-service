@@ -12,7 +12,7 @@ import { useSelector } from 'react-redux';
 
 
 import { completePayment, verifyUserPayment } from '../../Services/UserApi';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
  const keyId = process.env.REACT_APP_KEY_ID
 
 export const Payment = () => {
@@ -23,6 +23,10 @@ export const Payment = () => {
   const [selectedslot,setSelectedSlot]=useState(user?.bookedSlots)
   const [amount,setAmount]=useState(user?.cartTotal)
   const navigate=useNavigate()
+  const location = useLocation();
+  const mechanic = location.state?.expertmechanic;
+  const mechanicid=mechanic._id
+  console.log(mechanic,"mechanixxxxxxxxxxxx")
   useEffect(()=>{
     // setVehicleBrand(user?.brand)
     // setVehicleModel(user?.model)
@@ -66,6 +70,9 @@ const handlePayment=()=>{
               serviceType,
               vehicleBrand,
               vehicleModel,
+              mechanicid
+           
+
               
             }).then((res)=>{
             if(res.data.success)

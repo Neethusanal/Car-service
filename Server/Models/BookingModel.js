@@ -4,7 +4,11 @@ const BookingSchema=  new mongoose.Schema({
    user:{
         type:Object,
    },
-   
+   mechanic:{
+    type:mongoose.Types.ObjectId,
+        required: true,
+        ref: "Mechanic",
+   },
 
     billAmount:{
         type:Number

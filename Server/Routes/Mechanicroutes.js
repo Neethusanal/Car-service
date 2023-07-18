@@ -20,6 +20,6 @@ router.get('/getmechanicchat/:userid',VerifyMechanic,chatcontroller.userChat)
  router.get('/getmessage/:chatId',VerifyMechanic,messagecontroller.getMessages)
  router.get('/getuserdata/:id',VerifyMechanic,mechaniccontroller.getUser)
  router.get('/getservicedetails',VerifyMechanic,mechaniccontroller.getBookingDetails)
- router.put('/updatebookingstatus/:id',VerifyMechanic,mechaniccontroller.updateBookingStatus)
+ router.put('/updatebookingstatus',VerifyMechanic,mechaniccontroller.updateBookingStatus)
 
 module.exports = router;

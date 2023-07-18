@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { approveMechanic, blockMechanic, getAllMechanic, rejectMechanic } from "../../Services/AdminApi";
 
 import Swal from "sweetalert2"
-const TABLE_HEAD = ["Image", "Name", "Email", "status", "  ", "Adminapproval", ""];
+const TABLE_HEAD = ["Image", "Name", "Email","certificate ", "status" , "Adminapproval", ""];
 
 
 export const Adminmechmanagement = () => {
@@ -125,9 +125,7 @@ export const Adminmechmanagement = () => {
                           size="md"
                           className="border border-blue-gray-50 bg-blue-gray-50/50 object-contain p-1"
                         />
-                        {/* <Typography variant="small" color="blue-gray" className="font-bold">
-                          {name}
-                        </Typography> */}
+                       
                       </div>
                     </td>
                     <td className={classes}>
@@ -141,15 +139,22 @@ export const Adminmechmanagement = () => {
                       </Typography>
                     </td>
                     <td className={classes}>
+                    <div className="flex items-center gap-3">
+                       <img
+                          src={items.certificate}
+                          alt={""}
+                          size="md"
+                          className="border h-20 w-20 border-blue-gray-50 bg-blue-gray-50/50 object-contain p-1"
+                      />
+                       
+                      </div>
+                    </td>
+                    <td className={classes}>
                       <Typography variant="small" color="blue-gray" className="font-normal">
                         {items.status}
                       </Typography>
                     </td>
-                    {/* <td className={classes}>
-                      <Typography variant="small" color="blue-gray" className="font-normal">
-                        {items.brandsserved}
-                      </Typography>
-                    </td>  */}
+                    
 
                     <td className={classes}>
                       <Button size="sm" onClick={() => handleApprove(items)}>

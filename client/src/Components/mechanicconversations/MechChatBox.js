@@ -94,7 +94,7 @@ export const MechChatBox = ({
                       key={index}
                     >
                       <div className="mr-4">
-                        <div className="online-dot"></div>
+                       
                         <img
                           src={mechdata?.image || profile}
                           alt=""
@@ -113,6 +113,7 @@ export const MechChatBox = ({
               <hr className="my-4 border-gray-300" />
             </div>
  {/* chatBox Messages */}
+ 
  <div className="chatbody ">
               {messages?.map((msg, index) => {
                 return (
@@ -121,9 +122,9 @@ export const MechChatBox = ({
   <div
     ref={scroll}
      key={index}
-    className="msg own justify-end flex mb-2"
+    className= "msg justify-end flex mb-2"
   >
-    <div className="msg-content bg-blue-500 text-white p-3 rounded-lg">
+    <div className=" text-white p-3 rounded-lg">
       <span className="text-lg font-semibold">{msg.text}</span>
       <span className="text-sm">{format(msg.createdAt)}</span>
     </div>
@@ -144,7 +145,6 @@ export const MechChatBox = ({
                 );
               })}
             </div>
-          
 
             {/* chat sender */}
 

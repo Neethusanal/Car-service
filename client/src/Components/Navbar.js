@@ -57,14 +57,15 @@ const Navbar = () => {
                   Services
                 </a>
               </li>
-              <li>
-                <a href="/about" className="text-white hover:text-gray-300">
-                  About
-                </a>
-              </li>
+              
               <li>
                 <a href="/contact" className="text-white hover:text-gray-300">
                   Contact
+                </a>
+              </li>
+              <li>
+                <a href="/servicehistory" className="text-white hover:text-gray-300">
+                  ServiceDetails
                 </a>
               </li>
 
