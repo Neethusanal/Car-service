@@ -4,7 +4,8 @@ import { Outlet } from 'react-router-dom'
 
 const Mechaniclayout = () => {
   return (
-    <div>
+    <>
+    <div className="max-w-screen-xl mx-auto rounded-2xl">
         <MechanicNavbar/>
         <div className='container mx-auto'>
 
@@ -12,6 +13,7 @@ const Mechaniclayout = () => {
         </div>
 
     </div>
+    </>
   )
 }
 

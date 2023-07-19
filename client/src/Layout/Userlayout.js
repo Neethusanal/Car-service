@@ -5,11 +5,12 @@ import { Outlet } from 'react-router-dom'
 export const Userlayout = () => {
   return (
     <>
-
+<div className="max-w-screen-xl mx-auto rounded-2xl">
         <Navbar/>
         <div >
 
         <Outlet/>
+        </div>
         </div>
     </>
   )

@@ -155,7 +155,7 @@ export const ChatBox = ({
             </div>
             {/* chat sender */}
               <div>
-            <div className="chat-sender flex items-center">
+            <div className="chat-sender flex items-center fixed mb-0">
               <InputEmoji
                 value={newMessage}
                 onChange={handleChange}

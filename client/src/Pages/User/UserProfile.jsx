@@ -29,7 +29,7 @@ export const UserProfile = () => {
     })
   }
   const handleClose = () => {
-    navigate('/bookslot')
+    navigate('/')
   }
 
   return (

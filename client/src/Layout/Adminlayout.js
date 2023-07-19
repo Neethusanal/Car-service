@@ -14,12 +14,9 @@ export const Adminlayout = () => {
        
         <AdminNavbar />
         <div className="flex">
-
-        
         <Adminsidebar/>
         <div className="mx-auto">
-         
-            <Outlet/>
+        <Outlet/>
         </div>
       </div>
     
