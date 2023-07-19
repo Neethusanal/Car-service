@@ -635,7 +635,7 @@ module.exports.deleteLocation = async (req, res) => {
 };
 module.exports.getBookingData = async (req, res) => {
   try {
-    const bookingdata = await BookingModel.find();
+    const bookingdata = await BookingModel.find({});
     console.log(bookingdata)
       res.json({ success: true, result:bookingdata});
   } catch (error) {

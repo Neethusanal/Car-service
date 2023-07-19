@@ -64,7 +64,7 @@ const Navbar = () => {
                 </a>
               </li>
               <li>
-                <a href="/servicehistory" className="text-white hover:text-gray-300">
+                <a href="/userservicehistory" className="text-white hover:text-gray-300">
                   ServiceDetails
                 </a>
               </li>
