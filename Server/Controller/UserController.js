@@ -16,6 +16,7 @@ const { sendEmailOTP } = require("../Middleware/Nodemailer");
 const mongoose = require('mongoose');
 const Razorpay=require('razorpay');
 const ChatModel = require("../Models/ChatModel");
+const ReviewModel = require("../Models/ReviewModel");
 const key_id=process.env.KEY_ID
 const key_secret=process.env.KEY_SECRET
 
@@ -131,7 +132,7 @@ module.exports.loginUser = async (req, res, next) => {
       const validpassword =  bcrypt.compare(password, user.password);
       if (validpassword) {
         const userId = user._id;
-        const token = jwt.sign({ userId }, process.env.JWT_SECRET_KEY, {
+        const token = jwt.sign({ userId,role:"user" }, process.env.JWT_SECRET_KEY, {
           expiresIn: maxAge,
         });
         console.log(token, "token");
@@ -305,6 +306,7 @@ module.exports.addToCart = async (req, res) => {
       if (!plan) {
         return res.status(400).json({ message: "Plan does not exist" });
       } else {
+        console.log(plan)
         const brandserved = user.brand;
         const brandData = await BrandModel.findOne({ brandName: brandserved });
         if (!brandData) {
@@ -329,7 +331,7 @@ module.exports.addToCart = async (req, res) => {
             basicPay:basicPay
           },
           { new: true }
-        );
+        ).populate("cart");
 
         return res.status(200).json({
           message: "Service has been added to the cart successfully",
@@ -352,14 +354,17 @@ module.exports.deleteCartItem = async (req, res) => {
     console.log(id)
     let item=await ServicelistModel.findById({_id:id}) 
     console.log(item,"ittteeemmm")
-    let cart = await UserModel.findByIdAndUpdate(
+    let cartdata = await UserModel.findByIdAndUpdate(
       { _id: req.userId },
       { $pull: { cart: id } } ,
       
      
+      
+     
     );
+    const cart=await UserModel.findById({_id: req.userId }).populate("cart")
     console.log(cart);
-    return res.status(200).json({ success: true });
+    return res.status(200).json({ success: true ,result:cart});
   } catch (err) {
     console.log(err);
   }
@@ -590,5 +595,28 @@ module.exports.getMechanic = async (req, res) => {
   } catch (error) {
     console.log(error);
     res.status(400).json({ success: false, message: error.message });
+  }
+};
+module.exports.createReview = async (req, res) => {
+
+  const{newReview,mechanicId}=req.body
+  console.log(newReview.name)
+
+  try {
+    // Validate the incoming data (you can use a library like "joi" for validation)
+
+    // Create the review
+    const review = await ReviewModel.create({
+
+      user:req.userId,
+      mechanic:mechanicId,
+     message:newReview.comment,
+      rating:newReview. rating,
+      date:newReview.date
+    });
+    return res.status(201).json({ success: true, review });
+  } catch (error) {
+    console.error('Error creating review:', error);
+    return res.status(500).json({ success: false, error: 'Server Error' });
   }
 };

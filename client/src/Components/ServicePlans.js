@@ -8,6 +8,8 @@ import {
   Button,
   CardFooter,
 } from "@material-tailwind/react";
+import { useDispatch, useSelector } from "react-redux";
+import { setUserDetails } from "../Redux/UserSlice";
 
 
 
@@ -17,7 +19,8 @@ export const ServicePlans = () => {
   const [serviceList, setServiceList] = useState([]);
   const [selectedServiceId, setSelectedServiceId] = useState(null);
   const [selectedPlans, setSelectedPlans] = useState({});
- 
+  const dispatch=useDispatch()
+  const user= useSelector((state) => state.user)
 
   useEffect(() => {
     getAllServices();
@@ -58,7 +61,16 @@ export const ServicePlans = () => {
 
     addPlansToCart(selectedServiceId, planId).then((res) => {
       if (res.data.success) {
-        
+        console.log(res.data)
+        dispatch(
+          setUserDetails({
+
+
+         ...user,cart:res.data.result.cart
+
+
+          }))
+ 
       }
     });
   };
@@ -90,7 +102,7 @@ export const ServicePlans = () => {
         </svg>
       </button>
       <div className="hidden w-full md:block md:w-auto" id="navbar-multi-level">
-        <ul className="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
+        <ul className="flex flex-col font-black p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
           {services.map((service, index) => {
             return (
               <li key={service._id}>
@@ -109,13 +121,68 @@ export const ServicePlans = () => {
   </nav>
 
   {selectedServiceId && (
-        <div className="flex sticky top-0 flex-wrap md:flex-nowrap">
+        <div className="">
           {serviceList.map((plans) => {
             const isSelectedPlan =
               selectedPlans[selectedServiceId] === plans._id;
             return (
-              <div className="w-full md:w-1/3 px-5 py-20" key={plans._id}>
-                <Card
+              <div className="w-full px-5 py-14 " key={plans._id}>
+
+
+<div className={`w-auto border border-gray-500 bg-white ${
+      isSelectedPlan ? 'bg-blue-200' : ''
+    } p-2 rounded-md shadow-md`}>
+      <div className="h-10 bg-white border border-gray-300 p-2 rounded-t-md">
+        <h2 className="text-black font-extrabold">{plans.servicelistName}</h2>
+      </div>
+      <div className="grid grid-cols-2 gap-4 mt-4">
+        {plans.description.map((item, index) => (
+          <p key={index} className="text-black font-thin">
+            {item}
+          </p>
+        ))}
+      </div>
+      <div className="flex justify-between items-center mt-4">
+        <h2 className="text-black font-semibold">Rs {plans.price}</h2>
+        {isSelectedPlan ? (
+          <p className="text-blue-500 font-semibold">Plan selected</p>
+        ) : (
+          <button
+            onClick={() => handleAddtoCart(plans._id)}
+            className="px-4 py-2 bg-green-400 text-white font-semibold rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600"
+          >
+            Add to Cart
+          </button>
+        )}
+      </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                {/* <Card
                   className={`w-auto bg-gray-500 white ${
                     isSelectedPlan ? "bg-blue-200" : ""
                   }`}
@@ -167,7 +234,7 @@ export const ServicePlans = () => {
                       </Button>
                     )}
                   </CardFooter>
-              </Card>
+              </Card> */}
               
             </div>
           );

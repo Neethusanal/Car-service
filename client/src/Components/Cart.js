@@ -10,10 +10,11 @@ import {
   } from "@material-tailwind/react";
 
   import Swal from "sweetalert2";
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { AiOutlineDelete } from 'react-icons/ai';
 import { deleteItem } from '../Services/UserApi';
 import { useNavigate } from 'react-router-dom';
+import { setUserDetails } from '../Redux/UserSlice';
 
 
 
@@ -22,14 +23,16 @@ import { useNavigate } from 'react-router-dom';
 export const Cart = () => {
   const user=useSelector((state)=>state.user)
   console.log(user)
-  const [cartdata,setCartData]=useState([])
   const [totalSum, setTotalSum] = useState(0);
+  const [deleted,setDeleted]=useState()
+  const dispatch=useDispatch()
+  
   const navigate=useNavigate()
   useEffect(()=>{
-   setCartData(user.cart)
-   setTotalSum(user.cartTotal)
+   
+   
 
-  },[cartdata])
+  },[,deleted])
   //Delete the items in cart
 const deleteCartData= (id)=>{
   Swal.fire({
@@ -44,10 +47,18 @@ const deleteCartData= (id)=>{
     if (result.isConfirmed) {
         let { data } = await deleteItem(id)
         if (data.success) {
+          setDeleted(id) 
             Swal.fire(
                 'The item has be Removed',
-                
-            )
+                dispatch(
+                  setUserDetails({
+        
+                 ...user,cart:data.result.cart
+        
+                  }))
+                 
+              
+            )  
         }
     }
   })
@@ -91,9 +102,9 @@ const handleContinue=()=>{
        
       </thead>
       <tbody className="bg-white divide-y divide-gray-500">
-      {cartdata.map((data,index)=>{
+      {user?.cart?.map((data,index)=>{
           return(
-        <tr>
+        <tr key={index+'sdf'}>
           <td className="px-6 py-4 text-black whitespace-nowrap">{data.servicelistName}</td>
           <td className="px-6 py-4  text-black whitespace-nowrap">{data.price}</td>
           <td >

@@ -55,7 +55,7 @@ module.exports.adminLogin = async (req, res, next) => {
 
       if (validPassword) {
         const adminId = admin._id;
-        const token = jwt.sign({ adminId }, process.env.JWT_SECRET_KEY, {
+        const token = jwt.sign({ adminId,role:"admin" }, process.env.JWT_SECRET_KEY, {
           expiresIn: 30000,
         });
         console.log(token);

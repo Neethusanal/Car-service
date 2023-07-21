@@ -92,6 +92,10 @@ const userChats=(id)=>{
   console.log(data);
   return userAxiosInstance.post('/addmessage',data);
 };
+const addReview = (data) => {
+  console.log(data);
+  return userAxiosInstance.post('/addreview',data);
+};
 export {
   userRegister,
   userOtpsubmit,
@@ -117,5 +121,6 @@ export {
  userChats,
   getmechanicData,
   getMessages,
-  addMessage
+  addMessage,
+  addReview
 };

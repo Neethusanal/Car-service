@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   Card,
   CardHeader,
@@ -8,75 +8,97 @@ import {
   Button
 } from "@material-tailwind/react";
 import { BsFillChatDotsFill } from 'react-icons/bs';
-import { createChatWihMechanic, getExpertMechanic } from '../../Services/UserApi';
+import { addReview, createChatWihMechanic, getExpertMechanic } from '../../Services/UserApi';
 import { useNavigate } from 'react-router-dom';
-import Navbar from '../../Components/Navbar';
 import { useSelector } from 'react-redux';
-import { io } from "socket.io-client";
+import AddReview from '../../Components/AddReview';
+ import { AiOutlineCheck } from 'react-icons/ai'
+
 
 export const Staff = () => {
-  const socket = useRef();
-  const user= useSelector((state) => state.user)
-  const [staff,setStaff]=useState([])
-  const navigate=useNavigate()
-  useEffect(()=>{
+  const user = useSelector((state) => state.user)
+  const [staff, setStaff] = useState([])
+  const navigate = useNavigate()
+  useEffect(() => {
     getStaff()
 
-  },[])
- 
+  }, [])
 
-  
+  const handleAddReview = (newReview, mechanicId) => {
+    console.log(newReview,"newreview")
+    console.log(mechanicId,"mechanicId")
+    //Assuming a function called "addReview" to handle backend communication
+    addReview({ newReview, mechanicId})
+      .then((response) => {
+        // Update the reviews for the specific mechanic
+        const updatedStaff = staff.map((mechanic) =>
+          mechanic._id === mechanicId
+            ? { ...mechanic, reviews: [...mechanic.reviews, response.data] }
+            : mechanic
+        );
+        setStaff(updatedStaff);
+      })
+      .catch((error) => {
+        // Handle error if the review submission fails
+        console.error('Error adding review:', error);
+      });
+  };
 
-  const handleClick=(mechanic)=>{
-    console.log(mechanic,"mechanicdetails")
-    navigate('/bookslot',{ state: { mechanic} })
+
+  const handleClick = (mechanic) => {
+    navigate('/bookslot', { state: { mechanic } })
   }
-  const getStaff=()=>{
-    getExpertMechanic().then((res)=>{
-      console.log(res.data)
-      if(res.data.success)
-      {
+
+  const getStaff = () => {
+    getExpertMechanic().then((res) => {
+      if (res.data.success) {
         setStaff(res.data.result)
       }
     })
   }
   const handleChat = (id) => {
-    const {data}=createChatWihMechanic({senderId:user.id,recieverId:id})
-    console.log(data)
-
+    const { data } = createChatWihMechanic({ senderId: user.id, recieverId: id })
     navigate('/chat');
   };
-  
-  console.log(staff,'staffdetails')
+
   return (
     <div>
-      
+
       <div className="flex flex-wrap">
-      {staff.map((mechanic,index)=>{
-        return(
- <Card className="mt-20 ml-14 w-80 flex">
- <CardHeader color="blue-gray" className="relative h-56">
-   <img src={mechanic.image} className="h-72 w-80 sm:w-auto md:w-auto lg:w-auto"/>
- </CardHeader>
- <CardBody>
-   <Typography variant="h5" color="blue-gray" className="mb-2">
-   Name:{mechanic.name}
-   </Typography>
-   <Typography>
-    Qualification:{mechanic.qualification}
-   </Typography>
-   <Typography>
-   Experience: {mechanic.experience}
-   </Typography>
- </CardBody>
- <CardFooter className="pt-0 ">
-   <Button onClick={()=>handleClick(mechanic)}>select</Button>
-  <Button className='ml-5' onClick={()=>handleChat(mechanic._id)}><BsFillChatDotsFill/></Button>
- </CardFooter>
-</Card>
-        )
-      })}
-     </div>
+        {staff.map((mechanic, index) => {
+          return (
+            <Card className="mt-20 ml-14 w-auto flex">
+              <CardHeader color="blue-gray" className="relative h-56">
+                <img src={mechanic.image} className="h-72 w-80 sm:w-auto md:w-auto lg:w-auto" />
+              </CardHeader>
+              <CardBody>
+                <Typography variant="h5" color="blue-gray" className="mb-2">
+                  Name:{mechanic.name}
+                </Typography>
+                <Typography>
+                  Qualification:{mechanic.qualification}
+                </Typography>
+                <Typography>
+                  Experience: {mechanic.experience}
+                </Typography>
+                <Typography>
+                  Review:
+                </Typography>
+              </CardBody>
+              <CardFooter className="pt-0 ">
+                <button className="px-4 py-2 text-sm font-medium text-white bg-black rounded"onClick={() => handleClick(mechanic)}><AiOutlineCheck /></button>
+                <button className='ml-5 px-4 py-2 text-sm font-medium text-white bg-black rounded' onClick={() => handleChat(mechanic._id)}><BsFillChatDotsFill /></button>
+              
+              </CardFooter>
+              <container>
+                <h2>Add Reviews</h2>
+                <hr/>
+                <AddReview onSubmitReview={(newReview) => handleAddReview(newReview, mechanic._id)} />
+              </container>
+            </Card>
+          )
+        })}
+      </div>
     </div>
   )
 }

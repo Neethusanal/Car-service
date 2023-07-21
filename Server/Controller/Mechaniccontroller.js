@@ -129,7 +129,7 @@ module.exports.mechanicLogin = async (req, res, next) => {
       const validpassword = bcrypt.compare(password, mechanic.password);
       if (validpassword) {
         const mechanicId = mechanic._id;
-        const token = jwt.sign({ mechanicId }, process.env.JWT_SECRET_KEY, {
+        const token = jwt.sign({ mechanicId,role:"mechanic" }, process.env.JWT_SECRET_KEY, {
           expiresIn: 30000,
         });
         console.log(token, "token");

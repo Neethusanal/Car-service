@@ -15,8 +15,17 @@ module.exports.VerifyAdmin = (req, res, next) => {
             message: "failed to authenticate",
           });
         } else {
+          // console.log(decoded,",lkjhgfdsa")
           req.adminId = decoded.adminId;
-          next();
+          if(decoded.role=="admin")
+          { 
+
+            next();
+          }
+          else{
+            res.json({ message:"Role not verified"})
+          }
+        
         }
       });
     }
@@ -41,7 +50,14 @@ module.exports.VerifyUser = (req, res, next) => {
           });
         } else {
           req.userId = decoded.userId;
-          next();
+          if(decoded.role=="user")
+          {
+            next();
+          }
+          else{
+            res.json({ message:"Role not verified"})
+          }
+        
         }
       });
     }
@@ -65,7 +81,14 @@ module.exports.VerifyMechanic = (req, res, next) => {
           });
         } else {
           req.mechanicId = decoded.mechanicId;
-          next();
+          if(decoded.role=="mechanic")
+          {
+            next();
+          }
+          else{
+            res.json({ message:"Role not verified"})
+          }
+        
         }
       });
     }
