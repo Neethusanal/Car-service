@@ -614,9 +614,30 @@ module.exports.createReview = async (req, res) => {
       rating:newReview. rating,
       date:newReview.date
     });
-    return res.status(201).json({ success: true, review });
+    // Update the averageRating for the mechanic
+    const mechanic = await MechanicModel.findById(mechanicId);
+    const allReviews = await ReviewModel.find({ mechanic: mechanicId });
+
+    const totalRating = allReviews.reduce((total, review) => total + review.rating, 0);
+    const averageRating = totalRating / allReviews.length;
+
+    mechanic.averageRating = averageRating;
+    await mechanic.save();
+    return res.status(201).json({ success: true, review,mechanic });
   } catch (error) {
     console.error('Error creating review:', error);
     return res.status(500).json({ success: false, error: 'Server Error' });
+  }
+};
+module.exports.getReviews = async (req, res) => {
+  try {
+    const id=req.params.id
+    const reviews = await ReviewModel.find({mechanic:id}).populate('mechanic').populate('user')
+    
+   
+    res.json({ success: true, result: reviews });
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({ success: false, message: error.message });
   }
 };

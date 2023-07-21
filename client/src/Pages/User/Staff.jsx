@@ -5,10 +5,9 @@ import {
   CardBody,
   CardFooter,
   Typography,
-  Button
 } from "@material-tailwind/react";
 import { BsFillChatDotsFill } from 'react-icons/bs';
-import { addReview, createChatWihMechanic, getExpertMechanic } from '../../Services/UserApi';
+import { addReview, createChatWihMechanic, getAllReview, getExpertMechanic } from '../../Services/UserApi';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import AddReview from '../../Components/AddReview';
@@ -18,15 +17,23 @@ import AddReview from '../../Components/AddReview';
 export const Staff = () => {
   const user = useSelector((state) => state.user)
   const [staff, setStaff] = useState([])
-  const navigate = useNavigate()
+  const [allReviews, setAllReviews] = useState({});
+ 
+  const [mechanic,setMechanic]=useState()
+  const navigate = useNavigate([])
   useEffect(() => {
     getStaff()
 
   }, [])
+ 
+ 
+  
+
 
   const handleAddReview = (newReview, mechanicId) => {
     console.log(newReview,"newreview")
-    console.log(mechanicId,"mechanicId")
+  
+ 
     //Assuming a function called "addReview" to handle backend communication
     addReview({ newReview, mechanicId})
       .then((response) => {
@@ -37,6 +44,8 @@ export const Staff = () => {
             : mechanic
         );
         setStaff(updatedStaff);
+      
+       
       })
       .catch((error) => {
         // Handle error if the review submission fails
@@ -60,12 +69,22 @@ export const Staff = () => {
     const { data } = createChatWihMechanic({ senderId: user.id, recieverId: id })
     navigate('/chat');
   };
-
+  const handleShowReview=(mechanicid)=>{
+    console.log(mechanicid)
+    
+    getAllReview(mechanicid).then((res)=>{
+      console.log(res.data)
+      setAllReviews(res.data.result)
+      
+    })
+  }
+  
   return (
     <div>
 
       <div className="flex flex-wrap">
         {staff.map((mechanic, index) => {
+       
           return (
             <Card className="mt-20 ml-14 w-auto flex">
               <CardHeader color="blue-gray" className="relative h-56">
@@ -82,7 +101,8 @@ export const Staff = () => {
                   Experience: {mechanic.experience}
                 </Typography>
                 <Typography>
-                  Review:
+                  Rating:{mechanic.averageRating}
+                
                 </Typography>
               </CardBody>
               <CardFooter className="pt-0 ">
@@ -94,6 +114,26 @@ export const Staff = () => {
                 <h2>Add Reviews</h2>
                 <hr/>
                 <AddReview onSubmitReview={(newReview) => handleAddReview(newReview, mechanic._id)} />
+                <button
+        className="ml-5 px-4 py-2 text-sm font-medium text-white bg-black rounded"
+        onClick={() => handleShowReview(mechanic._id)}
+      >
+       
+      </button>
+      { allReviews.length && (
+        <div>
+          {/* Loop through the mechanic.reviews array and display each review */}
+          {allReviews?.map((review, reviewIndex) => (
+            <div key={reviewIndex}>
+        {/* Display the review content, e.g., review.message, review.rating, etc. */}
+         <p className='font-bold'>{review.user.name}</p> 
+        <p>{review.message}</p>
+      
+      </div>
+    ))}
+        </div>
+      )}
+
               </container>
             </Card>
           )

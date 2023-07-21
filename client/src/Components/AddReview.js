@@ -5,8 +5,9 @@ import { FaCheck } from 'react-icons/fa';
 const AddReview = ({ onSubmitReview }) => {
     const user = useSelector((state) => state.user)
   const [name, setName] = useState(user.name); // Using user's name as the default value
-  const [rating, setRating] = useState(5); // Default rating set to 5
+  const [rating, setRating] = useState(0); // Default rating set to 5
   const [comment, setComment] = useState('');
+
 
   const handleRatingChange = (value) => {
     setRating(value);
@@ -53,7 +54,7 @@ const AddReview = ({ onSubmitReview }) => {
       </div>
       <div>
         <label  htmlFor="comment">Comment:</label>
-        <textarea
+        <input
             className='border border-gray-500'
           id="comment"
           value={comment}

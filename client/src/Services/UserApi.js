@@ -96,6 +96,10 @@ const addReview = (data) => {
   console.log(data);
   return userAxiosInstance.post('/addreview',data);
 };
+const getAllReview=(id)=>{
+
+   return userAxiosInstance.get(`/getallreview/${id}`)
+ }
 export {
   userRegister,
   userOtpsubmit,
@@ -122,5 +126,5 @@ export {
   getmechanicData,
   getMessages,
   addMessage,
-  addReview
+  addReview, getAllReview
 };

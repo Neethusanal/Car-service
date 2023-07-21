@@ -61,9 +61,12 @@ const mechanicSchema=  new mongoose.Schema({
     },
     servinglocation:{
         type:String
-    }
-   
-
+    },
+    
+    averageRating: {
+        type: Number,
+        default: 0,
+      },
 
 })
 const MechanicModel = mongoose.model("Mechanic",mechanicSchema )
