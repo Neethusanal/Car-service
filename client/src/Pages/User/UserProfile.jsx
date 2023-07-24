@@ -8,9 +8,10 @@ import {
   Typography,
   Button
 } from "@material-tailwind/react";
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { updateUserProfile } from '../../Services/UserApi';
 import { useNavigate } from 'react-router-dom';
+import { setUserDetails } from '../../Redux/UserSlice';
 
 export const UserProfile = () => {
   const user = useSelector((state) => state.user)
@@ -18,6 +19,7 @@ export const UserProfile = () => {
   const [email, setEmail] = useState()
   
   const navigate = useNavigate()
+  const dispatch=useDispatch()
 
   useEffect(() => {
     setEmail(user.email)
@@ -25,7 +27,14 @@ export const UserProfile = () => {
   const handleProfile = () => {
 
     updateUserProfile({ address, email}).then((res) => {
+      
       console.log(res)
+      dispatch(
+        setUserDetails({
+
+       ...user,adress:res.data.result
+
+        }))
     })
   }
   const handleClose = () => {

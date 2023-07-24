@@ -32,7 +32,7 @@ export const Payment = () => {
     // setVehicleModel(user?.model)
     // setServiceType(user?.bookedservices)
     // setSelectedSlot(user?.bookedSlots)
-    // setAmount(user?.cartTotal)
+    setAmount(user?.cartTotal)
   })
   console.log(serviceType,"bbbb")
 const handlePayment=()=>{

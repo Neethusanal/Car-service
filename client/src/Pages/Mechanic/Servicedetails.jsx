@@ -5,8 +5,6 @@ import { bookingData, updatedServices } from "../../Services/MechanicApi";
 
 
 const Servicedetails = () => {
-   
-   
   const [services, setServices] = useState([]);
   const[status,setStatus]=useState('')
 
@@ -21,31 +19,27 @@ const Servicedetails = () => {
     })
   }
 
-const updateStatus = (id, newStatus) => {
-  updatedServices({ id, newStatus }).then((res) => {
-    const updatedService = res.data.result;
-    
-    const updatedServices = services.map((service) => {
-      if (service._id === updatedService._id) {
-        return updatedService;
-      }
-      return service;
+  const updateStatus = (id, newStatus) => {
+    updatedServices({ id, newStatus }).then((res) => {
+      setServices((prevServices) => {
+        return prevServices.map((service) => {
+          if (service._id === id) {
+            return {
+              ...service,
+              service_status: {
+                ...service.service_status,
+                [newStatus.toLowerCase()]: { state: true },
+              },
+              clicked: true, // Mark the service as clicked
+            };
+          }
+          return service;
+        });
+      });
+      setStatus(newStatus);
     });
-    setServices(updatedServices);
-    setStatus(res.data.status)
-  });
-};
-
-  // const updateStatus = (id, newStatus) => {
-  //   const updatedServices = services.map((service) => {
-  //     if (service._id === id) {
-  //       return { ...service, status: newStatus };
-  //     }
-  //     return service;
-  //   })
-  //   setServices(updatedServices);
-  // };
-
+  };
+console.log(services,"jjjjjjjjj")
 console.log(status,"sttatuusssssss")
 
 
@@ -56,7 +50,7 @@ console.log(status,"sttatuusssssss")
         return(
       
         <div
-          key={service._id}
+          key={index}
           className="border border-gray-300 rounded-lg p-4 mb-4"
         >
           <h2 className="text-lg font-bold mb-2">
@@ -77,12 +71,26 @@ console.log(status,"sttatuusssssss")
           <p className="mb-2">
             Booked Slots: <strong>{service. bookedSlot}</strong>
           </p>
-          <p className="mb-2">
-            Status:{" "}
-            <strong>
-              {status}
-            </strong>
-          </p>
+          {service.service_status.pickup.state && (
+            <p className="mb-2">
+              Status: <strong>Pickup</strong>
+            </p>
+          )}
+          {service.service_status.onService.state && (
+            <p className="mb-2">
+              Status: <strong>On Service</strong>
+            </p>
+          )}
+          {service.service_status.servicecompleted.state && (
+            <p className="mb-2">
+              Status: <strong>Service Completed</strong>
+            </p>
+          )}
+          {service.service_status.dropped.state && (
+            <p className="mb-2">
+              Status: <strong>Delivered</strong>
+            </p>
+          )}
           <div className="mb-2">
             User Details:
             <ul>
@@ -97,34 +105,52 @@ console.log(status,"sttatuusssssss")
               </li>
             </ul>
           </div>
-           <div className="flex space-x-4">
-            <button
-              className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
-              onClick={() => updateStatus(service._id, "Pickup")}
-            >
-              For Pickup
-            </button>
-            <button
-              className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded"
-               onClick={() => updateStatus(service._id, "On Service")}
-            >
-            On service
-            </button>
-            <button
-              className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded"
-               onClick={() => updateStatus(service._id, "Completed")}
-            >
-              Service Completed
-            </button>
-            <button
-              className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded"
-               onClick={() => updateStatus(service._id, "Delivered")}
-            >
-              Delivered
-            </button>
+          <div className="flex space-x-4">
+              {!service.service_status.onService.state &&
+                !service.service_status.servicecompleted.state &&
+                !service.service_status.dropped.state && (
+                  <button
+                    className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
+                    onClick={() => updateStatus(service._id, "Pickup")}
+                  >
+                    For Pickup
+                  </button>
+                )}
+
+              {service.service_status.pickup.state &&
+                !service.service_status.servicecompleted.state &&
+                !service.service_status.dropped.state && (
+                  <button
+                    className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded"
+                    onClick={() => updateStatus(service._id, "On Service")}
+                  >
+                    On service
+                  </button>
+                )}
+
+              {service.service_status.pickup.state && service.service_status.onService.state &&
+                !service.service_status.servicecompleted.state && (
+                  <button
+                    className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded"
+                    onClick={() => updateStatus(service._id, "Service Completed")}
+                  >
+                    Service Completed
+                  </button>
+                )}
+
+              {service.service_status.pickup.state && service.service_status.onService.state &&
+              service.service_status.servicecompleted.state &&
+                !service.service_status.dropped.state && (
+                  <button
+                    className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded"
+                    onClick={() => updateStatus(service._id, "Delivered")}
+                  >
+                    Delivered
+                  </button>
+                )}
+            </div>
           </div>
-        </div> 
-      )
+        );
       })}
     </div>
   );

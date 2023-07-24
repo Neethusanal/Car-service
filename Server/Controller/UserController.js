@@ -264,7 +264,7 @@ module.exports.addToCart = async (req, res) => {
         const totalSum =+ plan.price
 
         // Get the current cart total or set it to 0 if it doesn't exist
-        let cartTotal = user.cartTotal || basicPay;
+        let cartTotal =0;
         cartTotal += totalSum;
 
         // Create an object representing the plan and push it to the cart array
@@ -278,7 +278,7 @@ module.exports.addToCart = async (req, res) => {
           {
             $push: { cart: planId },
             $addToSet: { bookedservices: plan.servicelistName },
-            cartTotal: cartTotal,
+            cartTotal: cartTotal+basicPay,
             basicPay: basicPay,
           },
           { new: true }
@@ -378,13 +378,13 @@ module.exports.getCartData = async (req, res) => {
 module.exports.deleteCartItem = async (req, res) => {
   try {
     const id = req.params.id;
-    console.log(id);
-console.log(req.userId,"userid")
+  
+
     // Find the item to get its price
     let item = await ServicelistModel.findById(id);
-    console.log(item, "ittteeemmm");
+
     const user=await UserModel.findOne({_id:req.userId})
-    console.log(user.cartTotal,"nnnnnnnnnnnn")
+
     // Calculate the new cartTotal
      const cartTotal = user.cartTotal - (item?.price || 0);
 
@@ -691,3 +691,49 @@ module.exports.getReviews = async (req, res) => {
     res.status(400).json({ success: false, message: error.message });
   }
 };
+module.exports.updateUserAddress = async (req, res) => {
+  try {
+    // console.log(req.body)
+    const {newaddress}= req.body;
+
+    const address = await UserModel.findByIdAndUpdate(req.userId, { $set: {  address: newaddress } }, { new: true }).select('address');
+   
+    res
+      .status(200)
+      .json({ message: "successfully updated the address", success: true ,result:address});
+  } catch (err) {
+    console.log(err)
+    const errors = handleErrorManagent(err);
+    res.json({ message: "something went wrong", status: false, errors });
+  }
+};
+module.exports.deleteAddress=async(req,res)=>{
+  try{
+   
+    const {addressToDelete}=req.body
+    console.log(addressToDelete)
+    const user = await UserModel.findByIdAndUpdate(
+      req.userId,
+      {
+        $pull: {
+          address: addressToDelete,
+          bookedAddress: addressToDelete,
+        },
+      },
+      { new: true }
+    ).select('address bookedAddress')
+    
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+console.log(user,"jjj")
+    // Respond with the updated user (optional)
+    res
+    .status(200)
+    .json({ success: true ,result:user});;
+    
+  }catch(err)
+  {
+   
+  }
+}

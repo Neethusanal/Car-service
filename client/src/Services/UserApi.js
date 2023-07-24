@@ -104,6 +104,15 @@ const getAllReview=(id)=>{
 
    return userAxiosInstance.get(`/getallreview/${id}`)
  }
+ const updateAddress = (data) => {
+  console.log(data,"herecoming")
+  return userAxiosInstance.put("/updateaddress", data);
+ 
+};
+const deleteAddress = (data) => {
+  console.log(data, "delete add");
+  return userAxiosInstance.post('/deleteAddress',data);
+};
 export {
   userRegister,
   userOtpsubmit,
@@ -132,5 +141,5 @@ export {
   getmechanicData,
   getMessages,
   addMessage,
-  addReview, getAllReview
+  addReview, getAllReview,updateAddress, deleteAddress
 };
