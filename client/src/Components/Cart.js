@@ -12,7 +12,7 @@ import {
   import Swal from "sweetalert2";
 import { useDispatch, useSelector } from 'react-redux';
 import { AiOutlineDelete } from 'react-icons/ai';
-import { deleteItem } from '../Services/UserApi';
+import { deleteItem, getCartData } from '../Services/UserApi';
 import { useNavigate } from 'react-router-dom';
 import { setUserDetails } from '../Redux/UserSlice';
 
@@ -21,18 +21,28 @@ import { setUserDetails } from '../Redux/UserSlice';
 
 
 export const Cart = () => {
-  const user=useSelector((state)=>state.user)
-  console.log(user)
-  const [totalSum, setTotalSum] = useState(0);
+  
+  const user= useSelector((state) => state.user)
   const [deleted,setDeleted]=useState()
+  const[cartTotal,setCartTotal]=useState()
+  const [cart,setCart]=useState([])
   const dispatch=useDispatch()
   
   const navigate=useNavigate()
   useEffect(()=>{
    
-   
+   getCartItems()
 
-  },[,deleted])
+  },[deleted])
+  const getCartItems=()=>{
+    getCartData().then((res)=>{
+      console.log(res,"hhhhhhhhhhh")
+      setCart(res?.data?.result.cart)
+      setCartTotal(res.data.result.cartTotal)
+    
+    })
+  }
+  console.log(cartTotal,"cartdatasss")
   //Delete the items in cart
 const deleteCartData= (id)=>{
   Swal.fire({
@@ -47,13 +57,17 @@ const deleteCartData= (id)=>{
     if (result.isConfirmed) {
         let { data } = await deleteItem(id)
         if (data.success) {
+          console.log(data,"ddddddddddaaaaaaaaataaaaaaaaaaaaaa")
+          setCart(data.result.cart)
+          setCartTotal(data.result.cartTotal)
           setDeleted(id) 
             Swal.fire(
                 'The item has be Removed',
                 dispatch(
                   setUserDetails({
         
-                 ...user,cart:data.result.cart
+                 ...user,cart:data.result.cart,
+                 cartTotal:data.cartTotal,
         
                   }))
                  
@@ -102,7 +116,7 @@ const handleContinue=()=>{
        
       </thead>
       <tbody className="bg-white divide-y divide-gray-500">
-      {user?.cart?.map((data,index)=>{
+      {cart?.map((data,index)=>{
           return(
         <tr key={index+'sdf'}>
           <td className="px-6 py-4 text-black whitespace-nowrap">{data.servicelistName}</td>
@@ -127,9 +141,14 @@ const handleContinue=()=>{
     </table>
       </CardBody>
       <CardFooter className="mt-12 ">
-  <Typography variant="small" color="Black" className="font-extrabold flex justify-end">
-    Total: {totalSum}
+      <Typography variant="small" color="Black" className="font-extrabold flex justify-end">
+      BasicPay:{user?.basicPay}
   </Typography>
+  <Typography variant="small" color="Black" className="font-extrabold flex justify-end">
+   
+    Total: {cartTotal}
+  </Typography>
+  
   <Button onClick={handleContinue}>Continue</Button>
 </CardFooter>
       

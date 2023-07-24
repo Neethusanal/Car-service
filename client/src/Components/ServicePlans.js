@@ -19,6 +19,7 @@ export const ServicePlans = () => {
   const [serviceList, setServiceList] = useState([]);
   const [selectedServiceId, setSelectedServiceId] = useState(null);
   const [selectedPlans, setSelectedPlans] = useState({});
+  const[basicPay,setBasicPay]=useState()
   const dispatch=useDispatch()
   const user= useSelector((state) => state.user)
 
@@ -35,6 +36,7 @@ export const ServicePlans = () => {
           getServicePlans(res.data.result[0]._id).then((plansRes) => {
             if (plansRes.data.success) {
               setServiceList(plansRes.data.result);
+              
             }
           });
         }
@@ -62,18 +64,48 @@ export const ServicePlans = () => {
     addPlansToCart(selectedServiceId, planId).then((res) => {
       if (res.data.success) {
         console.log(res.data)
+        
         dispatch(
           setUserDetails({
 
 
-         ...user,cart:res.data.result.cart
+         ...user,cart:res.data.result.cart,
+         cartTotal:res.data.cartTotal
 
 
           }))
- 
+          setBasicPay(res.data.result.cart.basicPay)
       }
-    });
+    }); 
   };
+  // const handleAddtoCart = (planId) => {
+  //   // Update the cart with the latest clicked plan for the selected service ID
+  //   setSelectedPlans((prevSelectedPlans) => ({
+  //     ...prevSelectedPlans,
+  //     [selectedServiceId]: planId,
+  //   }));
+  
+  //   // Send the updated cart to the backend
+  //   const updatedCart = {
+  //     [selectedServiceId]: planId,
+  //   };
+  
+  //   addPlansToCart(updatedCart).then((res) => {
+  //     if (res.data.success) {
+  //       console.log(res.data);
+  
+  //       dispatch(
+  //         setUserDetails({
+  //           ...user,
+  //           cart: res.data.result.cart,
+  //           cartTotal: res.data.cartTotal,
+  //         })
+  //       );
+  //       setBasicPay(res.data.result.cart.basicPay);
+  //     }
+  //   });
+  // };
+  
 
   return (
     <>
@@ -126,7 +158,7 @@ export const ServicePlans = () => {
             const isSelectedPlan =
               selectedPlans[selectedServiceId] === plans._id;
             return (
-              <div className="w-full px-5 py-14 " key={plans._id}>
+              <div className="w-full px-5 py-14 " key={plans}>
 
 
 <div className={`w-auto border border-gray-500 bg-white ${

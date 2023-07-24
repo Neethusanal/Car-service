@@ -84,6 +84,10 @@ const userChats=(id)=>{
   console.log(id)
    return userAxiosInstance.get(`/getmechanicdata/${id}`)
  }
+ const getCartData=()=>{
+  
+   return userAxiosInstance.get('/getcartdata')
+ }
  const getMessages=(id)=>{
   console.log(id)
    return userAxiosInstance.get(`/getmessage/${id}`)
@@ -111,8 +115,10 @@ export {
   getUserModel,
   updateBookingData,
   getServicePlans,
+
   addPlansToCart,
   deleteItem,
+  getCartData,
   updateUserProfile,
  updateUser,
  getLocations,

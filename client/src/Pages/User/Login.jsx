@@ -55,6 +55,7 @@ const Login = () => {
                 servicelocation:res.data?.servicelocation || null,
                 brand:res.data.brand,
                 model:res.data.model,
+                basicPay:res.data.basicPay,
                 address:res.data.address,
                 cartTotal:res.data.cartTotal,
                 bookedSlots:res.data.bookedSlots,
@@ -121,12 +122,12 @@ const Login = () => {
                 className="block w-full px-4 py-2 mt-2 text-black-700 bg-white border rounded-md focus:border-purple-400 focus:ring-purple-300 focus:outline-none focus:ring focus:ring-opacity-40"
               />
             </div>
-            <a
+            {/* <a
               href="#"
               className="text-xs text-black-600 hover:underline"
             >
               Forget Password?
-            </a>
+            </a> */}
             <div className="mt-6">
               <button type='submit' className="w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-gray-700 rounded-md hover:bg-slate-600 focus:outline-none focus:bg-purple-600">
                 Login

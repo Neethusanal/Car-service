@@ -171,6 +171,7 @@ module.exports.isUserAuth = async (req, res) => {
       servicelocation:userDetails?.servicelocation ||null,
       brand:userDetails?.brand,
       model:userDetails?.model,
+      basicPay:userDetails?.basicPay,
       cartTotal:userDetails?.cartTotal,
       bookedSlots:userDetails?.bookedSlots,
       bookedservices:userDetails?.bookedservices
@@ -227,66 +228,7 @@ module.exports.getAllServicesList = async (req, res) => {
     res.status(400).json({ success: false, message: error.message });
   }
 };
-// module.exports.addToCart = async (req, res) => {
-//   const serviceId = req.params.serviceId;
-//   const planId = req.params.planId;
-//   const userId = req.userId;
 
-//   try {
-//     const user = await UserModel.findById(userId);
-//     if (!user) {
-//       return res.status(404).json({ error: "User not found" });
-//     } else {
-     
-//       const service = await ServicesModel.findById(serviceId);
-//       if (!service) {
-//         return res.status(400).json({ message: "Service does not exist" });
-//       }
-//       const plan = await ServicelistModel.findById(planId);
-//       if (!plan) {
-//         return res.status(400).json({ message: "Plan does not exist" });
-//       } else {
-//         console.log(plan)
-//         const brandserved= user.brand
-//         console.log(brandserved,"brand")
-//         // Calculate the basic pay based on the brand
-//         const brandData = await BrandModel.findOne({brandName:brandserved});
-//         if (!brandData) {
-//           return res.status(400).json({ message: "Brand does not exist" });
-//         }
-//         const basicPay = brandData.basicPay;
-//         console.log(basicPay)
-//         let cartTotal = 0;
-//         // Calculate the total sum
-//         const totalSum = basicPay + plan.price;
-//         cartTotal+=totalSum
-//         console.log(cartTotal)
-
-//         const cart = await UserModel.findByIdAndUpdate(
-//           { _id: userId },
-//           {
-//             $set: { cart: planId, serviceId},
-//             $addToSet: { bookedservices: plan.servicelistName },
-//             cartTotal:cartTotal
-//           },
-//           { new: true }
-//         );
-
-//         console.log(cart);
-
-//         return res.status(200).json({
-//           message: "Service has been added to the cart successfully",
-//           success: true,
-//           totalSum:  cartTotal,
-//           basicPay:basicPay
-//         });
-//       }
-//     }
-//   } catch (error) {
-//     console.error(error);
-//     return res.status(500).json({ error: "Internal server error" });
-//   }
-// };
 
 module.exports.addToCart = async (req, res) => {
   const serviceId = req.params.serviceId;
@@ -306,37 +248,46 @@ module.exports.addToCart = async (req, res) => {
       if (!plan) {
         return res.status(400).json({ message: "Plan does not exist" });
       } else {
-        console.log(plan)
         const brandserved = user.brand;
         const brandData = await BrandModel.findOne({ brandName: brandserved });
         if (!brandData) {
           return res.status(400).json({ message: "Brand does not exist" });
         }
+
         const basicPay = brandData.basicPay;
-        let cartTotal =  0; // Get the current cart total or set it to 0 if it doesn't exist
 
         // Remove previously selected plans for the same service from the cart
-        await UserModel.findByIdAndUpdate(userId, { $pull: { cart:  planId  } });
+        // await UserModel.findByIdAndUpdate(userId, { $pull: { cart: { PlanId:new mongoose.Types.ObjectId(planId) } } });
 
         // Calculate the total sum
-        const totalSum = basicPay + plan.price;
+        
+        const totalSum =+ plan.price
+
+        // Get the current cart total or set it to 0 if it doesn't exist
+        let cartTotal = user.cartTotal || basicPay;
         cartTotal += totalSum;
 
-        const cart = await UserModel.findByIdAndUpdate(
+        // Create an object representing the plan and push it to the cart array
+        // const planObject = {
+         
+        //   planId:planId
+        // };
+
+        const result = await UserModel.findByIdAndUpdate(
           { _id: userId },
           {
-            $push: { cart: planId  },
+            $push: { cart: planId },
             $addToSet: { bookedservices: plan.servicelistName },
             cartTotal: cartTotal,
-            basicPay:basicPay
+            basicPay: basicPay,
           },
           { new: true }
-        ).populate("cart");
+        ).populate("cart").select('cart cartTotal basicPay');
 
         return res.status(200).json({
           message: "Service has been added to the cart successfully",
           success: true,
-          result: cart,
+          result: result,
         });
       }
     }
@@ -347,28 +298,130 @@ module.exports.addToCart = async (req, res) => {
 };
 
 
+// module.exports.addToCart = async (req, res) => {
+//   const serviceId = req.params.serviceId;
+//   const planId = req.params.planId;
+//   const userId = req.userId;
+
+
+//   try {
+//     const user = await UserModel.findById(userId);
+//     if (!user) {
+//       return res.status(404).json({ error: "User not found" });
+//     } else {
+//       const service = await ServicesModel.findById(serviceId);
+//       if (!service) {
+//         return res.status(400).json({ message: "Service does not exist" });
+//       }
+//       const plan = await ServicelistModel.findById(planId);
+//       if (!plan) {
+//         return res.status(400).json({ message: "Plan does not exist" });
+//       } else {
+//         console.log(plan)
+//         const brandserved = user.brand;
+//         const brandData = await BrandModel.findOne({ brandName: brandserved });
+//         if (!brandData) {
+//           return res.status(400).json({ message: "Brand does not exist" });
+//         }
+//         const basicPay = brandData.basicPay;
+//         let cartTotal = 0 // Get the current cart total or set it to 0 if it doesn't exist
+
+//         // Remove previously selected plans for the same service from the cart
+//         // await UserModel.findByIdAndUpdate(userId, { $pull: { cart:  planId  } });
+
+//         // Calculate the total sum
+//         const totalSum = basicPay + plan.price;
+//         cartTotal +=totalSum;
+//         console.log(cartTotal,"kkkkk")
+//         const cart = await UserModel.findByIdAndUpdate(
+//           { _id: userId },
+//           {
+//             $push: { cart: planId  },
+//             $addToSet: { bookedservices: plan.servicelistName },
+//             cartTotal: cartTotal,
+//             basicPay:basicPay
+//           },
+//           { new: true }
+//         ).populate("cart");
+
+//         return res.status(200).json({
+//           message: "Service has been added to the cart successfully",
+//           success: true,
+//           result: cart,
+          
+//         });
+//       }
+//     }
+//   } catch (error) {
+//     console.error(error);
+//     return res.status(500).json({ error: "Internal server error" });
+//   }
+// };
+module.exports.getCartData = async (req, res) => {
+  try {
+    // Use projection to retrieve 'cart' and 'cartTotal' fields
+    const data = await UserModel.findById(req.userId).populate('cart').select('cart cartTotal');
+    
+    // If the user is not found, return an error response
+    if (!data) {
+      return res.status(404).json({ success: false, message: "User not found." });
+    }
+
+    console.log(data);
+    res.json({ success: true, result: data });
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({ success: false, message: error.message });
+  }
+};
 
 module.exports.deleteCartItem = async (req, res) => {
   try {
     const id = req.params.id;
-    console.log(id)
-    let item=await ServicelistModel.findById({_id:id}) 
-    console.log(item,"ittteeemmm")
-    let cartdata = await UserModel.findByIdAndUpdate(
+    console.log(id);
+console.log(req.userId,"userid")
+    // Find the item to get its price
+    let item = await ServicelistModel.findById(id);
+    console.log(item, "ittteeemmm");
+    const user=await UserModel.findOne({_id:req.userId})
+    console.log(user.cartTotal,"nnnnnnnnnnnn")
+    // Calculate the new cartTotal
+     const cartTotal = user.cartTotal - (item?.price || 0);
+
+    // Update the user's cart and cartTotal
+    const updatedUser = await UserModel.findByIdAndUpdate(
       { _id: req.userId },
-      { $pull: { cart: id } } ,
-      
-     
-      
-     
-    );
-    const cart=await UserModel.findById({_id: req.userId }).populate("cart")
-    console.log(cart);
-    return res.status(200).json({ success: true ,result:cart});
+      { $pull: { cart: id }, cartTotal: cartTotal },
+      { new: true } // To get the updated user document
+    )
+
+    return res.status(200).json({ success: true, result: updatedUser });
   } catch (err) {
     console.log(err);
+    return res.status(500).json({ success: false, message: "An error occurred." });
   }
 };
+
+
+
+// module.exports.deleteCartItem = async (req, res) => {
+//   try {
+//     const id = req.params.id;
+//     console.log(id)
+//     let item=await ServicelistModel.findById({_id:id}) 
+//     console.log(item,"ittteeemmm")
+    
+//     let cartdata = await UserModel.findByIdAndUpdate(
+//       { _id: req.userId },
+//       { $pull: { cart: id } } ,
+      
+     
+//     )
+//     return res.status(200).json({ success: true ,result:cart});
+//   } catch (err) {
+//     console.log(err);
+//   }
+// };
 module.exports.EditUserProfile = async (req, res) => {
   try {
     const { address, email,} = req.body;
@@ -416,9 +469,7 @@ module.exports.updateLocation= async (req, res) => {
 
 module.exports.updateBookingDetails= async (req, res) => {
   try {
-    console.log(req.body,"details coming from bookan appointment")
     const { brandName,modelName} = req.body;
-    console.log(req.userId)
     const user = await UserModel.findByIdAndUpdate(
       { _id: req.userId},
       {
@@ -463,7 +514,7 @@ module.exports.getBrandMechanic = async (req, res) => {
       },
     ]);
    
-    console.log(mechanics);
+   
     res.json({ success: true, result: mechanics });
   } catch (error) {
     console.log(error);
@@ -496,9 +547,8 @@ module.exports.bookingDataUpdate= async (req, res) => {
 };
 module.exports.payment = async (req, res) => {
   try {
-    console.log("kkkkaaa")
-    console.log(req.body)
-    const user=await UserModel.findById({_id:req.userId})
+   
+   const user=await UserModel.findById({_id:req.userId})
    
     const instance = new Razorpay({
       key_id,

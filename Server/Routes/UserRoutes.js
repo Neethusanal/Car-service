@@ -35,6 +35,7 @@ router.post('/addtocart/:serviceId/:planId', VerifyUser, usercontroller.addToCar
  router.get('/getmechanicdata/:id',usercontroller.getMechanic)
  router.post('/addreview',VerifyUser,usercontroller.createReview )
  router.get('/getallreview/:id',VerifyUser,usercontroller.getReviews)
+ router.get('/getcartdata',VerifyUser,usercontroller.getCartData)
 
 
  

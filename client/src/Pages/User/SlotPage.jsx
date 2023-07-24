@@ -64,7 +64,7 @@ console.log(filteredSlots)
   };
 
   const handleNewAddress=()=>{
-    navigate('/profile')
+    // navigate('/profile')
   }
   const handleBooking = () => {
     // Handle the booking logic here
@@ -79,6 +79,19 @@ console.log(filteredSlots)
         }
       })
     }
+  };
+  const handleEditAddress = (addressToEdit) => {
+    // Implement your logic here to handle editing the address
+    // You can show a modal or navigate to another page with the address data to be edited
+    // For example:
+    // navigate('/edit-address', { state: { addressToEdit } });
+  };
+
+  // Function to handle deleting an address
+  const handleDeleteAddress = (addressToDelete) => {
+    // Implement your logic here to handle deleting the address
+    // You can show a confirmation modal and remove the address from the state if confirmed
+    setAddress((prevAddresses) => prevAddresses.filter((address) => address !== addressToDelete));
   };
 
   return (
@@ -113,25 +126,38 @@ console.log(filteredSlots)
 
       </Card>
       <Card>
-  <CardHeader color="gray" className="text-white">
-    <Typography className="text-center font-bold text-lg"> Pickup Address</Typography>
-  </CardHeader>
- <CardBody>
- {address.map((item, index) => (
-  <div key={index} className="mt-4">
-    <input
-      type="radio"
-      id={`address-${index}`}
-      name="address"
-      value={item}
-      checked={selectedAddress === item}
-      onChange={() =>handleAddressSelection(item)}
-    />
-    <label htmlFor={`address-${index}`} className="ml-2">
-      {item}
-    </label>
-  </div>
-))}
+          <CardHeader color="gray" className="text-white">
+            <Typography className="text-center font-bold text-lg">Pickup Address</Typography>
+          </CardHeader>
+          <CardBody>
+            {address.map((item, index) => (
+              <div key={index} className="flex items-center mt-4">
+                <input
+                  type="radio"
+                  id={`address-${index}`}
+                  name="address"
+                  value={item}
+                  checked={selectedAddress === item}
+                  onChange={() => handleAddressSelection(item)}
+                />
+                <label htmlFor={`address-${index}`} className="ml-2">
+                  {item}
+                </label>
+                <button
+                  className="ml-auto text-blue-600"
+                  onClick={() => handleEditAddress(item)}
+                >
+                  Edit
+                </button>
+                <button
+                  className="ml-2 text-red-600"
+                  onClick={() => handleDeleteAddress(item)}
+                >
+                  Delete
+                </button>
+              </div>
+            ))}
+
 
     <div className="mt-4">
       <button

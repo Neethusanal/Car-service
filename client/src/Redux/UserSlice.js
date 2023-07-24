@@ -8,7 +8,9 @@ const initialState = {
   cart: [],
   servicelocation: "",
   brand:"",
-  model:""
+  model:"",
+  cartTotal:"",
+  basicPay:""
 };
 
 const userSlice = createSlice({
@@ -24,6 +26,7 @@ const userSlice = createSlice({
       state.servicelocation = action.payload.servicelocation;
       state.brand=action.payload.brand;
       state.model=action.payload.model
+      state.basicPay=action.payload.basicPay
       state.address=action.payload.address
       state.cartTotal=action.payload.cartTotal
       state.bookedSlots=action.payload.bookedSlots

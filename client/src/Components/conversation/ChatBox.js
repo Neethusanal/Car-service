@@ -25,7 +25,7 @@ export const ChatBox = ({
   const handleChange = (newMessage) => {
     setNewMessage(newMessage);
   };
-//Fetching data for Header
+  //Fetching data for Header
   useEffect(() => {
     const mechanicId = chat?.members?.find((id) => id !== currentuserId);
 
@@ -52,14 +52,14 @@ export const ChatBox = ({
     };
     if (chat !== null) fetchMessages();
   }, [chat]);
-//scroll to last Message
+  //scroll to last Message
   useEffect(() => {
     scroll.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-  
-  
- 
+
+
+
   const handleSend = async (e) => {
     e.preventDefault();
     const inputmessage = {
@@ -67,10 +67,10 @@ export const ChatBox = ({
       text: newMessage,
       chatId: chat._id,
     };
-     //send Message to socket server
-     const recieverId = chat?.members?.find((id) => id !== currentuserId);
-     console.log(recieverId)
-     setSendMessage({...messages,recieverId})
+    //send Message to socket server
+    const recieverId = chat?.members?.find((id) => id !== currentuserId);
+    console.log(recieverId)
+    setSendMessage({ ...messages, recieverId })
 
     //send Message to database
     try {
@@ -91,7 +91,7 @@ export const ChatBox = ({
 
   return (
     <>
-      <div classname="chatBoxcontainer ">
+        <div className="h-full flex flex-col">
         {chat ? (
           <>
             <div className="chatheader">
@@ -103,13 +103,12 @@ export const ChatBox = ({
                       key={index}
                     >
                       <div className="mr-4">
-                      
+
                         <img
                           src={mechdata?.image || profile}
                           alt=""
-                          className={`w-14 h-12 rounded-full object-cover ${
-                            !mechdata?.image && "bg-gray-300"
-                          }`}
+                          className={`w-14 h-12 rounded-full object-cover ${!mechdata?.image && "bg-gray-300"
+                            }`}
                         />
                       </div>
                       <div className="text-lg w-full">
@@ -122,58 +121,55 @@ export const ChatBox = ({
               <hr className="my-4 border-gray-300" />
             </div>
             {/* chatBox Messages */}
-            <div className="chatbody ">
-              {messages?.map((msg, index) => {
-                return (
-                  <>
-                  {msg.senderId === currentuserId ? (
-  <div
-    ref={scroll}
-     key={index}
-    className= " msg justify-end flex mb-2"
-  >
-    <div className=" text-white p-3 rounded-lg">
-      <span className="text-lg font-semibold">{msg.text}</span>
-      <span className="text-sm">{format(msg.createdAt)}</span>
-    </div>
-  </div>
-) : (
-  <div
-    ref={scroll}
-     key={index}
-    className="msg justify-start flex mb-2"
-  >
-    <div className="msg-content bg-gray-200 p-3 rounded-lg">
-      <span className="text-lg font-semibold">{msg.text}</span>
-      <span className="text-sm">{format(msg.createdAt)}</span>
-    </div>
-  </div>
-)}
-</>
-                );
-              })}
+            <div className="flex-1 overflow-y-auto">
+              <div className="flex flex-col gap-y-2 p-4">
+                {messages?.map((msg, index) => {
+                  return (
+                    <>
+                      {msg.senderId === currentuserId ? (
+                        <div
+                          ref={scroll}
+                          key={index}
+                          className=" msg justify-end flex mb-2"
+                        >
+                          <div className=" text-white p-3 rounded-lg">
+                            <span className="text-lg font-semibold">{msg.text}</span>
+                            <span className="text-sm">{format(msg.createdAt)}</span>
+                          </div>
+                        </div>
+                      ) : (
+                        <div
+                          ref={scroll}
+                          key={index}
+                          className="msg justify-start flex mb-2"
+                        >
+                          <div className="msg-content bg-gray-200 p-3 rounded-lg">
+                            <span className="text-lg font-semibold">{msg.text}</span>
+                            <span className="text-sm">{format(msg.createdAt)}</span>
+                          </div>
+                        </div>
+                      )}
+                    </>
+                  );
+                })}
+              </div>
+              {/* chat sender */}
+              <div className="chatSender bg-gray-100 p-4">
+                <div className="flex items-center">
+                  <InputEmoji value={newMessage} onChange={handleChange} className="mr-2" />
+                  <Button onClick={(e) => handleSend(e)}>
+                    <FiSend />
+                  </Button>
+                </div>
+              </div>
+              </div>
+            </>
+            ) : (
+            <div class="flex justify-center items-center h-screen">
+              <span class="text-center">Tap on a chat to start conversation</span>
             </div>
-            {/* chat sender */}
-              <div>
-            <div className="chat-sender flex items-center ">
-              <InputEmoji
-                value={newMessage}
-                onChange={handleChange}
-                className="mr-2"
-              />
-
-              <Button onClick={(e) => handleSend(e)}>
-                <FiSend />
-              </Button>
-            </div>
-            </div>
-          </>
-        ) : (
-          <div class="flex justify-center items-center h-screen">
-            <span class="text-center">Tap on a chat to start conversation</span>
-          </div>
         )}
-      </div>
-    </>
-  );
+          </div>
+      </>
+      );
 };
