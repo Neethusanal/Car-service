@@ -71,9 +71,18 @@ export const Userservicehistory = () => {
                       </Typography>
                     </td>
                     <td className={classes}>
-                      <Typography variant="small" color="blue-gray" className="font-normal">
-                        {service.serviceselected}
-                      </Typography>
+                      <div className="block">
+                        {service.serviceselected.map((selectedService) => (
+                          <Typography
+                            key={selectedService}
+                            variant="small"
+                            color="blue-gray"
+                            className="font-normal mr-4 "
+                          >
+                            {selectedService}
+                          </Typography>
+                        ))}
+                      </div>
                     </td>
                     <td className={classes}>
                       <Typography as="a" href="#" variant="small" color="blue" className="font-medium">
@@ -86,17 +95,17 @@ export const Userservicehistory = () => {
                       </Typography>
                     </td>
                     <td className={classes}>
-                    <Typography as="a" href="#" variant="small" color="blue" className="font-medium">
-                    {service.service_status.dropped.state
-                  ? "Delivered"
-                  :service.service_status.servicecompleted.state
-                  ? "completed"
-                  : service.service_status.onService.state 
-                  ? "on service"
-                  : service.service_status.pickup.state 
-                  ? "Pickup"
-                  : ""}
-                    </Typography>
+                      <Typography as="a" href="#" variant="small" color="blue" className="font-medium">
+                        {service.service_status.dropped.state
+                          ? "Delivered"
+                          : service.service_status.servicecompleted.state
+                            ? "completed"
+                            : service.service_status.onService.state
+                              ? "on service"
+                              : service.service_status.pickup.state
+                                ? "Pickup"
+                                : ""}
+                      </Typography>
                     </td>
                   </tr>
                 );

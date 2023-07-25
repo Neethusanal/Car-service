@@ -5,7 +5,7 @@ import mechimage from '../../Images/mechimage.jpg'
 import { useDispatch, useSelector } from "react-redux";
 import { setmechanicDetails } from "../../Redux/MechanicSlice"
 import { useState } from "react";
-import { mechanicSignin } from "../../Services/MechanicApi";
+import { getMechanicStatus, mechanicSignin } from "../../Services/MechanicApi";
 import Swal from "sweetalert2"
 
 const Mechlogin = () => {
@@ -20,10 +20,15 @@ const Mechlogin = () => {
   });
   useEffect(() => {
     if (localStorage.getItem("mechanictoken")) {
+      
+    
       navigate('/mechanic/home')
-
     }
   }, [])
+
+  
+
+  
   const handleSubmit = async (e) => {
     console.log("entered")
     e.preventDefault();
@@ -53,15 +58,11 @@ const Mechlogin = () => {
             email: data.mechanic.email,
             status: data.mechanic.status,
             slots:data.mechanic.slots,
-            
-
-
           }))
         Swal.fire(data.message)
 
 
         navigate("/mechanic/home");
-
       }
       else {
         Swal.fire(data.errors.message)

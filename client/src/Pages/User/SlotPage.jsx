@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Card, CardHeader, CardBody, Typography, Button } from "@material-tailwind/react";
+import {  Typography, Button } from "@material-tailwind/react";
 import Modal from "react-modal";
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -168,13 +168,13 @@ console.log((address,"add"))
     <>
 
       <form>
-        <Card className="mt-20 w-auto">
-          <CardHeader color="gray" className="text-white">
-            <Typography className="text-center font-bold text-lg">Select your slot</Typography>
-          </CardHeader>
-          <CardBody>
+        <div className="mt-10 mb-10 w-auto ml-4">
+          <div >
+            <Typography className="  mt-2 font-bold text-lg">Select your slot</Typography>
+          </div>
+          <div>
             <div className="">
-              {availableslots.map((slot, index) => (
+              {availableslots?.map((slot, index) => (
                 <div key={index} className="mt-4">
                   <input
                     type="radio"
@@ -191,14 +191,15 @@ console.log((address,"add"))
               ))}
 
             </div>
-          </CardBody>
+          </div>
 
-        </Card>
-        <Card>
-          <CardHeader color="gray" className="text-white">
-            <Typography className="text-center font-bold text-lg">Pickup Address</Typography>
-          </CardHeader>
-          <CardBody>
+        </div>
+        {/* for address */}
+        <div className='ml-4'>
+          <div >
+            <Typography className="font-bold text-lg">Pickup Address</Typography>
+          </div>
+          <div>
             {address?.map((item, index) => (
               <div key={index} className="flex items-center mt-4">
                 <input
@@ -230,26 +231,26 @@ console.log((address,"add"))
             ))}
 
 
-            <div className="mt-4">
+            <div className="mt-4 ">
               <button
                 id="new-address"
                 onClick={() => handleNewAddress()}
-                className="icon-button"
+                className="icon-button "
               >
-                <FaPlus />
+                < FaPlus />
               </button>
               <label htmlFor="new-address" className="ml-2">
                 Add New Address
               </label>
             </div>
-          </CardBody>
-        </Card>
+          </div>
+        </div>
 
         <Button
           color="indigo"
           buttonType="filled"
-          size="regular"
-          className="mt-4"
+          size="small"
+          className="mt-4 ml-4"
           onClick={handleBooking}
           disabled={!selectedSlot}
         >
@@ -282,17 +283,11 @@ console.log((address,"add"))
 
             <button
               type="submit" 
-              // onClick={closeModal}
               className="inline-flex items-center px-4 py-2 ml-4 text-xs font-semibold tracking-widest text-white uppercase transition duration-150 ease-in-out bg-gray-900 border border-transparent rounded-md active:bg-gray-900 false"
             >
               submit
             </button>
-            {/* <button
-            onClick={closeModal}
-            className="inline-flex items-center px-4 py-2 ml-4 text-xs font-semibold tracking-widest text-white uppercase transition duration-150 ease-in-out bg-gray-900 border border-transparent rounded-md active:bg-gray-900 false"
-          >
-            close
-          </button> */}
+            
           </form>
         </Modal>
       </div>

@@ -22,4 +22,5 @@ router.get('/getmechanicchat/:userid',VerifyMechanic,chatcontroller.userChat)
  router.get('/getservicedetails',VerifyMechanic,mechaniccontroller.getBookingDetails)
  router.put('/updatebookingstatus',VerifyMechanic,mechaniccontroller.updateBookingStatus)
 
+
 module.exports = router;

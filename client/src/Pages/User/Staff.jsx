@@ -115,9 +115,9 @@ export const Staff = () => {
                 <hr/>
                 <AddReview onSubmitReview={(newReview) => handleAddReview(newReview, mechanic._id)} />
                 <button
-        className="ml-5 px-4 py-2 text-sm font-medium text-white bg-black rounded"
+                  className='text-deep-orange-900'
         onClick={() => handleShowReview(mechanic._id)}
-      >
+      >show Reviews
        
       </button>
       { allReviews.length && (

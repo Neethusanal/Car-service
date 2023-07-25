@@ -49,6 +49,7 @@ const bookingData=()=>{
   return mechanicAxiosInstance.put("updatebookingstatus",data)
  }
 
+
 export {
   Mechanicregister,
   otpSubmit,
@@ -63,5 +64,6 @@ export {
   getMessages,
   addMessage,
   bookingData,
-  updatedServices
+  updatedServices,
+
 };

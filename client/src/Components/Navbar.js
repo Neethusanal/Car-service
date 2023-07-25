@@ -59,11 +59,11 @@ const Navbar = () => {
                 </a>
               </li>
               
-              <li>
+              {/* <li>
                 <a href="/contact" className="text-white hover:text-gray-300">
                   Contact
                 </a>
-              </li>
+              </li> */}
               <li>
                 <a href="/userservicehistory" className="text-white hover:text-gray-300">
                   ServiceDetails

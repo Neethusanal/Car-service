@@ -8,6 +8,7 @@ const UserModel = require("../Models/UserModel");
 const BookingModel = require("../Models/BookingModel");
 const maxAge = 3 * 24 * 60 * 60;
 
+
 const handleError = (err) => {
   let errors = { email: "", password: "" };
   if (err.code === 11000) {
@@ -126,6 +127,10 @@ module.exports.mechanicLogin = async (req, res, next) => {
     const mechanic = await MechanicModel.findOne({ email });
     console.log("mechanic", mechanic);
     if (mechanic) {
+      if (mechanic.isBanned) { // Checking if the mechanic is banned
+        const errors = { message: "You are banned. Please contact support." };
+        return res.json({ errors, success: false })
+      }
       const validpassword = bcrypt.compare(password, mechanic.password);
       if (validpassword) {
         const mechanicId = mechanic._id;
@@ -154,29 +159,39 @@ module.exports.mechanicLogin = async (req, res, next) => {
     res.json({ errors, success: false });
   }
 };
+
+
 module.exports.isMechanicAuth = async (req, res) => {
   try {
     let mechanicDetails = await MechanicModel.findById(req.mechanicId);
-    mechanicDetails.auth = true;
-    if (mechanicDetails) {
-      res.json({
-        auth: true,
-        id: mechanicDetails.id,
-        phone: mechanicDetails.phone,
-        name: mechanicDetails.name,
-        email: mechanicDetails.email,
-        image: mechanicDetails.image || null,
-        isVerified: mechanicDetails.isVerified,
-        qualifiation: mechanicDetails.qualification,
-        experience: mechanicDetails.experience,
-        status: mechanicDetails.status,
-        slots:mechanicDetails.slots,
-      });
+
+    if (!mechanicDetails) {
+      return res.json({ auth: false, message: "Mechanic not found" });
     }
+
+    if (mechanicDetails.isBanned) {
+      return res.json({ auth: false, message: "You are banned. Please contact support." });
+    }
+
+    // If the mechanic is authenticated and not banned, return their details
+    res.json({
+      auth: true,
+      id: mechanicDetails.id,
+      phone: mechanicDetails.phone,
+      name: mechanicDetails.name,
+      email: mechanicDetails.email,
+      image: mechanicDetails.image || null,
+      isVerified: mechanicDetails.isVerified,
+      qualifiation: mechanicDetails.qualification,
+      experience: mechanicDetails.experience,
+      status: mechanicDetails.status,
+      slots: mechanicDetails.slots,
+    });
   } catch (error) {
     res.json({ auth: false, message: error.message });
   }
 };
+
 
 module.exports.getAllBrands = async (req, res) => {
   try {
@@ -225,21 +240,57 @@ module.exports.updateProfile = async (req, res) => {
   }
 };
 //Adding Slots to MechanicDetails
+// module.exports.addmechanicSlots = async (req, res) => {
+//   try {
+//     const { slotsselected } = req.body;
+//     const id = req.mechanicId;
+//     const mechanic = await MechanicModel.findByIdAndUpdate(
+//       { _id: id },
+//       { $addToSet: { slots: { $each: slotsselected } } }
+//     );
+//     console.log(mechanic, "updated slot");
+//     res.status(200).json({ message: "successfully added", success: true });
+//   } catch (err) {
+//     const errors = handleErrorManagent(err);
+//     res.json({ message: "Already existing Data", status: false, errors });
+//   }
+// };
+
 module.exports.addmechanicSlots = async (req, res) => {
   try {
     const { slotsselected } = req.body;
     const id = req.mechanicId;
+
+    // Get the current date
+    const currentDate = new Date();
+    console.log(currentDate);
+
+    // Add new slots
     const mechanic = await MechanicModel.findByIdAndUpdate(
       { _id: id },
-      { $addToSet: { slots: { $each: slotsselected } } }
+      {
+        $addToSet: { slots: { $each: slotsselected } },
+      },
+      { new: true } // Return the updated document
     );
+
+    // Remove outdated slots
+    await MechanicModel.updateOne(
+      { _id: id },
+      {
+        $pull: { slots: { $lt: currentDate } },
+      }
+    );
+
     console.log(mechanic, "updated slot");
     res.status(200).json({ message: "successfully added", success: true });
   } catch (err) {
+    console.log(err);
     const errors = handleErrorManagent(err);
     res.json({ message: "Already existing Data", status: false, errors });
   }
 };
+
 module.exports.getUser = async (req, res) => {
   try {
     console.log(req.params.id,"id")
@@ -266,52 +317,6 @@ module.exports.getBookingDetails = async (req, res) => {
   }
 }
 
-// module.exports.updateBookingStatus = async (req, res) => {
-//   try {
-//     const {id,newStatus}=req.body
-//     console.log(id,newStatus,"valueee")
-//     const booking = await BookingModel.findById({_id:id});
-
-//     if (!booking) {
-//       res.json({ success: false, message:"No Booking details found"});
-//       return;
-//     }
-
-//     // Update the service_status based on the newStatus
-//     switch (newStatus) {
-//       case 'Pickup':
-//         booking.service_status.pickup.state = true;
-//         booking.service_status.pickup.date = new Date();
-//         break;
-//       case 'On Service':
-//         booking.service_status.onService.state = true;
-//         booking.service_status.onService.date = new Date();
-//         break;
-//       case 'Completed':
-//         case 'Completed':
-//           booking.service_status.servicecompleted.state = true;
-//           booking.service_status.servicecompleted.date = new Date();
-//           break;
-        
-//       case 'Delivered':
-//         booking.service_status.dropped.state = true;
-//         booking.service_status.dropped.date = new Date();
-//         break;
-//       default:
-//         // Handle if the newStatus is not valid
-//         return;
-//     }
-
-//     await booking.save();
-
-//     res.json({ success: true, result:booking});
-   
-    
-//   } catch (err) {
-//     const errors = handleErrorManagent(err);
-//     res.json({ message: "something went wrong", status: false, errors });
-//   }
-// };
 
 module.exports.updateBookingStatus = async (req, res) => {
   try {
@@ -335,9 +340,11 @@ module.exports.updateBookingStatus = async (req, res) => {
         booking.service_status.onService.date = new Date();
         break;
       case 'Completed':
-        booking.service_status.servicecompleted.state = true;
-        booking.service_status.servicecompleted.date = new Date();
-        break;
+        case 'Service Completed':
+          booking.service_status.servicecompleted.state = true;
+          booking.service_status.servicecompleted.date = new Date();
+          break;
+        
       case 'Delivered':
         booking.service_status.dropped.state = true;
         booking.service_status.dropped.date = new Date();
@@ -348,18 +355,18 @@ module.exports.updateBookingStatus = async (req, res) => {
     }
 
     await booking.save();
-
+      console.log(booking,"uuuuuuuuuuu")
     const status =
-  booking?.service_status?.dropped?.state
+  booking?.service_status?.dropped?.state && booking?.service_status?.servicecompleted?.state && booking?.service_status?.onService?.state && booking?.service_status?.pickup?.state
     ? 'Delivered'
-    : booking?.service_status?.servicecompleted?.state
+    : booking?.service_status?.servicecompleted?.state && booking?.service_status?.onService?.state && booking?.service_status?.pickup?.state
     ? 'Completed'
-    : booking?.service_status?.onService?.state
+    : booking?.service_status?.onService?.state && booking?.service_status?.pickup?.state
     ? 'On Service'
     : booking?.service_status?.pickup?.state
     ? ' For Pickup'
     : '';
-    console.log(status)
+   
     res.json({ success: true, result: booking, status });
   } catch (err) {
     console.log(err)
@@ -367,4 +374,3 @@ module.exports.updateBookingStatus = async (req, res) => {
     res.json({ message: 'something went wrong', status: false, errors });
   }
 };
-
