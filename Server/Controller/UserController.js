@@ -61,6 +61,7 @@ module.exports.userSignup = async (req, res, next) => {
           throw error;
         });
       res.status(200).json({
+        email:email,
         message: "OTP is send to given email ",
         otpSend: true,
       });
@@ -76,10 +77,38 @@ module.exports.userSignup = async (req, res, next) => {
     res.status(400).json({ errors, otpSend: false });
   }
 };
+module.exports.resendUserOTP= async(req,res)=>{
+  try{
+
+    const {resendemail}=req.body
+    console.log(resendemail)
+    const otpEmail = Math.floor(1000 + Math.random() * 9000);
+
+    emailOtp = otpEmail;
+
+    sendEmailOTP(resendemail, otpEmail)
+      .then((info) => {
+        console.log(`Message sent: ${info.messageId}`);
+        console.log(`Preview URL: ${nodemailer.getTestMessageUrl(info)}`);
+      })
+      .catch((error) => {
+        throw error;
+      });
+    res.status(200).json({
+      
+      message: "OTP is send to given email ",
+      otpSend: true,
+    });
+  }catch(err)
+  {
+    console.log(err)
+    res.json({message:err})
+  }
+}
 module.exports.verifyOtp = async (req, res, next) => {
   try {
     let { otp } = req.body;
-
+console.log(otp,emailOtp,"oiuytrewq")
     let { name, email, password, mobile } = userData;
     console.log(name);
     if (otp == emailOtp) {
@@ -121,6 +150,10 @@ module.exports.loginUser = async (req, res, next) => {
     const user = await UserModel.findOne({ email });
 
     if (user) {
+      if (user.isBanned) { // Checking if the mechanic is banned
+        const errors = { message: "You are banned. Please contact support." };
+        return res.json({ errors, success: false })
+      }
       const validpassword = bcrypt.compare(password, user.password);
       if (validpassword) {
         const userId = user._id;

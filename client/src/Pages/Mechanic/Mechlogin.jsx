@@ -5,7 +5,7 @@ import mechimage from '../../Images/mechimage.jpg'
 import { useDispatch, useSelector } from "react-redux";
 import { setmechanicDetails } from "../../Redux/MechanicSlice"
 import { useState } from "react";
-import { getMechanicStatus, mechanicSignin } from "../../Services/MechanicApi";
+import {  mechanicSignin } from "../../Services/MechanicApi";
 import Swal from "sweetalert2"
 
 const Mechlogin = () => {

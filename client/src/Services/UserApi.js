@@ -113,6 +113,10 @@ const deleteAddress = (data) => {
   console.log(data, "delete add");
   return userAxiosInstance.post('/deleteAddress',data);
 };
+const resendOtp= (data)=>{
+  console.log(data)
+  return userAxiosInstance.post('/resendotp',data);
+}
 export {
   userRegister,
   userOtpsubmit,
@@ -124,7 +128,6 @@ export {
   getUserModel,
   updateBookingData,
   getServicePlans,
-
   addPlansToCart,
   deleteItem,
   getCartData,
@@ -141,5 +144,9 @@ export {
   getmechanicData,
   getMessages,
   addMessage,
-  addReview, getAllReview,updateAddress, deleteAddress
+  addReview,
+  getAllReview,
+  updateAddress,
+   deleteAddress,
+   resendOtp
 };

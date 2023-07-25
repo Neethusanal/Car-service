@@ -2,8 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { setUserDetails } from '../../Redux/UserSlice'
-
-
+import Swal from "sweetalert2"
 import logo from '../../Images/logo.png'
 import { userSignin } from '../../Services/UserApi';
 
@@ -65,6 +64,9 @@ const Login = () => {
 
               }))
             navigate("/");
+          }else
+          {
+            Swal.fire(res.data.errors.message)
           }
 
 
@@ -73,6 +75,7 @@ const Login = () => {
 
     } catch (err) {
       console.log(err);
+      Swal.fire(err)
     }
   };
 

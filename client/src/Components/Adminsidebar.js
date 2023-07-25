@@ -28,21 +28,21 @@ export const Adminsidebar = () => {
       <List>
         <ListItem>
           <ListItemPrefix>
-            <PresentationChartBarIcon className="h-5 w-5" />
+            <PresentationChartBarIcon className="h-5 w-5 text-white" />
           </ListItemPrefix>
-          <Link to="/admin/dashboard"> Dashboard</Link>
+          <Link to="/admin/dashboard" className="text-white"> Dashboard</Link>
         </ListItem>
          <ListItem>
           <ListItemPrefix>
-            <ShoppingBagIcon className="h-5 w-5" />
+            <ShoppingBagIcon className="h-5 w-5  text-white" />
           </ListItemPrefix>
-         <Link to="/admin/banner">  Banner</Link> 
+         <Link to="/admin/banner" className="text-white">  Banner</Link> 
         </ListItem> 
         <ListItem>
           <ListItemPrefix>
-            <InboxIcon className="h-5 w-5" />
+            <InboxIcon className="h-5 w-5  text-white" />
           </ListItemPrefix>
-         <Link to="/admin/brands"> Brand </Link>
+         <Link to="/admin/brands" className="text-white"> Brand </Link>
           <ListItemSuffix>
             <Chip
               value=""
@@ -55,33 +55,33 @@ export const Adminsidebar = () => {
         </ListItem>
         <ListItem>
           <ListItemPrefix>
-            <UserCircleIcon className="h-5 w-5" />
+            <UserCircleIcon className="h-5 w-5  text-white" />
           </ListItemPrefix>
-         <Link to="/admin/customers"> Customers </Link>
+         <Link to="/admin/customers" className="text-white"> Customers </Link>
         </ListItem>
         <ListItem>
           <ListItemPrefix>
-            <Cog6ToothIcon className="h-5 w-5" />
+            <Cog6ToothIcon className="h-5 w-5  text-white" />
           </ListItemPrefix>
-         <Link to="/admin/mechanic"> Mechanic</Link>
+         <Link to="/admin/mechanic" className="text-white"> Mechanic</Link>
         </ListItem>
         <ListItem>
           <ListItemPrefix>
-            <PowerIcon className="h-5 w-5" />
+            <PowerIcon className="h-5 w-5  text-white" />
           </ListItemPrefix>
-          <Link to="/admin/models"> Models</Link>
+          <Link to="/admin/models" className="text-white"> Models</Link>
         </ListItem>
         <ListItem>
           <ListItemPrefix>
-            <PowerIcon className="h-5 w-5" />
+            <PowerIcon className="h-5 w-5  text-white" />
           </ListItemPrefix>
-          <Link to="/admin/services"> Services</Link>
+          <Link to="/admin/services" className="text-white"> Services</Link>
         </ListItem>
         <ListItem>
           <ListItemPrefix>
-            <PowerIcon className="h-5 w-5" />
+            <PowerIcon className="h-5 w-5  text-white" />
           </ListItemPrefix>
-          <Link to="/admin/Servicelist"> Servicelist</Link>
+          <Link to="/admin/Servicelist" className="text-white"> Servicelist</Link>
         </ListItem>
       </List>
     </Card>

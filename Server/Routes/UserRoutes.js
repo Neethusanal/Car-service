@@ -38,6 +38,7 @@ router.post('/addtocart/:serviceId/:planId', VerifyUser, usercontroller.addToCar
  router.get('/getcartdata',VerifyUser,usercontroller.getCartData)
  router.put('/updateaddress',VerifyUser,usercontroller.updateUserAddress)
  router.post('/deleteaddress',VerifyUser,usercontroller.deleteAddress)
+ router.post('/resendotp',usercontroller.resendUserOTP)
 
 
  

@@ -122,34 +122,28 @@ getAllUsers().then((res)=>{
 
   return (
     <>
-      <div className="flex-1 ">
+       <div className="flex-1">
         <div className="p-4">
           <h3 className="text-xl pt-24 font-bold mb-">Welcome to the Admin Dashboard!</h3>
-          <div className="flex p-4 justify-start">
-            <div className="bg-gray-100 p-4 rounded-lg mb-4 max-w-xs">
-
-              <h4 className="text-lg pt-20 font-semibold mb-2">Number of User:</h4>
-              <p className="text-gray-600">
+        </div>
+      </div>
+      <div className="flex flex-wrap">
+        <div className="flex p-4 justify-start w-full md:w-1/2">
+          <div className="bg-gray-100 p-4 rounded-lg mb-4 w-full">
+            <h4 className="text-lg pt-20 font-semibold mb-2">Number of User:</h4>
+            <p className="text-gray-600">
               <Pie data={datas} />
-              </p>
-            </div>
+            </p>
           </div>
         </div>
-    
-
-
-      {/* Doughnut chart */}
-    
-  
-    
-      <div className="flex p-4 justify-start">
-        <div className="bg-gray-100 p-4 rounded-lg mb-4 max-w-xs">
-          <h4 className="text-lg pt-20 font-semibold mb-2">Number of Bookings per Date:</h4>
-          <Doughnut data={booking} />
+        <div className="flex p-4 justify-start w-full md:w-1/2">
+          <div className="bg-gray-100 p-4 rounded-lg mb-4 w-full">
+            <h4 className="text-lg pt-20 font-semibold mb-2">Number of Bookings per Date:</h4>
+            <Doughnut data={booking} />
+          </div>
         </div>
       </div>
-      </div>
     </>
-   
+ 
   );
 };

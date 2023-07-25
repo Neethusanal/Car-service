@@ -297,7 +297,7 @@ export const ServiceList = () => {
           </table>
         </CardBody>
         <CardFooter className="flex items-center justify-between border-t border-blue-gray-50 p-4">
-          <Button variant="outlined" color="blue-gray" size="sm">
+          {/* <Button variant="outlined" color="blue-gray" size="sm">
             Previous
           </Button>
           <div className="flex items-center gap-2">
@@ -314,7 +314,7 @@ export const ServiceList = () => {
           </div>
           <Button variant="outlined" color="blue-gray" size="sm">
             Next
-          </Button>
+          </Button> */}
         </CardFooter>
       </Card>
       <div>

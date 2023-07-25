@@ -1,16 +1,23 @@
-import React, { useState } from "react";
-
-import { useNavigate } from "react-router-dom";
-import { userOtpsubmit } from "../Services/UserApi";
-
+import React, { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { resendOtp, userOtpsubmit } from "../Services/UserApi";
 import { useDispatch } from "react-redux";
-
 import Swal from "sweetalert2";
 export const Userotp = () => {
   const [otp, setOtp] = useState(new Array(4).fill(""));
+ 
+  const location = useLocation();
+    const resendemail = location.state?.email;
   const navigate = useNavigate();
-  const dispatch = useDispatch();
 
+  useEffect(() => {
+    // Set focus to the first input field on initial load
+    const firstInput = document.getElementById("otp-0");
+    if (firstInput) {
+      firstInput.focus();
+    }
+  }, []);
+ 
   const handleChange = (element, index) => {
     if (isNaN(element.value)) return false;
     setOtp([...otp.map((d, indx) => (indx === index ? element.value : d))]);
@@ -18,31 +25,34 @@ export const Userotp = () => {
       element.nextSibling.focus();
     }
   };
-
+  
   const sendOTP = async () => {
     try {
       const otpString = otp.join("");
       if (otp.length < 4 || otp === "") {
         Swal.fire("invalid entry");
       } else {
-        alert("Sending OTP: " + otpString);
+        // alert("Sending OTP: " + otpString);
         const { data } = await userOtpsubmit({ otp: otpString });
-       
+
         if (data.success) {
-          console.log("jjjjjjjjjjjj");
           Swal.fire(data.message);
           navigate("/login");
         } else if (data) {
-          console.log(data, "kkkkkkkkkkk");
           Swal.fire(data.message);
           navigate("/register");
         }
       }
     } catch (data) {
-      
       Swal.fire(data.response.data.message);
     }
   };
+  const handleResendOtp=()=>{
+
+    resendOtp({resendemail}).then((res)=>{
+      console.log(res)
+    })
+  }
 
   return (
     <>
@@ -79,7 +89,17 @@ export const Userotp = () => {
             >
               Verify OTP
             </button>
-          </p>
+            </p>
+         
+            <button
+              className="mt-4 bg-blue-500 hover:bg-blue-600 text-white rounded px-4 py-2"
+              onClick={handleResendOtp}
+            >
+              Resend OTP
+              
+            </button>
+       
+         
         </div>
       </div>
     </>

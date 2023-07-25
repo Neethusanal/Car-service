@@ -48,7 +48,7 @@ export const Brandmanagement = () => {
     const [searchInput, setSearchInput] = useState("");
 
     const [currentPage, setCurrentPage] = useState(1);
-    const [brandsPerPage] = useState(10);
+    const [brandsPerPage] = useState(2);
     const navigate = useNavigate()
 
 

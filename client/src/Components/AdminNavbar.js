@@ -24,22 +24,18 @@ export const AdminNavbar = () => {
 
   const navList = (
     <ul className="mb-1 mt-1 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-2">
-      <Typography as="li" variant="small" color="blue-gray" className="p-1 font-normal">
+      <Typography as="li" variant="small" color="white" className="p-1 font-normal">
         <a href="#" className="flex items-center">
           Pages
         </a>
       </Typography>
-      <Typography as="li" variant="small" color="blue-gray" className="p-1 font-normal">
+      <Typography as="li" variant="small" color="white" className="p-1 font-normal">
         <a href="#" className="flex items-center">
-          Account
+          Account 
         </a>
       </Typography>
-      <Typography as="li" variant="small" color="blue-gray" className="p-1 font-normal">
-        <a href="#" className="flex items-center">
-          Blocks
-        </a>
-      </Typography>
-      <Typography as="li" variant="small" color="blue-gray" className="p-1 font-normal">
+     
+      <Typography as="li" variant="small" color="white" className="p-1 font-normal">
         <a href="#" className="flex items-center">
           Docs
         </a>
@@ -50,7 +46,7 @@ export const AdminNavbar = () => {
   return (
     <Navbar className="fixed top-0 left-0 w-full h-24 bg-gray-700 z-50">
       <div className="container mx-auto px-4 py-0 lg:px-8 lg:py-1 flex items-center justify-between text-blue-gray-900">
-        <Typography as="a" href="#" className="mr-4 cursor-pointer py-1 font-medium text-lg">
+        <Typography as="a" href="#" className="mr-4 cursor-pointer py-1 font-medium text-lg text-white">
           CAR CLINIC
         </Typography>
         <div className="hidden lg:block">{navList}</div>

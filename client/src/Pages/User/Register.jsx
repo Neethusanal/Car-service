@@ -30,11 +30,11 @@ const Register = () => {
             })
                 .then((data) => {
 
-                    console.log(data)
+                    console.log(data.data.email)
+                    setEmail(data.data.email)
+                  
 
-                    navigate('/otp')
-
-
+                    navigate("/otp", { state: { email } });
 
 
                 }).catch((error) => {
