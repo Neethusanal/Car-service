@@ -35,7 +35,6 @@ module.exports.mechanicregister = async (req, res, next) => {
       phone: phone,
       password: password,
     };
-    console.log(mechanicData, "hiiiiii");
     const mechanic = await MechanicModel.findOne({ email });
     const phoneno = await MechanicModel.findOne({ phone });
     if (mechanic || phoneno) {
@@ -43,9 +42,9 @@ module.exports.mechanicregister = async (req, res, next) => {
         .status(401)
         .json({ status: "failed", message: "Data already exists Login now" });
     } else {
-      console.log("hii sent otp");
+    
       let data = await sentOtp(phone);
-      console.log(data);
+     
 
       res
         .status(201)
