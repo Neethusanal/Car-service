@@ -111,7 +111,10 @@ const deleteLoc = (id) => {
  const getBookingData=()=>{
   return adminAxiosInstance.get('/getallbookingdata')
  }
-
+ const getSalesData=(data)=>{
+  console.log(data)
+  return adminAxiosInstance.get(`/getsalesdata?from=${data.fromDate}&to=${data.toDate}`)
+}
 export {
   adminSignin,
   authAdmin,
@@ -147,4 +150,5 @@ export {
   getAllLocations,
   deleteLoc, 
   getBookingData,
+  getSalesData
 };

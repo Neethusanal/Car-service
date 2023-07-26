@@ -69,7 +69,7 @@ export const SlotPage = () => {
       // console.log(date)
       return date > currentDate;
     });
-    console.log(filteredSlots, "filteredslotssssssssss")
+ 
 
     setAvailableSlots(filteredSlots)
   }, [])
@@ -93,10 +93,9 @@ export const SlotPage = () => {
     // Handle the booking logic here
     if (selectedSlot && selectedAddress) {
 
-      console.log(selectedSlot, selectedAddress,);
+     
       handleBookingData({ selectedSlot, selectedAddress, expertmechanic }).then((res) => {
-        console.log(res.data)
-        if (res.data.success) {
+      if (res.data.success) {
           navigate('/payment', { state: { expertmechanic } });
         }
       })
@@ -104,14 +103,13 @@ export const SlotPage = () => {
   };
   const handleEditAddress = (addressToEdit) => {
 
-    console.log(addressToEdit, "jjjjjjjjjjjjjj")
     setNewAddress(addressToEdit)
     openModal()
   };
   const editAddress = (e) => {
     e.preventDefault()
     closeModal()
-console.log("hhhhhhhhhhhhhh")
+
     updateAddress({newaddress}).then((res) => {
       console.log(res.data.result.address)
       dispatch(
@@ -127,7 +125,7 @@ console.log("hhhhhhhhhhhhhh")
 
   // Function to handle deleting an address
   const handleDeleteAddress = (addressToDelete) => {
-    console.log(addressToDelete)
+   
     Swal.fire({
       title: 'Are you sure?',
       text: "You won't be able to revert this!",
@@ -140,7 +138,7 @@ console.log("hhhhhhhhhhhhhh")
       if (result.isConfirmed) {
           let { data } = await deleteAddress({addressToDelete})
           if (data.success) {
-            console.log(data,"ddddddddddaaaaaaaaataaaaaaaaaaaaaa")
+           
             setDeleted(true)
               Swal.fire(
                   'The item has be Removed',
@@ -152,7 +150,7 @@ console.log("hhhhhhhhhhhhhh")
             
                     }))
               )
-              console.log(user,"nwdata")
+             
           }
       }
     })

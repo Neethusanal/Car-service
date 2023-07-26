@@ -11,9 +11,7 @@ const EditBrand = () => {
     const location = useLocation();
     const brand = location.state?.brand;
     const navigate = useNavigate()
-    console.log(brand, "editbrandpage");
     useEffect(() => {
-        console.log("llllllllll");
         setBrandName?.(brand.brandName)
         setBasicPay?.(brand.basicPay)
         setDescription?.(brand.description)

@@ -71,7 +71,7 @@ export const Servicemanagement = () => {
 
   // Get All services from Back end
   const getAllServices = () => {
-    console.log("hii i came")
+
     getServices().then((res) => {
       console.log("getBrands");
       console.log(res);

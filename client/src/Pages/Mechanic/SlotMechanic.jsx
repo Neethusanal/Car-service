@@ -84,7 +84,7 @@ export const SlotMechanic = () => {
 
 
   const handleSubmit = (slotsselected) => {
-    console.log(slotsselected, "timesslots")
+   
     mechanicSelectedSlots({ slotsselected }).then((res) => {
       if (res.data.success) {
         Swal.fire(res.data.message)

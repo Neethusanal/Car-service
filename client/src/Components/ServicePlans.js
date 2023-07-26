@@ -63,7 +63,7 @@ export const ServicePlans = () => {
 
     addPlansToCart(selectedServiceId, planId).then((res) => {
       if (res.data.success) {
-        console.log(res.data)
+      
         
         dispatch(
           setUserDetails({

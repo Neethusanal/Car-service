@@ -67,21 +67,27 @@ export const Adminsidebar = () => {
         </ListItem>
         <ListItem>
           <ListItemPrefix>
-            <PowerIcon className="h-5 w-5  text-white" />
+            <InboxIcon className="h-5 w-5  text-white" />
           </ListItemPrefix>
           <Link to="/admin/models" className="text-white"> Models</Link>
         </ListItem>
         <ListItem>
           <ListItemPrefix>
-            <PowerIcon className="h-5 w-5  text-white" />
+            <ShoppingBagIcon className="h-5 w-5  text-white" />
           </ListItemPrefix>
           <Link to="/admin/services" className="text-white"> Services</Link>
         </ListItem>
         <ListItem>
           <ListItemPrefix>
-            <PowerIcon className="h-5 w-5  text-white" />
+            <ShoppingBagIcon className="h-5 w-5  text-white" />
           </ListItemPrefix>
           <Link to="/admin/Servicelist" className="text-white"> Servicelist</Link>
+        </ListItem>
+        <ListItem>
+        <ListItemPrefix>
+            <PowerIcon className="h-5 w-5  text-white" />
+          </ListItemPrefix>
+          <Link to="/admin/sales" className="text-white"> SalesReport</Link>
         </ListItem>
       </List>
     </Card>

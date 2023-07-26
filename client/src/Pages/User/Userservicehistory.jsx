@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import Navbar from '../../Components/Navbar'
 import { Card, Typography } from "@material-tailwind/react";
 import { useSelector } from 'react-redux';
 import { getServiceHistory } from '../../Services/UserApi';
@@ -10,7 +9,6 @@ const TABLE_HEAD = ["Brand", "Model", "Service Selected", "Booked slot", "Bill A
 export const Userservicehistory = () => {
   const user = useSelector((state) => state.user)
   const email = user?.email
-  console.log(email)
   const [servicedata, setServiceData] = useState()
 
   useEffect(() => {
@@ -21,7 +19,6 @@ export const Userservicehistory = () => {
 
     getServiceHistory({ email: email })
       .then((res) => {
-        console.log(res);
         if (res.data.success) {
           setServiceData(res.data.servicehistory)
         }
@@ -31,7 +28,7 @@ export const Userservicehistory = () => {
       });
   };
 
-  console.log(servicedata)
+
   return (
     <>
 

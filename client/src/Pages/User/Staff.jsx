@@ -31,7 +31,7 @@ export const Staff = () => {
 
 
   const handleAddReview = (newReview, mechanicId) => {
-    console.log(newReview,"newreview")
+ 
   
  
     //Assuming a function called "addReview" to handle backend communication
@@ -70,10 +70,10 @@ export const Staff = () => {
     navigate('/chat');
   };
   const handleShowReview=(mechanicid)=>{
-    console.log(mechanicid)
+   
     
     getAllReview(mechanicid).then((res)=>{
-      console.log(res.data)
+     
       setAllReviews(res.data.result)
       
     })

@@ -29,7 +29,7 @@ const Mechregister = () => {
         phone: phone,
       })
         .then((response) => {
-          console.log(response)
+         
           if (response.status = 'success') {
             navigate('/mechanic/Otp')
           }

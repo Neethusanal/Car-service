@@ -39,15 +39,14 @@ export const Location = () => {
       };
       const handleAddLocation=(e)=>{
         e.preventDefault()
-        console.log(locationname)
+       
     
         addLocation ({locationname }).then((res) => {
-          console.log(res);
+        
           if (res.data.success) {
             setLocationName("")
             Swal.fire(res.data.message);
           } else {
-            console.log(res.data.errors, "error");
             Swal.fire(res.data.message);
           }
         });

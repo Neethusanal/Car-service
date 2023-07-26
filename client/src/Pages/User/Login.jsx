@@ -26,12 +26,12 @@ const Login = () => {
     e.preventDefault();
 
     if (!values.email) {
-      console.log("em")
+  
       setError("Email is required");
       return;
     }
     if (!values.password) {
-      console.log("pas")
+      
       setError("Password is required");
       return;
     }
@@ -39,7 +39,7 @@ const Login = () => {
     try {
       userSignin({ ...values }).
         then((res) => {
-          console.log(res, "nnnnn")
+          
           if (res.data.success) {
 
             localStorage.setItem("usertoken", res.data.token)

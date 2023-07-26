@@ -32,8 +32,6 @@ export const AdminUsermanagement = () => {
 
     const getAdminUser = () => {
         getAllUsers().then((res) => {
-            console.log("getUsers")
-            console.log(res.data)
             if (res.data.status == "success") {
                 console.log(res.data.result, "ddddddd")
                 setUsers(res?.data?.result)
@@ -41,7 +39,6 @@ export const AdminUsermanagement = () => {
         });
     }
     const handleBlock = (id) => {
-        console.log(id, "iddddd")
         Swal.fire({
             title: 'Are you sure?',
             text: "You wont be able to revert this!",

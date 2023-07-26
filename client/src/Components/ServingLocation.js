@@ -7,7 +7,6 @@ import { updateUserLocation } from '../Redux/UserSlice'
 
 export const ServingLocation = () => {
     const user = useSelector((state) => state.user)
-    // console.log(user,"fggg")
     
     const [email,setEmail]=useState()
     const [locData,setLocData]=useState()

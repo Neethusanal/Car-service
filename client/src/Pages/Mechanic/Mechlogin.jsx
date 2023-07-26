@@ -30,23 +30,23 @@ const Mechlogin = () => {
 
   
   const handleSubmit = async (e) => {
-    console.log("entered")
+   
     e.preventDefault();
 
     if (!values.email) {
-      console.log("em")
+      
       setError("Email is required");
       return;
     }
     if (!values.password) {
-      console.log("pas")
+      
       setError("Password is required");
       return;
     }
 
     try {
       const { data } = await mechanicSignin({ ...values })
-      console.log(data)
+      
       if (data.success) {
         localStorage.setItem("mechanictoken", data.token)
 

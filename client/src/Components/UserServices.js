@@ -21,7 +21,7 @@ export const UserServices = () => {
   }, []);
   const getServiceData = () => {
     getUserServices().then((res) => {
-      console.log(res.data);
+      
       if (res.data.success) {
         setService(res.data.result);
       }
@@ -29,7 +29,7 @@ export const UserServices = () => {
   };
   const getBrandData=()=>{
     getUserBrands().then((res) => {
-      console.log(res.data);
+      
       if (res.data.success) {
         setBrand(res.data.result);
       }
@@ -38,7 +38,7 @@ export const UserServices = () => {
   }
   const getModelData=()=>{
     getUserModel().then((res) => {
-      console.log(res.data);
+     
       if (res.data.success) {
         setModel(res.data.result);
       }
@@ -46,9 +46,9 @@ export const UserServices = () => {
   }
   const handleBooking=()=>{
     if(authUser){
-      console.log(brandName,modelName,"bbbbbbbbbbbbbbbbbbbb")
+    
       updateBookingData({brandName,modelName}).then((res)=>{
-      console.log(res.data)
+    
       })
       navigate('/services')
     }

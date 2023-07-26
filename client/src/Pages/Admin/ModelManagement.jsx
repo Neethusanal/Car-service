@@ -92,10 +92,7 @@ export const Modelmanagement = () => {
   }
   const getAllModels = () => {
     getallCars().then((res) => {
-      console.log("getcars");
-      console.log(res.data);
       if (res.data.success) {
-        console.log(res.data.result, "ddddddd");
         setModelData(res?.data?.result);
       }
     });
@@ -147,7 +144,7 @@ export const Modelmanagement = () => {
     }).then((res) => {
 
       if (res.data.success) {
-        console.log(res.data.result, "ddddddd");
+        
         setcarName("")
         setbrandName('')
         setfuelType("")
@@ -156,7 +153,7 @@ export const Modelmanagement = () => {
         navigate('/admin/models')
       }
       else {
-        console.log("else part executing")
+       
         Swal.fire(res.data.message)
 
       }

@@ -643,3 +643,67 @@ module.exports.getBookingData = async (req, res) => {
     res.status(400).json({ success: false, message: error.message });
   }
 };
+// module.exports. salesDetails: async (req, res) => {
+//   try {
+//     console.log(req.body);
+//     let salesdetails = await BookingModel.aggregate([
+//       {
+//         $match: {
+//           $and: [
+//             { order_status: "completed" },
+//             { "delivery_status.delivered.state": true },
+//             { ordered_date: { $gt: new Date(req.body.from) } },
+//             { ordered_date: { $lt: new Date(req.body.to) } },
+//           ],
+//         },
+//       },
+//       {
+//         $lookup: {
+//           from: "users",
+//           localField: "userId",
+//           foreignField: "_id",
+//           as: "userid",
+//         },
+//       },
+//       { $sort: { ordered_date: -1 } },
+//     ]);
+module.exports.getSalesDetails = async (req, res) => {
+  const { from, to } = req.query;
+  console.log(from);
+  console.log(to);
+
+  try {
+    // Parse the date strings into Date objects
+    const fromDate = new Date(from);
+    const toDate = new Date(to);
+
+    const salesDetails = await BookingModel.aggregate([
+      {
+        $match: {
+          "service_status.dropped.state": true,
+          "service_status.dropped.date": {
+            $gte: fromDate, // Use the parsed Date objects in the query
+            $lte: toDate,
+          },
+        },
+      },
+ 
+      // {
+      //   $group: {
+      //     _id: null,
+      //     totalSales: { $sum: "$billAmount" },
+      //   },
+      // },
+    ]);
+
+    console.log(salesDetails);
+
+   
+      return res.json({success:true,result:salesDetails});
+   
+    
+  } catch (err) {
+    console.error("Error fetching sales details:", err);
+    return res.status(500).json({ error: "Error fetching sales details" });
+  }
+};

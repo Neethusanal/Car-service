@@ -34,11 +34,11 @@ export const Payment = () => {
     // setSelectedSlot(user?.bookedSlots)
     setAmount(user?.cartTotal)
   })
-  console.log(serviceType,"bbbb")
+  
 const handlePayment=()=>{
  
   completePayment({amount,selectedslot,serviceType,}).then((res)=>{
-    console.log(res,"data")
+   
     if(res.data){
       initPayment(res.data)
     }
@@ -46,7 +46,7 @@ const handlePayment=()=>{
 }
   
   const initPayment = (data) => {
-    console.log(data)
+ 
     const options = {
       key:keyId,
       amount: amount*100,
@@ -56,7 +56,7 @@ const handlePayment=()=>{
       order_id: data.data.id,
       handler: async (response) => {
         try {
-          console.log(response)
+          
           const { razorpay_payment_id, razorpay_order_id, razorpay_signature } =
             response;
 
@@ -77,7 +77,7 @@ const handlePayment=()=>{
             }).then((res)=>{
             if(res.data.success)
             {
-              console.log (res.data.result)
+             
               navigate('/userservicehistory')
             }
              

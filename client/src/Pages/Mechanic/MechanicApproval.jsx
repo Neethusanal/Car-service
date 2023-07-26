@@ -44,7 +44,7 @@ export const MechanicApproval = () => {
         );
         try {
             let { data } = updateDetails(formData)
-            console.log(data)
+           
             if (data) {
                
                

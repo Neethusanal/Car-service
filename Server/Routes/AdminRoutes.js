@@ -40,6 +40,7 @@ router.post('/addlocation',VerifyAdmin,admincontroller.addPlaces)
 router.get('/getalllocations',VerifyAdmin,admincontroller.allLocations)
 router.post('/deleteloc/:id',VerifyAdmin,admincontroller.deleteLocation)
 router.get('/getallbookingdata',VerifyAdmin,admincontroller.getBookingData)
+router.get('/getsalesdata',VerifyAdmin,admincontroller.getSalesDetails)
 
 
 module.exports = router;

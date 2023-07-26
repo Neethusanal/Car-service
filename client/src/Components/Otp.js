@@ -9,7 +9,7 @@ import Swal from "sweetalert2";
 export const Otp = () => {
   const [otp, setOtp] = useState(new Array(6).fill(""));
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  
 
   const handleChange = (element, index) => {
     if (isNaN(element.value)) return false;

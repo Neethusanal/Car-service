@@ -105,7 +105,7 @@ const getAllReview=(id)=>{
    return userAxiosInstance.get(`/getallreview/${id}`)
  }
  const updateAddress = (data) => {
-  console.log(data,"herecoming")
+
   return userAxiosInstance.put("/updateaddress", data);
  
 };

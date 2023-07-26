@@ -10,9 +10,7 @@ const Editbanners = () => {
     const location = useLocation();
     const banner = location.state?.bannerdata;
     const navigate = useNavigate()
-    console.log(banner, "editbannerpage");
     useEffect(() => {
-        console.log("llllllllll");
         setBannerName?.(banner.bannerName)
         setImage?.(banner.image)
         setDescription?.(banner.description)

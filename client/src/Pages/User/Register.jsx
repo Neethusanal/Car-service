@@ -13,12 +13,11 @@ const Register = () => {
     const [mobile, setMobile] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [cpassword, setCpassword] = useState('');
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const handleSubmit = async (e) => {
         e.preventDefault();
-        // Handle form submission logic here
+        
         try {
             console.log(name, mobile, email)
             userRegister({
@@ -30,7 +29,7 @@ const Register = () => {
             })
                 .then((data) => {
 
-                    console.log(data.data.email)
+                   
                     setEmail(data.data.email)
                   
 
@@ -124,21 +123,7 @@ const Register = () => {
                                     />
                                 </div>
                             </div>
-                            <div className="mt-4">
-                                <label
-                                    htmlFor="password_confirmation"
-                                    className="block text-sm font-medium text-gray-700 undefined"
-                                >
-                                    Confirm Password
-                                </label>
-                                <div className="flex flex-col items-start">
-                                    <input
-                                        type="password"
-                                        name="cpassword" onChange={(e) => setCpassword(e.target.value)}
-                                        className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                                    />
-                                </div>
-                            </div>
+                           
                             <a
                                 href="#"
                                 className="text-xs text-black-600 hover:underline"

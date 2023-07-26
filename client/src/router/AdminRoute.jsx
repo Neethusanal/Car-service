@@ -15,6 +15,7 @@ import { ServiceList } from '../Pages/Admin/ServiceList'
 import Editbanners from '../Pages/Admin/Editbanners'
 import PrivateRoutes from '../ProtectedRoutes/PrivateRoutes'
 import { Location } from '../Pages/Admin/Location'
+import { SalesReport } from '../Pages/Admin/SalesReport'
 
 
 
@@ -27,11 +28,12 @@ const AdminRoute = () => {
   return (
     <>
       <Routes>
-
-
+     
+      
         <Route exact path='/login' element={<Adminlogin />} />
         <Route element={<PrivateRoutes role={"admin"} route={"/admin/dashboard"} />}>
           <Route element={<Adminlayout />}>
+
             <Route exact path='/dashboard' element={<Admindashboard />} />
             <Route exact path='/mechanic' element={<Adminmechmanagement />} />
             <Route exact path='/customers' element={<AdminUsermanagement />} />
@@ -44,6 +46,8 @@ const AdminRoute = () => {
             <Route exact path='/editbanner' element={<Editbanners />} />
             <Route exact path='/servicelist' element={<ServiceList />} />
             <Route exact path='/location' element={<Location />} />
+            <Route exact path='/sales' element={<SalesReport />} />
+           
 
 
 

@@ -1,37 +1,44 @@
 import React, { useEffect, useState } from 'react';
-import {Pie, Doughnut} from 'react-chartjs-2';
+import { Doughnut, Pie } from 'react-chartjs-2';
 import { getAllMechanic, getAllUsers, getBookingData } from '../../Services/AdminApi';
 import {
   Chart as ChartJS,
-  ArcElement,
-  Tooltip,
-  Legend,
   CategoryScale,
   LinearScale,
   BarElement,
   Title,
-} from "chart.js";
-import moment from 'moment';
-ChartJS.register(ArcElement,Tooltip,Legend,CategoryScale,LinearScale,BarElement,Title)
+  Tooltip,
+  Legend,
+  ArcElement
+} from 'chart.js';
 
+
+ChartJS.register(ArcElement, Tooltip, Legend, CategoryScale, LinearScale, BarElement, Title);
 export const Admindashboard = () => {
   const [bookingdata, setBookingData] = useState([]);
   const [allBooking, setAllBooking] = useState(0);
   const [user,setUser]=useState([])
   const [mechanic,setMechanic]=useState([])
+  const [deliveredBookingsCount,setDeliveredBookingsCount]=useState()
 
 
   useEffect(() => {
     bookingDetails();
   }, []);
-
   const bookingDetails = async () => {
-    await getBookingData().then((res) => {
-      
-      setBookingData(res.data.result);
-      setAllBooking(res.data.result.length)
-    
-    });
+    try {
+      const res = await getBookingData();
+      const bookings = res.data.result;
+
+      setBookingData(bookings);
+      setAllBooking(bookings.length);
+
+      // Filter bookings with status "delivered" and get the count
+      const deliveredBookings = bookings.filter((booking) => booking.service_status.servicecompleted.state);
+      setDeliveredBookingsCount(deliveredBookings.length);
+    } catch (error) {
+      console.error('Error fetching booking data:', error);
+    }
   };
   useEffect(()=>{
 getAllUsers().then((res)=>{
@@ -46,36 +53,14 @@ getAllUsers().then((res)=>{
     })
   },[])
   
-  const moment = require('moment');
-
-  const bookingsCountByDate = bookingdata.reduce((countByDate, booking) => {
-    try {
-      const date = moment(booking.bookedSlot);
-      console.log(date)
-      if (!date.isValid()) {
-        console.error('Invalid date:', booking.bookedSlot);
-        return countByDate;
-      }
-      const formattedDate = date.format('M/D'); // Format the date as 'Month/Day'
-      countByDate[formattedDate] = (countByDate[formattedDate] || 0) + 1;
-    } catch (error) {
-      console.error('Error parsing date:', error);
-    }
-    return countByDate;
-  }, {});
 
   
-  
-
-  const labels = Object.keys(bookingsCountByDate);
-  const data = Object.values(bookingsCountByDate);
-  console.log(bookingsCountByDate,"bbbbbbbb")
-
   const booking = {
-    labels: labels,
+    labels:['allBooking','deliveredBookingsCount'],
     datasets: [
       {
-        data: data,
+       
+        data: [allBooking,deliveredBookingsCount],
         backgroundColor: [
           'rgba(255, 99, 132, 0.2)',
           'rgba(54, 162, 235, 0.2)',
@@ -101,7 +86,7 @@ getAllUsers().then((res)=>{
     labels: ['Mechanic','user'],
     datasets:[
       {
-        label:'Resorts',
+        
         data:[mechanic,user],
         backgroundColor: [
           'rgba(0, 255, 0, 0.2)',
@@ -124,13 +109,13 @@ getAllUsers().then((res)=>{
     <>
        <div className="flex-1">
         <div className="p-4">
-          <h3 className="text-xl pt-24 font-bold mb-">Welcome to the Admin Dashboard!</h3>
+          <h3 className="text-xl pt-20 font-bold mb-">Welcome to the Admin Dashboard!</h3>
         </div>
       </div>
       <div className="flex flex-wrap">
         <div className="flex p-4 justify-start w-full md:w-1/2">
           <div className="bg-gray-100 p-4 rounded-lg mb-4 w-full">
-            <h4 className="text-lg pt-20 font-semibold mb-2">Number of User:</h4>
+            <h4 className="text-lg pt-4 font-semibold mb-2">Number of User:</h4>
             <p className="text-gray-600">
               <Pie data={datas} />
             </p>
@@ -138,7 +123,7 @@ getAllUsers().then((res)=>{
         </div>
         <div className="flex p-4 justify-start w-full md:w-1/2">
           <div className="bg-gray-100 p-4 rounded-lg mb-4 w-full">
-            <h4 className="text-lg pt-20 font-semibold mb-2">Number of Bookings per Date:</h4>
+            <h4 className="text-lg pt-4 font-semibold mb-2">Bookings :</h4>
             <Doughnut data={booking} />
           </div>
         </div>

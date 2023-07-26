@@ -36,7 +36,7 @@ export const Cart = () => {
   },[deleted])
   const getCartItems=()=>{
     getCartData().then((res)=>{
-      console.log(res,"hhhhhhhhhhh")
+      
       setCart(res?.data?.result.cart)
       setCartTotal(res.data.result.cartTotal)
     
@@ -57,7 +57,7 @@ const deleteCartData= (id)=>{
     if (result.isConfirmed) {
         let { data } = await deleteItem(id)
         if (data.success) {
-          console.log(data,"ddddddddddaaaaaaaaataaaaaaaaaaaaaa")
+          
           setCart(data.result.cart)
           setCartTotal(data.result.cartTotal)
           setDeleted(id) 
