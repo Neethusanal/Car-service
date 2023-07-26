@@ -3,6 +3,7 @@ import axios from "axios";
 const baseUrl = process.env.REACT_APP_BASE_URL;
 const mechanicUrl = process.env.REACT_APP_MECHANIC_URL;
 const adminUrl = process.env.REACT_APP_ADMIN_URL;
+console.log(baseUrl)
 // Function to create an Axios client with specified baseURL
 const createAxiosClient = (baseURL) => {
   const client = axios.create({
