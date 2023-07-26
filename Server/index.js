@@ -24,7 +24,7 @@ mongoose.connect(process.env.DATABASE_URL, {
 });
 app.use(express.json());
 app.use(cors({
-  origin: ['http://localhost:3000'],
+  origin: [process.env.BASE_URL],
   method: ['GET', 'POST', 'DELETE', 'PUT'],
   credentials: true,
 }));
@@ -41,7 +41,7 @@ server.listen(4000, () => {
   console.log("Server/Backend started on port 4000");
 });
 const io=socket(server,{
-  cors:{origin:"http://localhost:3000",
+  cors:{origin:process.env.BASE_URL,
  credentials:true
 }
 })
