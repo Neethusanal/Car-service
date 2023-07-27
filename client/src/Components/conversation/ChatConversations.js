@@ -19,7 +19,7 @@ export const ChatConversations = ({ chatdata, currentuserId ,online}) => {
     };
     getUserData();
   }, []);
-  console.log(userData, "bbbbbbbbbb");
+
   return (
     <>
     

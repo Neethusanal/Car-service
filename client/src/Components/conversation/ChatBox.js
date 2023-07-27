@@ -88,6 +88,8 @@ export const ChatBox = ({
       setMessages([...messages, recievedMessage]);
     }
   }, [recievedMessage]);
+ console.log(messages,"kkkkk")
+  console.log(currentuserId,"currentuserid")
 
   return (
     <>
@@ -124,15 +126,16 @@ export const ChatBox = ({
             <div className="flex-1 overflow-y-auto">
               <div className="flex flex-col gap-y-2 p-4">
                 {messages?.map((msg, index) => {
+                   console.log(msg ,"senderid")
                   return (
                     <>
-                      {msg.senderId === currentuserId ? (
+                      {msg.SenderId === currentuserId ? (
                         <div
                           ref={scroll}
                           key={index}
                           className=" msg justify-end flex mb-2"
                         >
-                          <div className=" text-white p-3 rounded-lg">
+                          <div className="msg-content bg-gray-200 p-3 rounded-lg">
                             <span className="text-lg font-semibold">{msg.text}</span>
                             <span className="text-sm">{format(msg.createdAt)}</span>
                           </div>
@@ -154,12 +157,12 @@ export const ChatBox = ({
                 })}
               </div>
               {/* chat sender */}
-              <div className="chatSender bg-gray-100 p-4">
-                <div className="flex items-center">
-                  <InputEmoji value={newMessage} onChange={handleChange} className="mr-2" />
-                  <Button onClick={(e) => handleSend(e)}>
-                    <FiSend />
-                  </Button>
+              <div className="chatSender bg-gray-100 p-4 sticky bottom-0 left-0 right-0">
+              <div className="flex items-center">
+                <InputEmoji value={newMessage} onChange={handleChange} className="mr-2" />
+                <Button onClick={(e) => handleSend(e)}>
+                  <FiSend />
+                </Button>
                 </div>
               </div>
               </div>

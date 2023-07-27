@@ -67,7 +67,7 @@ export const Chat = () => {
 
   return (
     <>
-      <div className="container">
+      {/* <div className="container"> */}
       <div className=" mt-4 flex h-screen">
           {/* leftside chat */}
         <div className="bg-white w-1/3">
@@ -97,7 +97,7 @@ export const Chat = () => {
 
         </div>
       </div>
-      </div>
+      {/* </div> */}
     </>
   );
 };
