@@ -28,6 +28,7 @@ export const ChatConversations = ({ chatdata, currentuserId ,online}) => {
          
 
           {userData?.map((mechdata, index) => {
+            console.log(online,"online")
             return (
               <div
                 className="follower conversation flex items-center"
@@ -45,7 +46,7 @@ export const ChatConversations = ({ chatdata, currentuserId ,online}) => {
                 </div>
                 <div className="text-lg w-full">
                   <span>{mechdata?.name}</span>
-                  <span className="float-right mr-2">{online ? "online":"offline"}</span>
+                  <span className="float-right mr-2"style={{color: online?"#51e200":""}}>{online ? "online":"offline"}</span>
                 </div>
               </div>
             );

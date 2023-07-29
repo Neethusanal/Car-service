@@ -39,10 +39,12 @@ const AddReview = ({ onSubmitReview }) => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <div>
-        <label className='font-extrabold'  htmlFor="name">{user.name}</label>
+      <div className='ml-4'> 
+        <label className='font-extrabold' htmlFor="name">
+          {user.name}
+        </label>
       </div>
-      <div>
+      <div className='ml-4'> 
         <label>Rating:</label>
         <Rating
           count={5}
@@ -52,18 +54,19 @@ const AddReview = ({ onSubmitReview }) => {
           color="#ffd700" // Set the color of the active stars (in this case, gold)
         />
       </div>
-      <div>
-        <label  htmlFor="comment">Comment:</label>
-        <input
+      <div className='ml-4'> 
+        <label htmlFor="comment">Comment:</label>
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          <input
             className='border border-gray-500'
-          id="comment"
-          value={comment}
-          onChange={handleCommentChange}
-          required
-        />
+            id="comment"
+            value={comment}
+            onChange={handleCommentChange}
+            required
+          />
+          <button className="px-2 py-1 ml-2 text-xs font-medium  text-black justify-center bg-white rounded">submit</button>
+        </div>
       </div>
-      <button class="px-4 py-2 text-sm font-medium text-white bg-black rounded"> <FaCheck style={{ marginRight: '0.5rem' }} /></button>
-
     </form>
   );
 };

@@ -36,7 +36,7 @@ const Navbar = () => {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           <div className="flex-shrink-0">
-            <a href="/" className="text-white font-bold text-xl">
+            <a href="/" className="text-white font-extrabold text-2xl">
               Car Clinic
             </a>
           </div>
@@ -92,29 +92,30 @@ const Navbar = () => {
           <div className="flex items-center">
             {user.name ? (
               <>
-                <span className="text-white">Hi {user.name}</span>
+                
                 <button
                   onClick={handleCart}
-                  className="text-white hover:text-gray-300 ml-4"
+                  className="text-white hover:text-gray-300 ml-4 mt-5"
                 >
                   {user.cart && user.cart.length > 0 && (
-                    <span className="text-white ml-2">{user.cart.length}</span>
+                    <span className="text-white ml-2 ">{user.cart.length}</span>
                   )}
                   <FaShoppingCart size={20} />
                 </button>
+                <span className="text-white  ml-4 mt-4">Hi {user.name}</span>
                 <button
                   onClick={toggleDropdown}
-                  className="text-white hover:text-gray-300 ml-4 focus:outline-none"
+                  className="text-white hover:text-gray-300 ml-5  mt-5 focus:outline-none"
                 >
                   &#9662; {/* Downward arrow character */}
                 </button>
                 {showDropdown && (
-                  <div className="absolute right-0 mt-2 w-48 bg-white border rounded shadow-lg">
-                    <ul className="py-2">
+                  <div className="absolute right-0 mt-4 w-48 bg-white border rounded shadow-lg">
+                    <ul className="">
                       <li>
                         <button
                           onClick={handleProfile}
-                          className="block w-full px-4 py-2 text-gray-800 hover:bg-gray-300"
+                          className="block w-full px-4 mt-4 text-gray-800 hover:bg-gray-300"
                         >
                           Profile
                         </button>
@@ -122,7 +123,7 @@ const Navbar = () => {
                       <li>
                         <button
                           onClick={handleLogout}
-                          className="block w-full px-4 py-2 text-gray-800 hover:bg-gray-300"
+                          className="block w-full px-4 mt-5 text-gray-800 hover:bg-gray-300"
                         >
                           Logout
                         </button>

@@ -43,7 +43,11 @@ export const UserProfile = () => {
 
   return (
     <div>
+
+
       
+
+  
       <Card className="mt-20 ml-10 mr-10  flex flex-justify-center">
         <CardHeader color="blue-gray" className="relative h-12">
           <h1 className='text-center font-bold'> Profile</h1>
@@ -121,7 +125,7 @@ export const UserProfile = () => {
           <Button onClick={() => handleProfile()}>UpdatePofile</Button>
           <Button type="submit" className="ml-2" onClick={() => handleClose()}  >close</Button>
         </CardFooter>
-      </Card>
+      </Card> 
 
     </div>
   )

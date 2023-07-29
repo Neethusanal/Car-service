@@ -46,18 +46,15 @@ export const UserServices = () => {
   }
   const handleBooking=()=>{
 
-    if(!user.id==undefined){
-      console.log(user,"kk")
+    if(user){
+      
       updateBookingData({brandName,modelName}).then((res)=>{
     
       })
       navigate('/services')
     }
     else{
-      console.log("kkkkkk")
-    Swal.fire("please login to book appointment")
-     navigate('/login')
-      
+      navigate('/login')
     }
   
   }

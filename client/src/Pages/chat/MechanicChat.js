@@ -39,7 +39,7 @@ console.log(chats,"chats of mechanic that is ise")
     socket.current.emit("new-user-add", mechanic.id);
     socket.current.on("get-users", (mechanic) => {
       setOnlineUsers(mechanic);
-      //console.log(onlineUsers, "nnnn");
+      console.log(onlineUsers, "nnnn");
     });
   }, [mechanic]);
   useEffect(() => {
@@ -55,15 +55,16 @@ console.log(chats,"chats of mechanic that is ise")
     });
   }, []);
  
-
+console.log(recievedMessage,"recievedmessagesssssssss")
   const checkOnlinestatus = (chat) => {
     const chatMembers = chat?.members?.find((member) => member !== mechanic.id);
+    console.log(chatMembers,"chatmembers")
     const online = onlineUsers.find(
       (mechanic) => mechanic.mechanicId === chatMembers
     );
     return online ? true : false;
   };
-
+console.log(chats,"mechanicchats")
   return (
     <>
       <div className="container">
@@ -75,11 +76,12 @@ console.log(chats,"chats of mechanic that is ise")
               <h2 className="text-2xl font-bold mb-4">Chats</h2>
               <div className="chatList">
                 {chats?.map((chat) => {
+                  
                   return (
                     <div onClick={() => setCurrentChat(chat)}>
                       <MechChatConversations
                         chat={chat}
-                        currentuserId={mechanic.id}
+                        currentuserId={mechanic._id}
                         online={checkOnlinestatus(chat)}
                       />
                     </div>

@@ -13,13 +13,12 @@ export const MechChatBox = ({
   setSendMessage,
   recievedMessage,
 }) => {
-
   const [userData, setUserData] = useState(null);
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
   const scroll = useRef();
 
-   console.log(chat,currentuserId,setSendMessage,recievedMessage)
+  console.log(setSendMessage, recievedMessage);
   useEffect(() => {
     const userId = chat?.members?.find((id) => id !== currentuserId);
     console.log(userId);
@@ -43,6 +42,7 @@ export const MechChatBox = ({
       } catch (error) {
         console.log(error);
       }
+   
     };
     if (chat !== null) fetchMessages();
   }, [chat]);
@@ -76,12 +76,10 @@ export const MechChatBox = ({
     }
     //send Message to socket server
     const recieverId = chat?.members?.find((id) => id !== currentuserId);
-     setSendMessage([...messages,recieverId])
+    setSendMessage([...messages, recieverId]);
   };
   return (
     <>
-            
-
       <div classname=" ">
         {chat ? (
           <>
@@ -94,7 +92,6 @@ export const MechChatBox = ({
                       key={index}
                     >
                       <div className="mr-4">
-                       
                         <img
                           src={mechdata?.image || profile}
                           alt=""
@@ -112,12 +109,12 @@ export const MechChatBox = ({
               </div>
               <hr className="my-4 border-gray-300" />
             </div>
- {/* chatBox Messages */}
- 
- <div className="flex-1 overflow-y-auto">
+            {/* chatBox Messages */}
+
+            <div className="flex-1 overflow-y-auto">
               <div className="flex flex-col gap-y-2 p-4">
                 {messages?.map((msg, index) => {
-                   console.log(msg ,"senderid")
+                  console.log(msg, "senderid");
                   return (
                     <>
                       {msg.SenderId === currentuserId ? (
@@ -127,8 +124,12 @@ export const MechChatBox = ({
                           className=" msg justify-end flex mb-2"
                         >
                           <div className="msg-content bg-gray-200 p-3 rounded-lg">
-                            <span className="text-lg font-semibold">{msg.text}</span>
-                            <span className="text-sm">{format(msg.createdAt)}</span>
+                            <span className="text-lg font-semibold">
+                              {msg.text}
+                            </span>
+                            <span className="text-sm">
+                              {format(msg.createdAt)}
+                            </span>
                           </div>
                         </div>
                       ) : (
@@ -138,8 +139,12 @@ export const MechChatBox = ({
                           className="msg justify-start flex mb-2"
                         >
                           <div className="msg-content bg-gray-200 p-3 rounded-lg">
-                            <span className="text-lg font-semibold">{msg.text}</span>
-                            <span className="text-sm">{format(msg.createdAt)}</span>
+                            <span className="text-lg font-semibold">
+                              {msg.text}
+                            </span>
+                            <span className="text-sm">
+                              {format(msg.createdAt)}
+                            </span>
                           </div>
                         </div>
                       )}
@@ -149,21 +154,25 @@ export const MechChatBox = ({
               </div>
               {/* chat sender */}
               <div className="chatSender bg-gray-100 p-4 sticky bottom-0 left-0 right-0">
-              <div className="flex items-center">
-                <InputEmoji value={newMessage} onChange={handleChange} className="mr-2" />
-                <Button onClick={(e) => handleSend(e)}>
-                  <FiSend />
-                </Button>
+                <div className="flex items-center">
+                  <InputEmoji
+                    value={newMessage}
+                    onChange={handleChange}
+                    className="mr-2"
+                  />
+                  <Button onClick={(e) => handleSend(e)}>
+                    <FiSend />
+                  </Button>
                 </div>
               </div>
-              </div>
-            </>
-            ) : (
-            <div class="flex justify-center items-center h-screen">
-              <span class="text-center">Tap on a chat to start conversation</span>
             </div>
-        )}
+          </>
+        ) : (
+          <div class="flex justify-center items-center h-screen">
+            <span class="text-center">Tap on a chat to start conversation</span>
           </div>
+        )}
+      </div>
     </>
   );
 };

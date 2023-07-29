@@ -577,8 +577,8 @@ module.exports.getserviceDetails = async (req, res) => {
 module.exports.getMechanic = async (req, res) => {
   try {
     const id = req.params.id;
-
-    const mechanic = await MechanicModel.find({ _id: id });
+  const mechanic = await MechanicModel.find({ _id: id }).populate('brandsserved')
+  
 
     res.json({ success: true, result: mechanic });
   } catch (error) {

@@ -21,9 +21,7 @@ const userSchema=  new mongoose.Schema({
         
     },
     
-    kilometers:{
-        type:Number
-      },
+ 
     mobile:{
         type:String,
         required:[true,"phone no is required"],
