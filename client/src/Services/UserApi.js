@@ -33,9 +33,10 @@ const updateBookingData=(data)=>{
 const getServicePlans = (id) => {
   return userAxiosInstance.get(`/getallserviceplans/${id}`);
 };
-const addPlansToCart = (selectedServiceId, planId) => {
-  console.log(selectedServiceId, planId, "ffff");
-  return userAxiosInstance.post(`/addtocart/${selectedServiceId}/${planId}`);
+const addPlansToCart = (selectedPlans) => {
+  console.log(selectedPlans, "ffff");
+ // return userAxiosInstance.post(`/addtocart/${selectedServiceId}/${planId}`);
+ return userAxiosInstance.post("/addtocart",selectedPlans);
 };
 const deleteItem = (id) => {
   console.log(id, "delete service");
@@ -70,7 +71,7 @@ const verifyUserPayment=(data)=>{
 }
 const getServiceHistory=(data)=>{
   console.log(data)
-  return userAxiosInstance.get(`/getservicdetails?email=${data.email}`)
+  return userAxiosInstance.get(`/getservicdetails?email=${data.email}&page=${data.page}&limit=${data.limit}`)
 }
 const createChatWihMechanic=(data)=>{
   console.log(data)

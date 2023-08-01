@@ -257,8 +257,13 @@ module.exports.getAllServicesList = async (req, res) => {
 };
 
 module.exports.addToCart = async (req, res) => {
-  const serviceId = req.params.serviceId;
-  const planId = req.params.planId;
+  
+ 
+  const {selectedServiceId,planId}=req.body
+  console.log(selectedServiceId,planId)
+   const serviceId = selectedServiceId
+   console.log( serviceId,planId,"jjjjj")
+  
   const userId = req.userId;
 
   try {
@@ -284,7 +289,7 @@ module.exports.addToCart = async (req, res) => {
 
         // Calculate the total sum
 
-        const totalSum = +plan.price;
+        const totalSum =plan.price;
 
         // Get the current cart total or set it to 0 if it doesn't exist
         let cartTotal = 0;
@@ -301,7 +306,7 @@ module.exports.addToCart = async (req, res) => {
           {
             $push: { cart: planId },
             $addToSet: { bookedservices: plan.servicelistName },
-            cartTotal: cartTotal + basicPay,
+            cartTotal: cartTotal + basicPay||0,
             basicPay: basicPay,
           },
           { new: true }
@@ -321,6 +326,75 @@ module.exports.addToCart = async (req, res) => {
     return res.status(500).json({ error: "Internal server error" });
   }
 };
+
+// module.exports.addToCart = async (req, res) => {
+//   const { selectedServiceId, planId } = req.body;
+//   const serviceId = selectedServiceId;
+//   const userId = req.userId;
+
+//   try {
+//     const user = await UserModel.findById(userId);
+//     if (!user) {
+//       return res.status(404).json({ error: 'User not found' });
+//     } else {
+//       // Update the lastClickedServiceId with the selected serviceId
+//       user.lastClickedServiceId = serviceId;
+//       await user.save();
+
+//       const service = await ServicesModel.findById(serviceId);
+//       if (!service) {
+//         return res.status(400).json({ message: 'Service does not exist' });
+//       }
+
+//       const plan = await ServicelistModel.findById(planId);
+//       if (!plan) {
+//         return res.status(400).json({ message: 'Plan does not exist' });
+//       } else {
+//         const lastClickedServiceId = user.lastClickedServiceId;
+
+//         const brandserved = user.brand;
+//         const brandData = await BrandModel.findOne({ brandName: brandserved });
+//         if (!brandData) {
+//           return res.status(400).json({ message: 'Brand does not exist' });
+//         }
+
+//         const basicPay = brandData.basicPay;
+
+//         // Calculate the total sum
+//         const totalSum = +plan.price;
+
+//         // Create an object representing the plan and set it as the cart
+//         const planObject = {
+//           planId: planId,
+//           serviceId: lastClickedServiceId === serviceId ? lastClickedServiceId : serviceId,
+//         };
+//         console.log(planObject, "llllllll")
+
+//         const result = await UserModel.findByIdAndUpdate(
+//           { _id: userId },
+//           {
+//             $push:{cart: planObject.planId},// Only the selected plan is added to the cart
+//             $addToSet: { bookedservices: plan.servicelistName },
+//             cartTotal: basicPay, // Set cartTotal to basicPay as there's only one plan in the cart
+//             basicPay: basicPay,
+//           },
+//           { new: true }
+//         )
+//           .populate('cart.planId', 'serviceName') // Populate the cart with the plan names
+//           .select('cart cartTotal basicPay');
+
+//         return res.status(200).json({
+//           message: 'Service has been added to the cart successfully',
+//           success: true,
+//           result: result,
+//         });
+//       }
+//     }
+//   } catch (error) {
+//     console.error(error);
+//     return res.status(500).json({ error: 'Internal server error' });
+//   }
+// };
 
 module.exports.getCartData = async (req, res) => {
   try {
@@ -343,6 +417,33 @@ module.exports.getCartData = async (req, res) => {
   }
 };
 
+// module.exports.deleteCartItem = async (req, res) => {
+//   try {
+//     const id = req.params.id;
+
+//     // Find the item to get its price
+//     let item = await ServicelistModel.findById(id);
+
+//     const user = await UserModel.findOne({ _id: req.userId });
+
+//     // Calculate the new cartTotal
+//     const cartTotal = user.cartTotal - (item?.price || 0);
+
+//     // Update the user's cart and cartTotal
+//     const updatedUser = await UserModel.findByIdAndUpdate(
+//       { _id: req.userId },
+//       { $pull: { cart: id }, cartTotal: cartTotal },
+//       { new: true } // To get the updated user document
+//     );
+
+//     return res.status(200).json({ success: true, result: updatedUser });
+//   } catch (err) {
+//     console.log(err);
+//     return res
+//       .status(500)
+//       .json({ success: false, message: "An error occurred." });
+//   }
+// };
 module.exports.deleteCartItem = async (req, res) => {
   try {
     const id = req.params.id;
@@ -355,10 +456,13 @@ module.exports.deleteCartItem = async (req, res) => {
     // Calculate the new cartTotal
     const cartTotal = user.cartTotal - (item?.price || 0);
 
+    // Ensure the cartTotal is not negative
+    const updatedCartTotal = Math.max(cartTotal, 0);
+
     // Update the user's cart and cartTotal
     const updatedUser = await UserModel.findByIdAndUpdate(
       { _id: req.userId },
-      { $pull: { cart: id }, cartTotal: cartTotal },
+      { $pull: { cart: id }, cartTotal: updatedCartTotal },
       { new: true } // To get the updated user document
     );
 
@@ -370,6 +474,7 @@ module.exports.deleteCartItem = async (req, res) => {
       .json({ success: false, message: "An error occurred." });
   }
 };
+
 
 module.exports.EditUserProfile = async (req, res) => {
   try {
@@ -563,17 +668,39 @@ module.exports.verifyRazorPayment = async (req, res) => {
       .json({ success: false, message: "invalid Signature" });
   }
 };
+// module.exports.getserviceDetails = async (req, res) => {
+//   try {
+//     const { email } = req.query;
+
+//     const servicehistory = await BookingModel.find({ "user.email": email });
+//     res.json({ success: true, servicehistory });
+//   } catch (error) {
+//     console.log(error);
+//     res.status(400).json({ success: false, message: error.message });
+//   }
+// };
+
 module.exports.getserviceDetails = async (req, res) => {
   try {
-    const { email } = req.query;
+    console.log(req.query)
+    const { email, page, limit } = req.query;
+    const pageNumber = parseInt(page) || 1;
+    const itemsPerPage = parseInt(limit) || 10;
 
-    const servicehistory = await BookingModel.find({ "user.email": email });
+    const skip = (pageNumber - 1) * itemsPerPage;
+
+    const servicehistory = await BookingModel.find({ "user.email": email })
+      .skip(skip)
+      .limit(itemsPerPage)
+      .sort({ createdAt: -1 });
+console.log(servicehistory)
     res.json({ success: true, servicehistory });
   } catch (error) {
     console.log(error);
     res.status(400).json({ success: false, message: error.message });
   }
 };
+
 module.exports.getMechanic = async (req, res) => {
   try {
     const id = req.params.id;

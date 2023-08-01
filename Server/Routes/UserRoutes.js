@@ -17,7 +17,8 @@ router.get('/getallbrands',usercontroller.getBrands)
 router.get('/getallmodels',usercontroller.getModels)
 router.post('/updatebookingdetails',VerifyUser,usercontroller.updateBookingDetails)
 router.get('/getallserviceplans/:id',VerifyUser,usercontroller.getAllServicesList)
-router.post('/addtocart/:serviceId/:planId', VerifyUser, usercontroller.addToCart);
+router.post('/addtocart', VerifyUser, usercontroller.addToCart);
+//router.post('/addtocart/:serviceId/:planId', VerifyUser, usercontroller.addToCart);
  router.post('/deletecartitem/:id',VerifyUser,usercontroller.deleteCartItem)
  router.put('/updateprofile',VerifyUser,usercontroller.EditUserProfile)
  router.put('/updateuserloc',VerifyUser,usercontroller.updateLocation)

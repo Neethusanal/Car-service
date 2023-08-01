@@ -327,11 +327,36 @@ module.exports.addNewServices = async (req, res, next) => {
     res.json({ message: "Already existing Data", status: false, errors });
   }
 };
+// module.exports.getAllServices = async (req, res, next) => {
+//   try {
+//     console.log(req.query)
+//     console.log("helllllooooo services");
+//     const pageNumber = parseInt(page) || 1;
+//     const itemsPerPage = parseInt(limit) || 10;
+//     const skip = (pageNumber - 1) * itemsPerPage;
+//     const services = await ServiceModel.find({ status: true });
+//     console.log(services, "servicedata");
+//     res.json({ success: true, result: services });
+//   } catch (error) {
+//     res.status(400).json({ success: false, message: error.message });
+//   }
+// };
 module.exports.getAllServices = async (req, res, next) => {
   try {
+    console.log(req.query);
     console.log("helllllooooo services");
-    const services = await ServiceModel.find({ status: true });
+    
+    const pageNumber = parseInt(req.query.page) || 1;
+    const itemsPerPage = parseInt(req.query.limit) || 10;
+    const skip = (pageNumber - 1) * itemsPerPage;
+    
+    const services = await ServiceModel.find({ status: true })
+      .skip(skip)
+      .limit(itemsPerPage)
+      .exec();
+    
     console.log(services, "servicedata");
+    
     res.json({ success: true, result: services });
   } catch (error) {
     res.status(400).json({ success: false, message: error.message });
@@ -552,6 +577,7 @@ module.exports.getServiceName = async (req, res, next) => {
     res.status(400).json({ success: false, message: error.message });
   }
 };
+
 module.exports.addServicesList = async (req, res, next) => {
   try {
     const { serviceName, descriptionLines, name, price } = req.body;
@@ -572,10 +598,28 @@ module.exports.addServicesList = async (req, res, next) => {
     res.json({ message: "something went  wrong", status: false, errors });
   }
 };
+// module.exports.getAllServiceList = async (req, res, next) => {
+//   try {
+//     const serviceslist = await ServicelistModel.find().populate("serviceName");
+
+//     res.json({ success: true, result: serviceslist });
+//   } catch (error) {
+//     res.status(400).json({ success: false, message: error.message });
+//   }
+// };
 module.exports.getAllServiceList = async (req, res, next) => {
   try {
-    const serviceslist = await ServicelistModel.find().populate("serviceName");
-
+    console.log(req.query)
+    const pageNumber = parseInt(req.query.page) || 1;
+    const itemsPerPage = parseInt(req.query.limit) || 10;
+    const skip = (pageNumber - 1) * itemsPerPage;
+    
+    const serviceslist = await ServicelistModel.find()
+      .populate("serviceName")
+      .skip(skip)
+      .limit(itemsPerPage)
+      .exec();
+    
     res.json({ success: true, result: serviceslist });
   } catch (error) {
     res.status(400).json({ success: false, message: error.message });

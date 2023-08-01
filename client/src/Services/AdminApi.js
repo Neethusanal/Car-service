@@ -35,8 +35,8 @@ const addNewServices = (data) => {
 const updateBrand = (data) => {
   return adminAxiosInstance.put("/updatebrand", data);
 };
-const getServices = () => {
-  return adminAxiosInstance.get("/getallservices");
+const getServices = (data) => {
+  return adminAxiosInstance.get(`/getallservices?page=${data.page}&limit=${data.limit}`);
 };
 const updateService = (data) => {
   return adminAxiosInstance.put("/updateservice", data);
@@ -81,8 +81,8 @@ const getServiceName = () => {
 const addServicelist = (data) => {
   return adminAxiosInstance.post("/addserviceslist", data);
 };
-const getAllServiceList = () => {
-  return adminAxiosInstance.get("/getallSiervicelsts");
+const getAllServiceList = (data) => {
+  return adminAxiosInstance.get(`/getallSiervicelsts?page=${data.page}&limit=${data.limit}`);
 };
 const updateServicesList = (data) => {
   return adminAxiosInstance.put("/updateservicelist", data);

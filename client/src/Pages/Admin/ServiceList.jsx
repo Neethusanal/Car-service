@@ -32,58 +32,7 @@ const customStyles = {
 
 const TABLE_HEAD = ["Service Name", "ServiceListname", "price", "description", "Actions", ""];
 const tdStyle = "p-4 md:p-2 whitespace-pre-wrap break-words max-w-xs";
-const TABLE_ROWS = [
-  {
-    img: "/img/logos/logo-spotify.svg",
-    name: "Spotify",
-    amount: "$2,500",
-    date: "Wed 3:00pm",
-    status: "paid",
-    account: "visa",
-    accountNumber: "1234",
-    expiry: "06/2026",
-  },
-  {
-    img: "/img/logos/logo-amazon.svg",
-    name: "Amazon",
-    amount: "$5,000",
-    date: "Wed 1:00pm",
-    status: "paid",
-    account: "master-card",
-    accountNumber: "1234",
-    expiry: "06/2026",
-  },
-  {
-    img: "/img/logos/logo-pinterest.svg",
-    name: "Pinterest",
-    amount: "$3,400",
-    date: "Mon 7:40pm",
-    status: "pending",
-    account: "master-card",
-    accountNumber: "1234",
-    expiry: "06/2026",
-  },
-  {
-    img: "/img/logos/logo-google.svg",
-    name: "Google",
-    amount: "$1,000",
-    date: "Wed 5:00pm",
-    status: "paid",
-    account: "visa",
-    accountNumber: "1234",
-    expiry: "06/2026",
-  },
-  {
-    img: "/img/logos/logo-netflix.svg",
-    name: "netflix",
-    amount: "$14,000",
-    date: "Wed 3:30am",
-    status: "cancelled",
-    account: "visa",
-    accountNumber: "1234",
-    expiry: "06/2026",
-  },
-];
+
 
 export const ServiceList = () => {
   const [modalIsOpen, setIsOpen] = React.useState(false);
@@ -93,7 +42,8 @@ export const ServiceList = () => {
   const [name, setName] = useState()
   const [descriptionLines, setDescriptionLines] = useState([]);
   const [alldata, setAllData] = useState([])
-
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
   const navigate = useNavigate()
   //modal for editing
 
@@ -114,20 +64,21 @@ export const ServiceList = () => {
   }
   useEffect(() => {
     getAllLists()
-    console.log("daaaaaaaaaaaaaaaataaaaaaaaaa")
+    
     ServicelistName()
+   
 
 
-
-  }, []);
+  }, [currentPage]);
   const ServicelistName = async () => {
     try {
+     
       let { data } = await getServiceName()
       console.log(data)
       if (data.success) {
         console.log(data.result, "ppppp")
         setServiceData(data?.result)
-
+       
       }
 
     } catch (error) {
@@ -161,11 +112,13 @@ export const ServiceList = () => {
   }
 
   const getAllLists = () => {
-    getAllServiceList().then((res) => {
+    const limit = 3;
+    getAllServiceList({page: currentPage, limit: limit}).then((res) => {
 
      
       if (res.data.success) {
         setAllData(res?.data?.result);
+        setTotalPages(res?.data?.result?.totalPages);
       }
     });
   }
@@ -176,8 +129,8 @@ export const ServiceList = () => {
 
   // }
   const handleEdit = (servicelist) => {
-
-    setServiceName(servicelist.serviceName)
+console.log(servicelist)
+    setServiceName(servicelist.serviceName._id)
     setName(servicelist.servicelistName)
     setPrice(servicelist.price)
     setDescriptionLines(servicelist.description)
@@ -215,7 +168,7 @@ export const ServiceList = () => {
     <>
       <Card className="h-full w-full">
         <CardHeader floated={false} shadow={false} className="rounded-none">
-          <div className="mb-4 flex flex-col justify-between gap-8 md:flex-row md:items-center">
+          <div className="mb-4 flex flex-col justify-between gap-8 md:flex-row md:items-center mt-28">
             <div>
               <Typography variant="h5" color="blue-gray">
                 Service List
@@ -295,24 +248,23 @@ export const ServiceList = () => {
           </table>
         </CardBody>
         <CardFooter className="flex items-center justify-between border-t border-blue-gray-50 p-4">
-          {/* <Button variant="outlined" color="blue-gray" size="sm">
-            Previous
-          </Button>
-          <div className="flex items-center gap-2">
-            <IconButton variant="outlined" color="blue-gray" size="sm">
-              1
-            </IconButton>
-            <IconButton variant="text" color="blue-gray" size="sm">
-              2
-            </IconButton>
-            <IconButton variant="text" color="blue-gray" size="sm">
-              3
-            </IconButton>
-
-          </div>
-          <Button variant="outlined" color="blue-gray" size="sm">
-            Next
-          </Button> */}
+        <button
+        className="px-2 py-1 mr-2 border rounded disabled:opacity-50"
+        disabled={currentPage === 1}
+        onClick={() => setCurrentPage((prevPage) => prevPage - 1)}
+      >
+        Previous
+      </button>
+      <span className="px-2 py-1">
+        Page {currentPage} of {totalPages}
+      </span>
+      <button
+        className="px-2 py-1 ml-2 border rounded disabled:opacity-50"
+        disabled={currentPage === totalPages}
+        onClick={() => setCurrentPage((prevPage) => prevPage + 1)}
+      >
+        Next
+      </button>
         </CardFooter>
       </Card>
       <div>
@@ -326,7 +278,7 @@ export const ServiceList = () => {
           <div className="text-4xl font-bold flex-items-center">Add car Models</div>
           <form onSubmit={handleAddServicelist}>
 
-            <div className="mb-4">
+          <div className="mb-4">
               <label htmlFor="items" className="block font-bold mb-1">
                 Select the Service Name
               </label>
@@ -421,28 +373,52 @@ export const ServiceList = () => {
           style={customStyles}
           contentLabel="Example Modal"
         >
-          <div className="text-4xl font-bold flex-items-center">Edit car Models</div>
+           <div className="text-4xl font-bold flex-items-center mt-24">Edit car Models</div>
           <form onSubmit={handleUpdate}>
-            <div className="mb-4">
+          <div className="mb-4">
               <label htmlFor="items" className="block font-bold mb-1">
                 Select the Service Name
-              </label>
+              </label> 
               <select
                 id="items"
                 value={serviceName}
-                onChange={(e) => setServiceName(e.target.value)}
+                 onChange={(e) => setServiceName(e.target.value)}
                 className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-blue-500"
                 required
               >
-                <option value="">Select the brand</option>
+                 {/* <option value="">Select the brand</option> */}
                 {servicedata?.map((items, index) => {
                   return (
                     <option value={items._id}>{items.serviceName}</option>
                   )
-                })}
+                })} 
 
 
               </select>
+            </div> 
+           {/* <div class="mb-4">
+              <label for="brand" class="block font-bold mb-1">
+                Service Name
+              </label>
+              <input type="text" id="brand" name="brand"  value={serviceName}
+                onChange={(e) => setServiceName(e.target.value)} class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-blue-500" required />
+            </div>  */}
+            <div className="mb-4">
+              <label
+                htmlFor="brand"
+                className="block font-bold mb-1"
+              >
+                Price
+              </label>
+              <input
+                type="text"
+                id="brand"
+                value={price}
+                onChange={(e) => setPrice(e.target.value)}
+                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-blue-500"
+                placeholder="Enter Amount"
+                required
+              />
             </div>
             <div class="mb-4">
               <label for="brand" class="block font-bold mb-1">

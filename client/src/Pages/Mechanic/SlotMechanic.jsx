@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import {
   Card,
   CardHeader,
@@ -20,13 +20,16 @@ export const SlotMechanic = () => {
   const [selectedAfternoonSlot, setSelectedAfternoonSlot] = useState(null);
   const [slots, setSlots] = useState([]);
   const [selectedTime, setSelectedTime] = useState([]);
+  const [load, setLoad] = useState(false);
   const navigate = useNavigate()
   const slotsdata = useSelector((state) => state.mechanic.slots)
-  console.log(slotsdata)
+
   useEffect(()=>{
 
-  },[selectedTime])
-
+  },[selectedTime,load])
+  const handleLoad = () => {
+    setLoad(!load);
+  };
   const generateDateArray = () => {
     const dates = [];
     const today = moment().startOf("day");
@@ -54,9 +57,11 @@ export const SlotMechanic = () => {
   const [dates, setDates] = useState(generateDateArray());
 
   const handleDateClick = (date) => {
+   
     setSelectedDate(date);
+   console.log(selectedDate,"lllllllll")
     const updatedDates = dates.map((d) => {
-      if (moment(d.date).isSame(date, 'day')) {
+      if (moment(d.date).isSame(selectedDate, 'day')) {
         return {
           ...d,
           showSlots: true,
@@ -75,6 +80,7 @@ export const SlotMechanic = () => {
     setSelectedAfternoonSlot(null); // Reset selected afternoon slot for the new date
   };
   const handleSlotClick = (startTime) => {
+    console.log(startTime,"ddttarrtt")
     if (selectedTime.includes(startTime)) {
       setSelectedTime(selectedTime.filter((val) => val !== startTime));
     } else {
@@ -87,7 +93,9 @@ export const SlotMechanic = () => {
    
     mechanicSelectedSlots({ slotsselected }).then((res) => {
       if (res.data.success) {
+        handleLoad()
         Swal.fire(res.data.message)
+        
       }
 
     })
@@ -95,50 +103,102 @@ export const SlotMechanic = () => {
 
   return (
     <>
-
-<div className="flex justify-center">
-        <Card className="w-full sm:w-96 mt-28 bg-gray-100">
-          <CardHeader color="blue-gray" className="relative h-10">
-            <h1 className='text-center'>SLOTS</h1>
-          </CardHeader>
-          <CardBody className='flex flex-col items-center'>
+ <div className="flex justify-center w-full h-full">
+        <Card className=" w-screen h-52 mt-24 bg-gray-100">
+          <CardHeader color="blue-gray" className=" h-28">
+            <h1 className='text-center h-20 '>SLOTS</h1>
+        </CardHeader>
+       <CardBody className='flex flex-row   items-center'>
             {dates.map((date, index) => (
-              <div key={index} className="mb-4">
+              <div key={index} className="mb-2 p-3">
                 <button
-                  className={`w-32 h-14 border-2 border-gray-600 bg-orange-50 ${date.showSlots ? 'bg-blue-200' : ''}`}
+                   className={`w-32 h-14 border-2 border-gray-600 bg-orange-50 ${date.showSlots ? 'bg-blue-200' : ''}`}
                   onClick={() => handleDateClick(date.date)}
                 >
                   <Moment format="YYYY-MM-DD">{date.date}</Moment>
-                </button>
+                 </button>
+             
                 {date.showSlots && (
                   <div className="flex flex-col items-center">
-                    <Button
-                      onClick={() => handleSlotClick(date.morningSlot)}
+                   <Button
+                       onClick={() => handleSlotClick(date.morningSlot)}
                       className={`mt-2 ${slotsdata.includes(date.morningSlot) ? 'bg-red-300' : 'bg-green-300'}`}
-                      disabled={slotsdata.includes(date.morningSlot)}
+                       disabled={slotsdata.includes(date.morningSlot)}
+                     >
+                       9am - 1pm
+                     </Button>
+                    <Button
+                       onClick={() => handleSlotClick(date.afternoonSlot)}
+                       className={`mt-2 ${slotsdata.includes(date.afternoonSlot) ? 'bg-red-300' : 'bg-green-300'}`}
+                       disabled={slotsdata.includes(date.afternoonSlot)}
+                     >
+                       2pm - 6pm
+                     </Button>
+                  </div>
+                 
+                )}
+                 </div>
+             
+             ))}
+          </CardBody>
+
+          <CardFooter className="pt-0">
+            <Button type="submit" className='flex items-center' onClick={() => handleSubmit(selectedTime)}>submit</Button>
+           </CardFooter>
+        </Card>
+      </div>    
+
+    </>
+  )
+};
+
+
+{/* <div className="flex justify-center w-full h-full">
+        <Card className=" w-screen h-52 mt-24 bg-gray-100">
+          <CardHeader color="blue-gray" className=" h-28">
+            <h1 className='text-center h-20 '>SLOTS</h1>
+          </CardHeader>
+          <CardBody className='flex flex-row   items-center'>
+            {dates.map((date, index) => (
+              <div key={index} className="mb-2 p-3">
+                <button
+                  className={`w-32 h-14 border-2 border-gray-600 bg-orange-50 ${date.showSlots ? 'bg-blue-200' : ''}`}
+                  onClick={() => handleDateClick(date)}
+                >
+                  <Moment format="YYYY-MM-DD">{date.date}</Moment>
+                </button>
+                </div>
+                  ))}
+             <div className='bg-orange-500'>
+         
+
+  {selectedDate && selectedDate?.showSlots (
+                  <div className="flex flex-col items-center">
+                    <Button
+                      onClick={() => handleSlotClick(selectedDate.morningSlot)}
+                       className={`mt-2 ${slotsdata.includes(selectedDate.morningSlot) ? 'bg-red-300' : 'bg-green-300'}`}
+                       disabled={slotsdata.includes(selectedDate.morningSlot)}
                     >
-                      8am - 1pm
+                     9am -2pm
                     </Button>
                     <Button
-                      onClick={() => handleSlotClick(date.afternoonSlot)}
-                      className={`mt-2 ${slotsdata.includes(date.afternoonSlot) ? 'bg-red-300' : 'bg-green-300'}`}
-                      disabled={slotsdata.includes(date.afternoonSlot)}
+                      onClick={() => handleSlotClick(selectedDate.afternoonSlot)}
+                       className={`mt-2 ${slotsdata.includes(selectedDate.afternoonSlot) ? 'bg-red-300' : 'bg-green-300'}`}
+                       disabled={slotsdata.includes(selectedDate.afternoonSlot)}
                     >
-                      2pm - 6pm
+                      2pm - 7pm
                     </Button>
                   </div>
-                )}
+                 
+                )} 
+      
+             
               </div>
-            ))}
+         
           </CardBody>
 
           <CardFooter className="pt-0">
             <Button type="submit" className='flex items-center' onClick={() => handleSubmit(selectedTime)}>submit</Button>
           </CardFooter>
         </Card>
-      </div>
-
-
-    </>
-  );
-};
+      </div>    */}

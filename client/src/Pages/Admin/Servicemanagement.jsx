@@ -1,6 +1,5 @@
-import { PencilIcon } from "@heroicons/react/24/solid";
-import { ArrowDownTrayIcon, MagnifyingGlassIcon } from "@heroicons/react/24/outline";
-import { Card, CardHeader, Typography, Button, CardBody, Chip, CardFooter, Avatar, IconButton, Tooltip, Input } from "@material-tailwind/react";
+
+import { Card, CardHeader, Typography, Button, CardBody, CardFooter } from "@material-tailwind/react";
 import React, { useEffect, useState } from "react";
 import Modal from "react-modal";
 import Swal from "sweetalert2"
@@ -15,8 +14,8 @@ const customStyles = {
     bottom: "auto",
     marginRight: "-50%",
     transform: "translate(-50%, -50%)",
-    maxWidth: "90%", // Adjust the maximum width as needed
-    width: "400px", // Set a fixed width or use percentage
+    maxWidth: "90%", 
+    width: "400px", 
   },
 };
 
@@ -29,11 +28,13 @@ export const Servicemanagement = () => {
   const [services, setServices] = useState()
   const [deleted, setDeleted] = useState("")
   const [image, setImage] = useState()
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
   const navigate = useNavigate()
   useEffect(() => {
     getAllServices()
     console.log("hhhiiii");
-  }, [deleted, modalIsOpen])
+  }, [deleted, modalIsOpen,currentPage])
 
   function openModal() {
     setIsOpen(true);
@@ -71,13 +72,14 @@ export const Servicemanagement = () => {
 
   // Get All services from Back end
   const getAllServices = () => {
-
-    getServices().then((res) => {
+    const limit = 3;
+    getServices({page: currentPage, limit: limit}).then((res) => {
       console.log("getBrands");
       console.log(res);
       if (res.data.success) {
 
         setServices(res.data?.result);
+        setTotalPages(res.data?.result.totalPages);
       }
     });
   }
@@ -192,24 +194,23 @@ export const Servicemanagement = () => {
           </table>
         </CardBody>
         <CardFooter className="flex items-center justify-between border-t border-blue-gray-50 p-4">
-          {/* <Button variant="outlined" color="blue-gray" size="sm">
-            Previous
-          </Button>
-          <div className="flex items-center gap-2">
-            <IconButton variant="outlined" color="blue-gray" size="sm">
-              1
-            </IconButton>
-            <IconButton variant="text" color="blue-gray" size="sm">
-              2
-            </IconButton>
-            <IconButton variant="text" color="blue-gray" size="sm">
-              3
-            </IconButton>
-
-          </div>
-          <Button variant="outlined" color="blue-gray" size="sm">
-            Next
-          </Button> */}
+        <button
+        className="px-2 py-1 mr-2 border rounded disabled:opacity-50"
+        disabled={currentPage === 1}
+        onClick={() => setCurrentPage((prevPage) => prevPage - 1)}
+      >
+        Previous
+      </button>
+      <span className="px-2 py-1">
+        Page {currentPage} of {totalPages}
+      </span>
+      <button
+        className="px-2 py-1 ml-2 border rounded disabled:opacity-50"
+        disabled={currentPage === totalPages}
+        onClick={() => setCurrentPage((prevPage) => prevPage + 1)}
+      >
+        Next
+      </button>
         </CardFooter>
       </Card>
 

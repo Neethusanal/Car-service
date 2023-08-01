@@ -1,13 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { addPlansToCart, getServicePlans, getUserServices } from "../Services/UserApi";
-import {
-  Card,
-  CardHeader,
-  CardBody,
-  Typography,
-  Button,
-  CardFooter,
-} from "@material-tailwind/react";
 import { useDispatch, useSelector } from "react-redux";
 import { setUserDetails } from "../Redux/UserSlice";
 
@@ -43,7 +35,6 @@ export const ServicePlans = () => {
       }
     });
   };
-
   const handleServicePlans = (id) => {
     setSelectedServiceId(id);
 
@@ -55,28 +46,24 @@ export const ServicePlans = () => {
     });
   };
 
-  const handleAddtoCart = (planId) => {
-    setSelectedPlans((prevSelectedPlans) => ({
-      ...prevSelectedPlans,
-      [selectedServiceId]: planId,
-    }));
+  const handleAddtoCart = (planId, selectedServiceId) => {
+    console.log(planId, selectedServiceId,"id")
+  
 
-    addPlansToCart(selectedServiceId, planId).then((res) => {
+    addPlansToCart({selectedServiceId, planId}).then((res) => {
       if (res.data.success) {
-      
-        
         dispatch(
           setUserDetails({
-
-
-         ...user,cart:res.data.result.cart,
-         cartTotal:res.data.cartTotal
-
-
-          }))
-          setBasicPay(res.data.result.cart.basicPay)
+            ...user,
+            cart: res.data.result.cart,
+            cartTotal: res.data.cartTotal,
+          })
+        );
+        setBasicPay(res.data.result.cart.basicPay);
       }
-    }); 
+    }).catch((error)=>{
+      console.log(error)
+    })
   };
   // const handleAddtoCart = (planId) => {
   //   // Update the cart with the latest clicked plan for the selected service ID
@@ -157,125 +144,48 @@ export const ServicePlans = () => {
           {serviceList.map((plans) => {
             const isSelectedPlan =
               selectedPlans[selectedServiceId] === plans._id;
+
             return (
-              <div className="w-full px-5 py-14 " key={plans}>
-
-
-<div className={`w-auto border border-gray-500 bg-white ${
-      isSelectedPlan ? 'bg-blue-200' : ''
-    } p-2 rounded-md shadow-md`}>
-      <div className="h-10 bg-white border border-gray-300 p-2 rounded-t-md">
-        <h2 className="text-black font-extrabold">{plans.servicelistName}</h2>
-      </div>
-      <div className="grid grid-cols-2 gap-4 mt-4">
-        {plans.description.map((item, index) => (
-          <p key={index} className="text-black font-thin">
-            {item}
-          </p>
-        ))}
-      </div>
-      <div className="flex justify-between items-center mt-4">
-        <h2 className="text-black font-semibold">Rs {plans.price}</h2>
-        {isSelectedPlan ? (
-          <p className="text-blue-500 font-semibold">Plan selected</p>
-        ) : (
-          <button
-            onClick={() => handleAddtoCart(plans._id)}
-            className="px-4 py-2 bg-green-400 text-white font-semibold rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600"
-          >
-            Add to Cart
-          </button>
-        )}
-      </div>
-    </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                {/* <Card
-                  className={`w-auto bg-gray-500 white ${
-                    isSelectedPlan ? "bg-blue-200" : ""
-                  }`}
-                >
-                <CardHeader
-                  shadow={false}
-                  floated={false}
-                  className="h-96  overflow-y-auto"
-                >
-                  <ul className="text-center list-disc">
-                    {plans.description.map((item, index) => {
-                      return (
-                        <li key={index} className="my-1">
-                          <p className="text-black font-serif">{item}</p>
-                        </li>
-                      );
-                    })}
-                  </ul>
-                </CardHeader>
-                <CardBody>
-                  <div className="flex items-center justify-between mb-2">
-                    <Typography
-                      color="blue-gray"
-                      className="font-extrabold text-black"
+              <div
+                className={`w-auto border border-gray-500 bg-white ${
+                  isSelectedPlan ? "bg-blue-200" : ""
+                } p-2 rounded-md shadow-md`}
+                key={plans._id}
+              >
+                <div className="h-10 bg-white border border-gray-300 p-2 rounded-t-md">
+                  <h2 className="text-black font-extrabold">
+                    {plans.servicelistName}
+                  </h2>
+                </div>
+                <div className="grid grid-cols-2 gap-4 mt-4">
+                  {plans.description.map((item, index) => (
+                    <p key={index} className="text-black font-thin">
+                      {item}
+                    </p>
+                  ))}
+                </div>
+                <div className="flex justify-between items-center mt-4">
+                  <h2 className="text-black font-semibold">
+                    Rs {plans.price}
+                  </h2>
+                  {isSelectedPlan ? (
+                    <p className="text-blue-500 font-semibold">
+                      Plan selected
+                    </p>
+                  ) : (
+                    <button
+                      onClick={() => handleAddtoCart(plans._id,plans.serviceName)}
+                      className="px-4 py-2 bg-green-400 text-white font-semibold rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600"
                     >
-                      {plans.servicelistName}
-                    </Typography>
-                    <Typography
-                      color="blue-gray"
-                      className="font-extrabold"
-                    >
-                      {plans.price}
-                    </Typography>
-                  </div>
-                </CardBody>
-                <CardFooter className="pt-0">
-                    {isSelectedPlan ? (
-                      <Typography color="blue-gray" className="text-black">
-                        Plan selected
-                      </Typography>
-                    ) : (
-                      <Button
-                        ripple={false}
-                        fullWidth={true}
-                        className="bg-black text-white shadow-none hover:shadow-none hover:scale-105 focus:shadow-none focus:scale-105 active:scale-100"
-                        onClick={() => handleAddtoCart(plans._id)}
-                      >
-                        Add to Cart
-                      </Button>
-                    )}
-                  </CardFooter>
-              </Card> */}
-              
-            </div>
-          );
-        })}
-      </div>
-     
-    )}
-   
- 
+                      Add to Cart
+                    </button>
+                  )}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      )}
   
   </> 
 );

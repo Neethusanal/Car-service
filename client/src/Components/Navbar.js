@@ -110,12 +110,12 @@ const Navbar = () => {
                   &#9662; {/* Downward arrow character */}
                 </button>
                 {showDropdown && (
-                  <div className="absolute right-0 mt-4 w-48 bg-white border rounded shadow-lg">
+                  <div className="absolute right-0 w-28 h-24 bg-white border rounded shadow-lg">
                     <ul className="">
                       <li>
                         <button
                           onClick={handleProfile}
-                          className="block w-full px-4 mt-4 text-gray-800 hover:bg-gray-300"
+                          className="block w-full px-4 mt-4 text-black hover:bg-gray-300"
                         >
                           Profile
                         </button>
@@ -123,7 +123,7 @@ const Navbar = () => {
                       <li>
                         <button
                           onClick={handleLogout}
-                          className="block w-full px-4 mt-5 text-gray-800 hover:bg-gray-300"
+                          className="block w-full px-4 mt-4 text-black hover:bg-gray-300"
                         >
                           Logout
                         </button>

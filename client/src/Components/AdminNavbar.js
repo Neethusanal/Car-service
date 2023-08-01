@@ -44,7 +44,7 @@ export const AdminNavbar = () => {
   );
 
   return (
-    <Navbar className="fixed top-0 left-0 w-full h-24 bg-gray-700 z-50">
+    <Navbar className="fixed top-0 left-0 w-full h-28 bg-gray-700 z-50">
       <div className="container mx-auto px-4 py-0 lg:px-8 lg:py-1 flex items-center justify-between text-blue-gray-900">
         <Typography as="a" href="#" className="mr-4 cursor-pointer py-1 font-medium text-lg text-white">
           CAR CLINIC
