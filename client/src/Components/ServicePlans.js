@@ -147,9 +147,10 @@ export const ServicePlans = () => {
 
             return (
               <div
-                className={`w-auto border border-gray-500 bg-white ${
-                  isSelectedPlan ? "bg-blue-200" : ""
-                } p-2 rounded-md shadow-md`}
+                // className={`w-auto border border-gray-500 bg-white ${
+                //   isSelectedPlan ? "bg-blue-200" : ""
+                // } p-2 rounded-md shadow-md`}
+                className=" mt-4 mb-2 ml-4 mr-4  border border-gray-500"
                 key={plans._id}
               >
                 <div className="h-10 bg-white border border-gray-300 p-2 rounded-t-md">
@@ -157,14 +158,14 @@ export const ServicePlans = () => {
                     {plans.servicelistName}
                   </h2>
                 </div>
-                <div className="grid grid-cols-2 gap-4 mt-4">
+                <div className="grid grid-cols-2 gap-4 mt-4 ml-4">
                   {plans.description.map((item, index) => (
                     <p key={index} className="text-black font-thin">
                       {item}
                     </p>
                   ))}
                 </div>
-                <div className="flex justify-between items-center mt-4">
+                <div className="flex justify-between items-center mt-4 ml-4">
                   <h2 className="text-black font-semibold">
                     Rs {plans.price}
                   </h2>
@@ -175,7 +176,7 @@ export const ServicePlans = () => {
                   ) : (
                     <button
                       onClick={() => handleAddtoCart(plans._id,plans.serviceName)}
-                      className="px-4 py-2 bg-green-400 text-white font-semibold rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600"
+                      className="px-4 py-2 mb-2 mr-2 bg-green-400 text-white font-semibold rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600"
                     >
                       Add to Cart
                     </button>
