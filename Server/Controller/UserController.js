@@ -768,7 +768,7 @@ module.exports.verifyRazorPayment = async (req, res) => {
 
     const sign = razorpay_order_id + "|" + razorpay_payment_id;
     const expectedSign = crypto
-      .createHmac("sha256", process.env.key_secret)
+      .createHmac("sha256", process.env.KEY_SECRET)
       .update(sign.toString())
       .digest("hex");
     console.log(expectedSign, "kkk");
