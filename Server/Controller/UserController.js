@@ -787,7 +787,10 @@ module.exports.verifyRazorPayment = async (req, res) => {
         { _id: mechanicid },
         { $pull: { slots: selectedslot } }
       );
-      const data=await UserModel.updateOne({_id:req.userId},{$pull:{bookedservices:serviceType}})
+      const data = await UserModel.updateOne(
+        { _id: req.userId },
+        { $set: { bookedservices: [], cart: [],cartTotal:0 } }
+      );
 
       res.status(200).json({
         success: true,
