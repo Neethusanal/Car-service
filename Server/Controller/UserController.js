@@ -583,10 +583,19 @@ module.exports.deleteCartItem = async (req, res) => {
     // Ensure the cartTotal is not negative
     const updatedCartTotal = Math.max(cartTotal, 0);
 
+    const plan= await ServicelistModel.findOne({_id:id})
+    console.log(plan.servicelistName)
+
     // Update the user's cart and cartTotal
     const updatedUser = await UserModel.findByIdAndUpdate(
       { _id: req.userId },
-      { $pull: { cart: id }, cartTotal: updatedCartTotal },
+      {
+        $pull: {
+          cart: id,
+          bookedservices: plan.servicelistName
+        },
+        cartTotal: updatedCartTotal
+      },
       { new: true } // To get the updated user document
     );
 
