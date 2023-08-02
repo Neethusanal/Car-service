@@ -38,6 +38,11 @@ const addPlansToCart = (selectedPlans) => {
  // return userAxiosInstance.post(`/addtocart/${selectedServiceId}/${planId}`);
  return userAxiosInstance.post("/addtocart",selectedPlans);
 };
+// const  removePlanFromCart = (selectedPlans) => {
+//   console.log(selectedPlans, "ffff");
+//  // return userAxiosInstance.post(`/addtocart/${selectedServiceId}/${planId}`);
+//  return userAxiosInstance.post("/removefromcart",selectedPlans);
+// };
 const deleteItem = (id) => {
   console.log(id, "delete service");
   return userAxiosInstance.post(`/deletecartitem/${id}`);
