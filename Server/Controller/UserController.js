@@ -783,7 +783,7 @@ module.exports.verifyRazorPayment = async (req, res) => {
         vehicleModel: vehicleModel,
         mechanic: mechanicid,
       });
-      const mechanic = await MechanicModel.updateOne(
+      const mech = await MechanicModel.updateOne(
         { _id: mechanicid },
         { $pull: { slots: selectedslot } }
       );
@@ -796,6 +796,7 @@ module.exports.verifyRazorPayment = async (req, res) => {
         success: true,
         message: "booked successfully",
         result: bookingdata,
+        
       });
     } else {
       res.status(400).json({ success: false, message: "invalid Signature" });
