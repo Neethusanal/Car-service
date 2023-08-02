@@ -789,7 +789,7 @@ module.exports.verifyRazorPayment = async (req, res) => {
       );
       const data = await UserModel.updateOne(
         { _id: req.userId },
-        { $set: { bookedservices: [], cart: [],cartTotal:0 } }
+        { $set: { bookedservices: [], cart: []  } }
       );
 
       res.status(200).json({
