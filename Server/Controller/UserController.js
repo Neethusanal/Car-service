@@ -805,7 +805,7 @@ module.exports.verifyRazorPayment = async (req, res) => {
     console.log(err);
     return res
       .status(400)
-      .json({ success: false, message: "invalid Signature" });
+      .json({ success: false, message: err.message });
   }
 };
 // module.exports.getserviceDetails = async (req, res) => {
