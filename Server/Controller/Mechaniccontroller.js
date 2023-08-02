@@ -116,15 +116,15 @@ module.exports.updateDetails = async (req, res) => {
     );
     res.json({ success: true, message: "Details Updated" });
   } catch (err) {
-    console.log(err);
+    res.status(400).json({ status: "error", message: err.message });
   }
 };
 module.exports.mechanicLogin = async (req, res, next) => {
   try {
     const { email, password } = req.body;
-    console.log(email, password);
+ 
     const mechanic = await MechanicModel.findOne({ email });
-    console.log("mechanic", mechanic);
+  
     if (mechanic) {
       if (mechanic.isBanned) { // Checking if the mechanic is banned
         const errors = { message: "You are banned. Please contact support." };
@@ -136,7 +136,7 @@ module.exports.mechanicLogin = async (req, res, next) => {
         const token = jwt.sign({ mechanicId,role:"mechanic" }, process.env.JWT_SECRET_KEY, {
           expiresIn: 30000,
         });
-        console.log(token, "token");
+       
         res.status(200).json({
           message: "Login Successfull",
           mechanic,
@@ -153,7 +153,7 @@ module.exports.mechanicLogin = async (req, res, next) => {
       res.json({ errors, success: false });
     }
   } catch (error) {
-    console.log(error);
+  
     const errors = { message: "Incorrect admin email or password" };
     res.json({ errors, success: false });
   }
@@ -197,13 +197,13 @@ module.exports.getAllBrands = async (req, res) => {
     const brands = await BrandModel.find({});
     res.json({ success: true, result: brands });
   } catch (error) {
-    console.log(error);
+  
     res.status(400).json({ success: false, message: error.message });
   }
 };
 module.exports.updateProfile = async (req, res) => {
   try {
-    console.log(req.files, "datas in file");
+    
     const id = req.mechanicId;
 
     const { fullName, email, phone, brand, experience, address } = req.body;
@@ -233,9 +233,7 @@ module.exports.updateProfile = async (req, res) => {
       result: mechanic,
     });
   } catch (err) {
-    console.log(err);
-    const errors = handleErrorManagent(err);
-    res.json({ message: "something went wrong", status: false, errors });
+    res.status(400).json({ status: "error", message: err.message });
   }
 };
 //Adding Slots to MechanicDetails
@@ -262,7 +260,7 @@ module.exports.addmechanicSlots = async (req, res) => {
 
     // Get the current date
     const currentDate = new Date();
-    console.log(currentDate);
+
 
     // Add new slots
     const mechanic = await MechanicModel.findByIdAndUpdate(
@@ -281,25 +279,23 @@ module.exports.addmechanicSlots = async (req, res) => {
       }
     );
 
-    console.log(mechanic, "updated slot");
+
     res.status(200).json({ message: "successfully added", success: true });
-  } catch (err) {
-    console.log(err);
-    const errors = handleErrorManagent(err);
-    res.json({ message: "Already existing Data", status: false, errors });
+  } catch (error) {
+    res.status(400).json({ status: "error", message: error.message });
   }
 };
 
 module.exports.getUser = async (req, res) => {
   try {
-    console.log(req.params.id,"id")
+    
     const id=req.params.id
-    console.log(id);
+  
     const user = await UserModel.find({_id:id});
-   console.log(user,"userrrrrr")
+
     res.json({ success: true, result: user});
   } catch (error) {
-    console.log(error);
+ 
     res.status(400).json({ success: false, message: error.message });
   }
 }
@@ -308,10 +304,10 @@ module.exports.getBookingDetails = async (req, res) => {
    
     
     const bookingdetails = await BookingModel.find({mechanic:req.mechanicId});
-   console.log(bookingdetails,"booking details")
+ 
     res.json({ success: true, result:bookingdetails});
   } catch (error) {
-    console.log(error);
+   
     res.status(400).json({ success: false, message: error.message });
   }
 }
@@ -320,7 +316,7 @@ module.exports.getBookingDetails = async (req, res) => {
 module.exports.updateBookingStatus = async (req, res) => {
   try {
     const { id, newStatus } = req.body;
-    console.log(id, newStatus, "valueee");
+  
     const booking = await BookingModel.findById({ _id: id });
 
     if (!booking) {
@@ -354,7 +350,7 @@ module.exports.updateBookingStatus = async (req, res) => {
     }
 
     await booking.save();
-      console.log(booking,"uuuuuuuuuuu")
+    
     const status =
   booking?.service_status?.dropped?.state && booking?.service_status?.servicecompleted?.state && booking?.service_status?.onService?.state && booking?.service_status?.pickup?.state
     ? 'Delivered'
@@ -367,9 +363,7 @@ module.exports.updateBookingStatus = async (req, res) => {
     : '';
    
     res.json({ success: true, result: booking, status });
-  } catch (err) {
-    console.log(err)
-    const errors = handleErrorManagent(err);
-    res.json({ message: 'something went wrong', status: false, errors });
+  } catch (error) {
+    res.status(400).json({ status: "error", message: error.message });
   }
 };

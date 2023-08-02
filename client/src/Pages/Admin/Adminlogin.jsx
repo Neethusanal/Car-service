@@ -53,6 +53,9 @@ export const Adminlogin = () => {
 
         navigate("/admin/dashboard");
       }
+      else{
+        Swal.fire(data.message)
+      }
     } catch (err) {
       Swal.fire(err)
     }

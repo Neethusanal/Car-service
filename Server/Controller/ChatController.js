@@ -27,7 +27,7 @@ try{
         members:{$in:[req.params.userid]}
       
       })
-      console.log(chat)
+     
       res.status(200).json(chat)
   
     }catch(err)

@@ -47,7 +47,6 @@ const handleErrorManagent = (err) => {
 module.exports.adminLogin = async (req, res, next) => {
   try {
     let { email, password } = req.body;
-    console.log(email, password);
     let admin = await AdminModel.findOne({email});
 
     if (admin) {
@@ -58,7 +57,7 @@ module.exports.adminLogin = async (req, res, next) => {
         const token = jwt.sign({ adminId,role:"admin" }, process.env.JWT_SECRET_KEY, {
           expiresIn: maxAge
         });
-        console.log(token);
+        
 
         res
           .status(200)
@@ -72,9 +71,9 @@ module.exports.adminLogin = async (req, res, next) => {
       res.json({ errors, success: false });
     }
   } catch (error) {
-    console.log(error);
-    const errors = { email: "Incorrect admin email or password" };
-    res.json({ errors, success: false });
+    res.json({message: error.message, success: false });
+    // const errors = { email: "Incorrect admin email or password" };
+    // res.json({ errors, success: false });
   }
 };
 
@@ -98,9 +97,7 @@ module.exports.isAdminAuth = async (req, res) => {
 
 module.exports.getAllMechanicDetails = async (req, res, next) => {
   try {
-    console.log("kkkk");
     const mechanic = await MechanicModel.find();
-    console.log(mechanic, "kjhgf");
     res.json({ status: "success", result: mechanic });
   } catch (error) {
     res.status(400).json({ status: "error", message: error.message });
@@ -108,7 +105,7 @@ module.exports.getAllMechanicDetails = async (req, res, next) => {
 };
 module.exports.mechanicApproval = async (req, res) => {
   try {
-    console.log("working");
+  
     const id = req.params.id;
 
     const mechanic = await MechanicModel.findByIdAndUpdate(
@@ -128,15 +125,14 @@ module.exports.mechanicApproval = async (req, res) => {
         success: true,
         result: mechanic,
       });
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    res.status(400).json({ status: "error", message: error.message });
   }
 };
 module.exports.mechanicReject = async (req, res) => {
   try {
-    console.log("tttttttttt");
+
     const id = req.params.id;
-    console.log(id);
 
     const mechanic = await MechanicModel.findByIdAndUpdate(
       { _id: id },
@@ -156,14 +152,14 @@ module.exports.mechanicReject = async (req, res) => {
         result: mechanic,
       });
   } catch (err) {
-    console.log(err);
+    res.status(400).json({ status: "error", message: err.message });
   }
 };
 module.exports.mechanicBlock = async (req, res) => {
   try {
-    console.log("block");
+ 
     const id = req.params.id;
-    console.log(id);
+
 
     const mechanic = await MechanicModel.findByIdAndUpdate(
       { _id: id },
@@ -182,15 +178,15 @@ module.exports.mechanicBlock = async (req, res) => {
         result: mechanic,
       });
   } catch (err) {
-    console.log(err);
+    res.status(400).json({ status: "error", message: err.message });
   }
 };
 
 module.exports.getAllUserDetails = async (req, res, next) => {
   try {
-    console.log("helllllooooo");
+   
     const users = await UserModel.find({ isBanned: false }).select("-password");
-    console.log(users, "userdetails");
+   
     res.json({ status: "success", result: users });
   } catch (error) {
     res.status(400).json({ status: "error", message: error.message });
@@ -198,35 +194,34 @@ module.exports.getAllUserDetails = async (req, res, next) => {
 };
 module.exports.addNewBrands = async (req, res, next) => {
   try {
-    console.log(req.body, "gggxxxxx");
+   
     const { brand, description, basicPay } = req.body;
-    console.log(req.file, "mmmmm");
+   ;
     const result = await cloudinary.uploader.upload(req.file.path, {
       format: "WebP",
     });
-    console.log(result.secure_url, "aaaaaa");
+   
     const brands = await BrandModel.create({
       brandName: brand,
       description: description,
       basicPay: basicPay,
       image: result.secure_url,
     });
-    console.log(brands);
+
     res
       .status(200)
       .json({ message: "successfully add new Brand", success: true });
   } catch (err) {
-    console.log(err);
-    const errors = handleErrorManagent(err);
-    res.json({ message: "something went wrong", status: false, errors });
+    res.status(400).json({ status: "error", message: err.message });
+    
   }
 };
 
 module.exports.getAllBrands = async (req, res, next) => {
   try {
-    console.log("helllllooooo brands");
+  
     const brands = await BrandModel.find({ isActive: true });
-    console.log(brands, "brandsdata");
+  
     res.json({ success: true, result: brands });
   } catch (error) {
     res.status(400).json({ success: false, message: error.message });
@@ -234,7 +229,7 @@ module.exports.getAllBrands = async (req, res, next) => {
 };
 module.exports.deleteBrand = async (req, res, next) => {
   try {
-    console.log(req.params.id, "jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj");
+  
     const brand = req.params.id;
     BrandModel.findByIdAndUpdate(
       { _id: brand },
@@ -243,13 +238,12 @@ module.exports.deleteBrand = async (req, res, next) => {
       res.status(200).json({ message: "Deleted Successful", success: true });
     });
   } catch (error) {
-    console.log(error);
-    res.json({ message: "Something went wrong", status: false });
+    res.status(400).json({ status: "error", message: error.message });
   }
 };
 module.exports.blockUser = async (req, res, next) => {
   let id = req.params.id;
-  console.log(id);
+
   await UserModel.findByIdAndUpdate(
     { _id: id },
     {
@@ -261,9 +255,9 @@ module.exports.blockUser = async (req, res, next) => {
     res.status(200).json({ message: "Banned Successfully", success: true });
   });
 };
-module.exports.unblockUser = async (req, res, next) => {
+module.exports.unblockUser = async (req, res) => {
   let id = req.params.id;
-  console.log(id);
+
   await UserModel.findByIdAndUpdate(
     { _id: id },
     {
@@ -277,7 +271,7 @@ module.exports.unblockUser = async (req, res, next) => {
 };
 module.exports.updateBrand = async (req, res, next) => {
   try {
-    console.log(req.body);
+   
     const { id, brandName, description, basicPay } = req.body;
 
     const image = await cloudinary.uploader.upload(req.file.path, {
@@ -295,56 +289,40 @@ module.exports.updateBrand = async (req, res, next) => {
       }
     );
 
-    console.log(brands);
+  
     res
       .status(200)
       .json({ message: "successfully updated the Brand", success: true });
-  } catch (err) {
-    const errors = handleErrorManagent(err);
-    res.json({ message: "something went wrong", status: false, errors });
+  } catch (error) {
+    res.status(400).json({ status: "error", message: error.message });
   }
 };
 module.exports.addNewServices = async (req, res, next) => {
   try {
     const { serviceName, price, description } = req.body;
-    console.log(req.file, "mmmmm");
+  
     const result = await cloudinary.uploader.upload(req.file.path, {
       format: "WebP",
     });
-    console.log(result.secure_url, "aaaaaa");
+
 
     const services = await ServiceModel.create({
       serviceName: serviceName,
       description: description,
       image: result.secure_url,
     });
-    console.log(services);
+  
     res
       .status(200)
       .json({ message: "successfully add new service", success: true });
   } catch (err) {
-    const errors = handleErrorManagent(err);
-    res.json({ message: "Already existing Data", status: false, errors });
+    res.status(400).json({ status: "error", message: err.message });
   }
 };
-// module.exports.getAllServices = async (req, res, next) => {
-//   try {
-//     console.log(req.query)
-//     console.log("helllllooooo services");
-//     const pageNumber = parseInt(page) || 1;
-//     const itemsPerPage = parseInt(limit) || 10;
-//     const skip = (pageNumber - 1) * itemsPerPage;
-//     const services = await ServiceModel.find({ status: true });
-//     console.log(services, "servicedata");
-//     res.json({ success: true, result: services });
-//   } catch (error) {
-//     res.status(400).json({ success: false, message: error.message });
-//   }
-// };
+
 module.exports.getAllServices = async (req, res, next) => {
   try {
-    console.log(req.query);
-    console.log("helllllooooo services");
+    
     
     const pageNumber = parseInt(req.query.page) || 1;
     const itemsPerPage = parseInt(req.query.limit) || 10;
@@ -355,7 +333,7 @@ module.exports.getAllServices = async (req, res, next) => {
       .limit(itemsPerPage)
       .exec();
     
-    console.log(services, "servicedata");
+   ;
     
     res.json({ success: true, result: services });
   } catch (error) {
@@ -364,7 +342,7 @@ module.exports.getAllServices = async (req, res, next) => {
 };
 module.exports.updateService = async (req, res, next) => {
   try {
-    console.log("updateservice");
+   
     const { id, serviceName, description } = req.body;
     const image = await cloudinary.uploader.upload(req.file.path, {
       format: "WebP",
@@ -380,18 +358,17 @@ module.exports.updateService = async (req, res, next) => {
       }
     );
 
-    console.log(services);
+ 
     res
       .status(200)
       .json({ message: "successfully updated the Brand", success: true });
-  } catch (err) {
-    const errors = handleErrorManagent(err);
-    res.json({ message: "something went wrong", status: false, errors });
+  } catch (error) {
+    res.status(400).json({ status: "error", message: error.message });
   }
 };
 module.exports.deleteService = async (req, res, next) => {
   try {
-    console.log(req.params.id, "jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj");
+  
     const serviceid = req.params.id;
     ServiceModel.findByIdAndUpdate(
       { _id: serviceid },
@@ -400,13 +377,11 @@ module.exports.deleteService = async (req, res, next) => {
       res.status(200).json({ message: "Deleted Successful", success: true });
     });
   } catch (error) {
-    console.log(error);
-    res.json({ message: "Something went wrong", status: false });
+    res.json({ message: error.message, status: false });
   }
 };
 module.exports.getAllBrandNames = async (req, res, next) => {
   const brands = await BrandModel.find({ isActive: true });
-  console.log(brands, "to send to models");
   res.status(200).json({
     message: "successfully get all brandnames",
     result: brands,
@@ -425,8 +400,7 @@ module.exports.addcarModels = async (req, res, next) => {
 
     res.status(200).json({ message: "successfully add cars", success: true });
   } catch (err) {
-    const errors = handleErrorManagent(err);
-    res.json({ message: "Already existing Data", status: false, errors });
+    res.status(400).json({ status: "error", message: err.message });
   }
 };
 module.exports.getAllcarDetails = async (req, res, next) => {
@@ -435,7 +409,7 @@ module.exports.getAllcarDetails = async (req, res, next) => {
 
     res.json({ success: true, result: cars });
   } catch (error) {
-    console.log(error);
+    
     res.status(400).json({ success: false, message: error.message });
   }
 };
@@ -449,8 +423,8 @@ module.exports.deleteCar = async (req, res, next) => {
       res.status(200).json({ message: "Deleted Successful", success: true });
     });
   } catch (error) {
-    console.log(error);
-    res.json({ message: "Something went wrong", status: false });
+  
+    res.json({ message: error.message, status: false });
   }
 };
 module.exports.updateCar = async (req, res, next) => {
@@ -466,9 +440,8 @@ module.exports.updateCar = async (req, res, next) => {
     res
       .status(200)
       .json({ message: "successfully updated the cars", success: true });
-  } catch (err) {
-    const errors = handleErrorManagent(err);
-    res.json({ message: "something went wrong", status: false, errors });
+  } catch (error) {
+    res.status(400).json({ status: "error", message: error.message });
   }
 };
 module.exports.addBanner = async (req, res, next) => {
@@ -488,10 +461,8 @@ module.exports.addBanner = async (req, res, next) => {
       .status(200)
       .json({ message: "successfully add new service", success: true });
     fs.unlinkSync(req.file.path);
-  } catch (err) {
-    console.log(err);
-    const errors = handleErrorManagent(err);
-    res.json({ message: "Already existing Data", success: false, errors });
+  } catch (error) {
+    res.status(400).json({ status: "error", message: error.message });
   }
 };
 module.exports.getBanners = async (req, res, next) => {
@@ -500,7 +471,7 @@ module.exports.getBanners = async (req, res, next) => {
 
     res.json({ success: true, result: banners });
   } catch (error) {
-    console.log(error);
+   
     res.status(400).json({ success: false, message: error.message });
   }
 };
@@ -526,9 +497,7 @@ module.exports.updateBanner = async (req, res, next) => {
       .status(200)
       .json({ message: "successfully updated the banner", success: true });
   } catch (err) {
-    console.log(err);
-    const errors = handleErrorManagent(err);
-    res.json({ message: "something went wrong", status: false, errors });
+    res.status(400).json({ status: "error", message: err.message });
   }
 };
 module.exports.blockBanner = async (req, res, next) => {
@@ -546,7 +515,7 @@ module.exports.blockBanner = async (req, res, next) => {
 
     res.status(200).json({ message: "blocked Successfully", success: true });
   } catch (err) {
-    console.log(err);
+    res.status(400).json({ status: "error", message: err.message });
   }
 };
 module.exports.unblockBanner = async (req, res, next) => {
@@ -564,7 +533,7 @@ module.exports.unblockBanner = async (req, res, next) => {
 
     res.status(200).json({ message: "unblocked Successfully", success: true });
   } catch (err) {
-    console.log(err);
+    res.status(400).json({ status: "error", message: err.message });
   }
 };
 
@@ -593,9 +562,7 @@ module.exports.addServicesList = async (req, res, next) => {
       .status(200)
       .json({ message: "successfully added the list", success: true });
   } catch (err) {
-    console.log(err);
-    const errors = handleErrorManagent(err);
-    res.json({ message: "something went  wrong", status: false, errors });
+    res.status(400).json({ status: "error", message: err.message });
   }
 };
 // module.exports.getAllServiceList = async (req, res, next) => {
@@ -609,7 +576,7 @@ module.exports.addServicesList = async (req, res, next) => {
 // };
 module.exports.getAllServiceList = async (req, res, next) => {
   try {
-    console.log(req.query)
+  
     const pageNumber = parseInt(req.query.page) || 1;
     const itemsPerPage = parseInt(req.query.limit) || 10;
     const skip = (pageNumber - 1) * itemsPerPage;
@@ -640,8 +607,7 @@ module.exports.updateServiceList = async (req, res, next) => {
       .status(200)
       .json({ message: "successfully updated the list", success: true });
   } catch (err) {
-    const errors = handleErrorManagent(err);
-    res.json({ message: "something went wrong", status: false, errors });
+    res.status(400).json({ status: "error", message: err.message });
   }
 };
 module.exports .addPlaces = async (req, res) => {
@@ -652,14 +618,13 @@ module.exports .addPlaces = async (req, res) => {
     });
     res.status(200).json({ message: "successfully added", success: true });
   } catch (err) {
-    const errors = handleErrorManagent(err);
-    res.json({ message: "Already existing Data", status: false, errors });
+    res.status(400).json({ status: "error", message: err.message });
   }
 };
 module.exports.allLocations = async (req, res) => {
   try {
     const loc= await LocationModel.find()
-    console.log(loc)
+
 
     res.json({ success: true, result:loc });
   } catch (error) {
@@ -673,25 +638,24 @@ module.exports.deleteLocation = async (req, res) => {
       res.status(200).json({ message: "Deleted Successful", success: true });
 
   } catch (error) {
-    console.log(error);
-    res.json({ message: "Something went wrong", status: false });
+  
+    res.status(400).json({ status: "error", message: error.message });
   }
 };
 module.exports.getBookingData = async (req, res) => {
   try {
     const bookingdata = await BookingModel.find({});
-    console.log(bookingdata)
+ 
       res.json({ success: true, result:bookingdata});
   } catch (error) {
-    console.log(error);
+ 
     res.status(400).json({ success: false, message: error.message });
   }
 };
 
 module.exports.getSalesDetails = async (req, res) => {
   const { from, to } = req.query;
-  console.log(from);
-  console.log(to);
+ 
 
   try {
     // Parse the date strings into Date objects
@@ -717,14 +681,13 @@ module.exports.getSalesDetails = async (req, res) => {
       // },
     ]);
 
-    console.log(salesDetails);
+ 
 
    
       return res.json({success:true,result:salesDetails});
    
     
   } catch (err) {
-    console.error("Error fetching sales details:", err);
-    return res.status(500).json({ error: "Error fetching sales details" });
+    res.status(400).json({ status: "error", message: err.message });
   }
 };

@@ -54,8 +54,7 @@ module.exports.userSignup = async (req, res, next) => {
 
       sendEmailOTP(email, otpEmail)
         .then((info) => {
-          console.log(`Message sent: ${info.messageId}`);
-          console.log(`Preview URL: ${nodemailer.getTestMessageUrl(info)}`);
+         
         })
         .catch((error) => {
           throw error;
@@ -72,24 +71,21 @@ module.exports.userSignup = async (req, res, next) => {
       });
     }
   } catch (error) {
-    console.log(error);
-    const errors = handleError(error);
-    res.status(400).json({ errors, otpSend: false });
+    res.status(400).json({ status: "error", message: error.message });
   }
 };
 module.exports.resendUserOTP= async(req,res)=>{
   try{
 
     const {resendemail}=req.body
-    console.log(resendemail)
+ 
     const otpEmail = Math.floor(1000 + Math.random() * 9000);
 
     emailOtp = otpEmail;
 
     sendEmailOTP(resendemail, otpEmail)
       .then((info) => {
-        console.log(`Message sent: ${info.messageId}`);
-        console.log(`Preview URL: ${nodemailer.getTestMessageUrl(info)}`);
+        
       })
       .catch((error) => {
         throw error;
@@ -101,18 +97,18 @@ module.exports.resendUserOTP= async(req,res)=>{
     });
   }catch(err)
   {
-    console.log(err)
-    res.json({message:err})
+ 
+    res.json({message:err.message})
   }
 }
 module.exports.verifyOtp = async (req, res, next) => {
   try {
     let { otp } = req.body;
-console.log(otp,emailOtp,"oiuytrewq")
+
     let { name, email, password, mobile } = userData;
-    console.log(name);
+  
     if (otp == emailOtp) {
-      console.log("here verify", userData);
+     
       let hashpassword = await bcrypt.hash(password, 10);
 
       let userdetails = await UserModel.create({
@@ -135,12 +131,7 @@ console.log(otp,emailOtp,"oiuytrewq")
       });
     }
   } catch (err) {
-    console.log(err);
-    res.status(400).json({
-      success: false,
-      message: "Entered OTP from email is incorrect",
-      created: false,
-    });
+    res.status(400).json({ status: "error", message: err.message });
   }
 };
 module.exports.loginUser = async (req, res, next) => {
@@ -177,9 +168,8 @@ module.exports.loginUser = async (req, res, next) => {
       res.json({ errors, success: false });
     }
   } catch (error) {
-    console.log(error);
-    const errors = { message: "Incorrect admin email or password" };
-    res.json({ errors, success: false });
+   
+    res.status(400).json({ status: "error", message: error.message });;
   }
 };
 module.exports.isUserAuth = async (req, res) => {
@@ -214,7 +204,7 @@ module.exports.getBanners = async (req, res, next) => {
     const banners = await BannerModel.find({ status: true });
     res.json({ success: true, result: banners });
   } catch (error) {
-    console.log(error);
+  
     res.status(400).json({ success: false, message: error.message });
   }
 };
@@ -223,7 +213,7 @@ module.exports.getServices = async (req, res) => {
     const services = await ServicesModel.find({ status: true });
     res.json({ success: true, result: services });
   } catch (error) {
-    console.log(error);
+  
     res.status(400).json({ success: false, message: error.message });
   }
 };
@@ -232,7 +222,7 @@ module.exports.getBrands = async (req, res) => {
     const brands = await BrandModel.find();
     res.json({ success: true, result: brands });
   } catch (error) {
-    console.log(error);
+ 
     res.status(400).json({ success: false, message: error.message });
   }
 };
@@ -241,7 +231,7 @@ module.exports.getModels = async (req, res) => {
     const cars = await CarsModel.find();
     res.json({ success: true, result: cars });
   } catch (error) {
-    console.log(error);
+  
     res.status(400).json({ success: false, message: error.message });
   }
 };
@@ -463,9 +453,9 @@ module.exports.addToCart = async (req, res) => {
   
  
   const {selectedServiceId,planId}=req.body
-  console.log(selectedServiceId,planId)
+  
    const serviceId = selectedServiceId
-   console.log( serviceId,planId,"jjjjj")
+   
   
   const userId = req.userId;
 
@@ -525,8 +515,7 @@ module.exports.addToCart = async (req, res) => {
       }
     }
   } catch (error) {
-    console.error(error);
-    return res.status(500).json({ error: "Internal server error" });
+    res.status(400).json({ status: "error", message: error.message });
   }
 };
 
@@ -544,10 +533,10 @@ module.exports.getCartData = async (req, res) => {
         .json({ success: false, message: "User not found." });
     }
 
-    console.log(data);
+    
     res.json({ success: true, result: data });
   } catch (error) {
-    console.log(error);
+   
     res.status(400).json({ success: false, message: error.message });
   }
 };
@@ -603,10 +592,8 @@ module.exports.deleteCartItem = async (req, res) => {
 
     return res.status(200).json({ success: true, result: updatedUser });
   } catch (err) {
-    console.log(err);
-    return res
-      .status(500)
-      .json({ success: false, message: "An error occurred." });
+  
+    res.status(400).json({ status: "error", message: err.message });
   }
 };
 
@@ -668,8 +655,7 @@ module.exports.updateBookingDetails = async (req, res) => {
     );
     res.status(200).json({ message: "successfully updated ", success: true });
   } catch (err) {
-    const errors = handleErrorManagent(err);
-    res.json({ message: "something went wrong", status: false, errors });
+    res.status(400).json({ status: "error", message: err.message });
   }
 };
 
@@ -698,7 +684,7 @@ module.exports.getBrandMechanic = async (req, res) => {
 
     res.json({ success: true, result: mechanics });
   } catch (error) {
-    console.log(error);
+   
     res.status(400).json({ success: false, message: error.message });
   }
 };
@@ -719,9 +705,7 @@ module.exports.bookingDataUpdate = async (req, res) => {
 
     res.status(200).json({ message: "successfully updated ", success: true });
   } catch (err) {
-    console.log(err);
-    // const errors = handleErrorManagent(err);
-    res.json({ message: "something went wrong", status: false, errors });
+    res.status(400).json({ status: "error", message: err.message });
   }
 };
 module.exports.payment = async (req, res) => {
@@ -741,14 +725,13 @@ module.exports.payment = async (req, res) => {
 
     instance.orders.create(options, (error, order) => {
       if (error) {
-        console.log(error);
+       
         return res.status(500).json({ message: "Something gone wrong" });
       }
       res.status(200).json({ data: order });
     });
   } catch (error) {
-    console.log(error);
-    res.status(500).json({ message: "Internal Server Error" });
+    res.status(400).json({ status: "error", message: error.message });
   }
 };
 module.exports.verifyRazorPayment = async (req, res) => {
@@ -771,8 +754,8 @@ module.exports.verifyRazorPayment = async (req, res) => {
       .createHmac("sha256", process.env.KEY_SECRET)
       .update(sign.toString())
       .digest("hex");
-    console.log(expectedSign, "kkk");
-    console.log(razorpay_signature, "lll");
+   
+    
     if (razorpay_signature === expectedSign) {
       const bookingdata = await BookingModel.create({
         user: user,
@@ -802,7 +785,7 @@ module.exports.verifyRazorPayment = async (req, res) => {
       res.status(400).json({ success: false, message: "invalid Signature" });
     }
   } catch (err) {
-    console.log(err);
+  
     return res
       .status(400)
       .json({ success: false, message: err.message });
@@ -822,7 +805,7 @@ module.exports.verifyRazorPayment = async (req, res) => {
 
 module.exports.getserviceDetails = async (req, res) => {
   try {
-    console.log(req.query)
+  
     const { email, page, limit } = req.query;
     const pageNumber = parseInt(page) || 1;
     const itemsPerPage = parseInt(limit) || 10;
@@ -833,10 +816,10 @@ module.exports.getserviceDetails = async (req, res) => {
       .skip(skip)
       .limit(itemsPerPage)
       .sort({ createdAt: -1 });
-console.log(servicehistory)
+
     res.json({ success: true, servicehistory });
   } catch (error) {
-    console.log(error);
+ 
     res.status(400).json({ success: false, message: error.message });
   }
 };
@@ -849,7 +832,7 @@ module.exports.getMechanic = async (req, res) => {
 
     res.json({ success: true, result: mechanic });
   } catch (error) {
-    console.log(error);
+  
     res.status(400).json({ success: false, message: error.message });
   }
 };
@@ -881,7 +864,7 @@ module.exports.createReview = async (req, res) => {
     await mechanic.save();
     return res.status(201).json({ success: true, review, mechanic });
   } catch (error) {
-    console.error("Error creating review:", error);
+   
     return res.status(500).json({ success: false, error: "Server Error" });
   }
 };
@@ -894,13 +877,13 @@ module.exports.getReviews = async (req, res) => {
 
     res.json({ success: true, result: reviews });
   } catch (error) {
-    console.log(error);
+ 
     res.status(400).json({ success: false, message: error.message });
   }
 };
 module.exports.updateUserAddress = async (req, res) => {
   try {
-    // console.log(req.body)
+
     const { newaddress } = req.body;
 
     const address = await UserModel.findByIdAndUpdate(
@@ -917,15 +900,14 @@ module.exports.updateUserAddress = async (req, res) => {
         result: address,
       });
   } catch (err) {
-    console.log(err);
-    const errors = handleErrorManagent(err);
+   
     res.json({ message: "something went wrong", status: false, errors });
   }
 };
 module.exports.deleteAddress = async (req, res) => {
   try {
     const { addressToDelete } = req.body;
-    console.log(addressToDelete);
+   
     const user = await UserModel.findByIdAndUpdate(
       req.userId,
       {
@@ -940,8 +922,10 @@ module.exports.deleteAddress = async (req, res) => {
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
-    console.log(user, "jjj");
+ ;
     // Respond with the updated user (optional)
     res.status(200).json({ success: true, result: user });
-  } catch (err) {}
+  } catch (err) {
+    res.status(400).json({ status: "error", message: err.message });
+  }
 };
