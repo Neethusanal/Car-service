@@ -9,10 +9,11 @@ const adminSignin = (data) => {
 };
 
 const getAllMechanic = (data) => {
-  return adminAxiosInstance.get(`/getallmechanic?page=${data.page}&limit=${data.limit}`);
+  return adminAxiosInstance.get(`/getallmechanic?page=${data? data.page : 1}&limit=${data ? data.limit : 10}`);
 };
 const getAllUsers = (data) => {
-  return adminAxiosInstance.get(`/getallusers?page=${data.page}&limit=${data.limit}`);
+  console.log(data,"api")
+  return adminAxiosInstance.get(`/getallusers?page=${data? data.page : 1}&limit=${data? data.limit : 10}`);
 };
 const AddNewBrands = (data) => {
   return adminAxiosInstance.post("/addbrands", data);

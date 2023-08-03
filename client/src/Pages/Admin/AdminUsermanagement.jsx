@@ -29,14 +29,17 @@ export const AdminUsermanagement = () => {
     const [filteredUsers, setFilteredUsers] = useState([]);
     useEffect(() => {
         getAdminUser()
-
-    }, [currentPage]);
-    useEffect(() => {
         handleFiltering(); 
-      }, [searchQuery]);
+
+    }, [currentPage,searchQuery]);
+
+    // useEffect(() => {
+        
+    //   }, []);
 
     const getAdminUser = () => {
         const limit = 3;
+        console.log(currentPage,limit)
         getAllUsers({ page: currentPage, limit: limit }).then((res) => {
             if (res.data.status == "success") {
                 console.log(res.data.result, "ddddddd")
@@ -124,7 +127,7 @@ export const AdminUsermanagement = () => {
                         </tr>
                     </thead>
                     <tbody>
-                    {filteredUsers?.map(
+                    {users?.map(
                             ({ _id, name, email, mobile }, index) => {
                                 const isLast = index === users.length - 1;
                                 const classes = isLast ? "p-4" : "p-4 border-b border-blue-gray-50";
