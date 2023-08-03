@@ -824,7 +824,7 @@ module.exports.getserviceDetails = async (req, res) => {
     const servicehistory = await BookingModel.find({ "user.email": email })
       .skip(skip)
       .limit(itemsPerPage)
-      .sort({ createdAt: -1 });
+      .sort({ createdAt: 1 });
 
     res.json({ success: true, servicehistory });
   } catch (error) {
