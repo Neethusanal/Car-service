@@ -17,21 +17,21 @@ import { useLocation, useNavigate } from 'react-router-dom';
 
 export const Payment = () => {
   const user = useSelector((state) => state.user)
-  const [vehicleBrand, setVehicleBrand] = useState(user?.brand);
-  const [vehicleModel, setVehicleModel] = useState(user?.model);
-  const [serviceType, setServiceType] = useState(user?.bookedservices);
-  const [selectedslot,setSelectedSlot]=useState(user?.bookedSlots)
-  const [amount,setAmount]=useState(user?.cartTotal)
+  const [vehicleBrand, setVehicleBrand] = useState();
+  const [vehicleModel, setVehicleModel] = useState();
+  const [serviceType, setServiceType] = useState();
+  const [selectedslot,setSelectedSlot]=useState()
+  const [amount,setAmount]=useState()
   const navigate=useNavigate()
   const location = useLocation();
   const mechanic = location.state?.expertmechanic;
   const mechanicid=mechanic._id
   console.log(mechanic,"mechanixxxxxxxxxxxx")
   useEffect(()=>{
-    // setVehicleBrand(user?.brand)
-    // setVehicleModel(user?.model)
-    // setServiceType(user?.bookedservices)
-    // setSelectedSlot(user?.bookedSlots)
+    setVehicleBrand(user?.brand)
+    setVehicleModel(user?.model)
+    setServiceType(user?.bookedservices)
+    setSelectedSlot(user?.bookedSlots)
     setAmount(user?.cartTotal)
   })
   
@@ -137,10 +137,10 @@ const handlePayment=()=>{
           <td className="px-6 py-4  text-black whitespace-nowrap">{vehicleModel}</td>
         </tr>
         <tr>
-        <td className="px-6 py-4 text-black whitespace-nowrap">services </td>
-        {serviceType.map((service,index)=>{
+        <td className="px-6 py-4  text-black whitespace-nowrap">services </td>
+        {serviceType?.map((service,index)=>{
           return(
-            <td className="px-6 py-2 block text-black whitespace-nowrap ">{service}</td>
+            <td className="px-6 py-2 w-12 block text-black whitespace-nowrap ">{service}</td>
           )
         })}
          
