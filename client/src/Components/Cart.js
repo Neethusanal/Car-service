@@ -42,8 +42,7 @@ export const Cart = () => {
     
     })
   }
-  console.log(cartTotal,"cartdatasss")
-  //Delete the items in cart
+ 
 const deleteCartData= (id)=>{
   Swal.fire({
     title: 'Are you sure?',

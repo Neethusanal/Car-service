@@ -19,7 +19,7 @@ import { Link } from "react-router-dom";
 
 export const Adminsidebar = () => {
   return (
-    <Card className="p-4 shadow-xl bg-black h-screen">
+    <Card className="p-4 shadow-xl bg-black min-h-screen">
       <div className="mb-2 p-4">
         <Typography variant="h5" color="white">
          Admin Panel

@@ -31,7 +31,7 @@ export const Banner = () => {
   const [filteredBanner, setFilteredBanner] = useState([]);
   const [searchInput, setSearchInput] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(10);
+  const [itemsPerPage] = useState(4);
   const totalPages = Math.ceil(banner.length / itemsPerPage);
 
   const navigate = useNavigate();
@@ -133,11 +133,22 @@ export const Banner = () => {
   const currentItems = filteredBanner.slice(indexOfFirstItem, indexOfLastItem);
 
   // Change page
+  const handlePrevious = () => {
+    if (currentPage > 1) {
+      setCurrentPage((prevPage) => prevPage - 1);
+    }
+  };
+  
+  const handleNext = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage((prevPage) => prevPage + 1);
+    }
+  };
 
 
   return (
     <>
-      <Card className="h-full w-full">
+      <Card className="h-full w-full mt-20">
         <CardHeader floated={false} shadow={false} className="rounded-none">
           <div className="mb-4 flex flex-col justify-between gap-8 md:flex-row md:items-center">
             <div>
@@ -243,26 +254,26 @@ export const Banner = () => {
           </table>
         </CardBody>
         <CardFooter className="flex items-center justify-between border-t border-blue-gray-50 p-4">
-          <Button variant="outlined" color="blue-gray" size="sm">
-            Previous
-          </Button>
-          <div className="flex items-center gap-2">
-            {pageNumbers.map((number) => (
-              <IconButton
-                key={number}
-                variant="outlined"
-                color="blue-gray"
-                size="sm"
-                onClick={() => paginate(number)}
-              >
-                {number}
-              </IconButton>
-            ))}
-          </div>
-          <Button variant="outlined" color="blue-gray" size="sm">
-            Next
-          </Button>
-        </CardFooter>
+      <Button variant="outlined" color="blue-gray" size="sm" onClick={handlePrevious}>
+        Previous
+      </Button>
+      <div className="flex items-center gap-2">
+        {pageNumbers.map((number) => (
+          <IconButton
+            key={number}
+            variant="outlined"
+            color="blue-gray"
+            size="sm"
+            onClick={() => paginate(number)}
+          >
+            {number}
+          </IconButton>
+        ))}
+      </div>
+      <Button variant="outlined" color="blue-gray" size="sm" onClick={handleNext}>
+        Next
+      </Button>
+    </CardFooter>
       </Card>
       <div>
         <Modal

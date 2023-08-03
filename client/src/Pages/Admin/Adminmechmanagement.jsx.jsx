@@ -1,6 +1,6 @@
 
-import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
-import { Card, CardHeader, Typography, Button, CardBody, CardFooter, Avatar, IconButton, } from "@material-tailwind/react";
+
+import { Card, CardHeader, Typography, Button, CardBody, CardFooter, Avatar, Input, } from "@material-tailwind/react";
 import { useEffect, useState } from "react";
 import { approveMechanic, blockMechanic, getAllMechanic, rejectMechanic } from "../../Services/AdminApi";
 
@@ -9,15 +9,19 @@ const TABLE_HEAD = ["Image", "Name", "Email","certificate ", "status" , "Adminap
 
 
 export const Adminmechmanagement = () => {
-  const [mechanic, setMechanic] = useState()
-
+  const [mechanic, setMechanic] = useState([])
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [searchQuery, setSearchQuery] = useState("");
   useEffect(() => {
-    getAllMechanic().then((res) => {
+    const limit = 2;
+    getAllMechanic({ page: currentPage, limit: limit}).then((res) => {
       if (res.data.status === 'success') {
         setMechanic(res?.data?.result)
+        setTotalPages(res?.data?.result?.totalPages);
       }
     });
-  }, []);
+  }, [currentPage]);
   const handleApprove = (mechanic) => {
     const id = mechanic?._id
     console.log(id, "mechanicid")
@@ -72,23 +76,39 @@ export const Adminmechmanagement = () => {
 
     })
   }
+  const handleSearch = (e) => {
+    setSearchQuery(e.target.value);
+  };
 
+  // Function to filter mechanic data based on the search query
+  const filteredMechanic = mechanic.filter((item) => {
+    const name = item.name.toLowerCase();
+    const searchLower = searchQuery.toLowerCase();
+    return name.includes(searchLower);
+  });
 
 
 
 
   return (
-    <Card className="h-screen w-fit">
+    <Card className="h-full w-fit mt-20 ">
       <CardHeader floated={false} shadow={false} className="rounded-none">
         <div className="mb-4 flex flex-col justify-between gap-8 md:flex-row md:items-center">
           <div>
             <Typography variant="h5" color="blue-gray">
               Mechanic Management
             </Typography>
-            <Typography color="gray" className="mt-1 font-normal">
-              These are details about the mechanics
-            </Typography>
           </div>
+          <div className="flex w-full shrink-0 gap-2 md:w-max">
+            <div className="w-full md:w-72">
+                <Input
+                  label="Search"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                />
+            </div>
+
+            </div>
 
         </div>
       </CardHeader>
@@ -110,7 +130,7 @@ export const Adminmechmanagement = () => {
             </tr>
           </thead>
           <tbody>
-            {mechanic?.map(
+          {filteredMechanic?.map(
               (items, index) => {
                 const isLast = index === mechanic.length - 1;
                 const classes = isLast ? "p-4" : "p-4 border-b border-blue-gray-50";
@@ -185,25 +205,24 @@ export const Adminmechmanagement = () => {
         </table>
       </CardBody>
       <CardFooter className="flex items-center justify-between border-t border-blue-gray-50 p-4">
-        {/* <Button variant="outlined" color="blue-gray" size="sm">
-          Previous
-        </Button>
-        <div className="flex items-center gap-2">
-          <IconButton variant="outlined" color="blue-gray" size="sm">
-            1
-          </IconButton>
-          <IconButton variant="text" color="blue-gray" size="sm">
-            2
-          </IconButton>
-          <IconButton variant="text" color="blue-gray" size="sm">
-            3
-          </IconButton>
-
-        </div>
-        <Button variant="outlined" color="blue-gray" size="sm">
-          Next
-        </Button> */}
-      </CardFooter>
+        <button
+        className="px-2 py-1 mr-2 border rounded disabled:opacity-50"
+        disabled={currentPage === 1}
+        onClick={() => setCurrentPage((prevPage) => prevPage - 1)}
+      >
+        Previous
+      </button>
+      <span className="px-2 py-1">
+        Page {currentPage} of {totalPages}
+      </span>
+      <button
+        className="px-2 py-1 ml-2 border rounded disabled:opacity-50"
+        disabled={currentPage === totalPages}
+        onClick={() => setCurrentPage((prevPage) => prevPage + 1)}
+      >
+        Next
+      </button>
+        </CardFooter>
     </Card>
   );
 }

@@ -8,11 +8,11 @@ const adminSignin = (data) => {
   return adminAxiosInstance.post("/login", data);
 };
 
-const getAllMechanic = () => {
-  return adminAxiosInstance.get("/getallmechanic");
+const getAllMechanic = (data) => {
+  return adminAxiosInstance.get(`/getallmechanic?page=${data.page}&limit=${data.limit}`);
 };
-const getAllUsers = () => {
-  return adminAxiosInstance.get("/getallusers");
+const getAllUsers = (data) => {
+  return adminAxiosInstance.get(`/getallusers?page=${data.page}&limit=${data.limit}`);
 };
 const AddNewBrands = (data) => {
   return adminAxiosInstance.post("/addbrands", data);

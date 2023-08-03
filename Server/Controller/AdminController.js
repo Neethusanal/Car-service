@@ -95,9 +95,21 @@ module.exports.isAdminAuth = async (req, res) => {
   }
 };
 
+
 module.exports.getAllMechanicDetails = async (req, res, next) => {
   try {
-    const mechanic = await MechanicModel.find();
+   
+    // Parse the query parameters for pagination
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10; // Default limit is 10
+
+    // Calculate the skip value to skip records based on the current page and limit
+    const skip = (page - 1) * limit;
+
+    // Fetch mechanic details with pagination using the skip and limit values
+    const mechanic = await MechanicModel.find().skip(skip).limit(limit);
+
+    // Send the paginated response back to the client
     res.json({ status: "success", result: mechanic });
   } catch (error) {
     res.status(400).json({ status: "error", message: error.message });
@@ -185,8 +197,16 @@ module.exports.mechanicBlock = async (req, res) => {
 module.exports.getAllUserDetails = async (req, res, next) => {
   try {
    
-    const users = await UserModel.find({ isBanned: false }).select("-password");
-   
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+    const skip = (page - 1) * limit;
+
+  
+    const users = await UserModel.find({ isBanned: false })
+      .select("-password")
+      .skip(skip)
+      .limit(limit);
+
     res.json({ status: "success", result: users });
   } catch (error) {
     res.status(400).json({ status: "error", message: error.message });

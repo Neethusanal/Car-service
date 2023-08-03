@@ -1,5 +1,5 @@
 
-import { Card, CardHeader, Typography, Button, CardBody, Chip, CardFooter, Avatar, IconButton, Tooltip, } from "@material-tailwind/react";
+import { Card, CardHeader, Typography, Button, CardBody,  CardFooter,Input } from "@material-tailwind/react";
 import Modal from "react-modal";
 import React, { useEffect, useState } from "react";
 import { addcarModel, carDelete, getBrands, getallCars, updateCars } from "../../Services/AdminApi";
@@ -34,6 +34,11 @@ export const Modelmanagement = () => {
   const [modalOpen, setOpen] = React.useState(false);
   const [modelData, setModelData] = useState([])
   const [deleted, setDeleted] = useState()
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
+
   const navigate = useNavigate()
   //Edit Modal
   function openEditModal() {
@@ -56,7 +61,7 @@ export const Modelmanagement = () => {
     getAllModels()
 
 
-  }, [deleted]);
+  }, [deleted,currentPage]);
   const BrandName = async () => {
     try {
       let { data } = await getBrands()
@@ -91,9 +96,13 @@ export const Modelmanagement = () => {
     });
   }
   const getAllModels = () => {
+    const limit = 3;
     getallCars().then((res) => {
       if (res.data.success) {
-        setModelData(res?.data?.result);
+        const data = res?.data?.result;
+      setModelData(data);
+      setTotalPages(data?.totalPages);
+      setSearchResults(data);
       }
     });
   };
@@ -164,7 +173,7 @@ export const Modelmanagement = () => {
   return (
     <>
 
-      <Card className="h-full w-full">
+      <Card className="h-full w-full mt-20">
         <CardHeader floated={false} shadow={false} className="rounded-none">
           <div className="mb-4 flex flex-col justify-between gap-8 md:flex-row md:items-center">
             <div>
@@ -176,6 +185,13 @@ export const Modelmanagement = () => {
               </Typography>
             </div>
             <div className="flex w-full shrink-0 gap-2 md:w-max">
+            <div className="w-full md:w-72">
+                <Input
+                  label="Search"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                />
+              </div>
 
               <Button className="flex items-center gap-3" color="blue" size="sm" onClick={openModal}>
                 Add Models
@@ -183,7 +199,7 @@ export const Modelmanagement = () => {
             </div>
           </div>
         </CardHeader>
-        <CardBody className="overflow-scroll px-0">
+        <CardBody className="">
           <table className="w-full min-w-max table-auto text-left">
             <thead>
               <tr>
@@ -201,8 +217,14 @@ export const Modelmanagement = () => {
               </tr>
             </thead>
             <tbody>
-              {modelData?.map(
-                (cars, index) => {
+            {searchResults
+    .filter(
+      (cars) =>
+        cars.carName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        cars.brandName.brandName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        cars.fuelType.toLowerCase().includes(searchQuery.toLowerCase())
+    )
+    .map((cars, index) => {
                   const isLast = index === modelData.length - 1;
                   const classes = isLast ? "p-4" : "p-4 border-b border-blue-gray-50";
 
@@ -240,21 +262,23 @@ export const Modelmanagement = () => {
           </table>
         </CardBody>
         <CardFooter className="flex items-center justify-between border-t border-blue-gray-50 p-4">
-          {/* <Button variant="outlined" color="blue-gray" size="sm">
-            Previous
-          </Button>
-          <div className="flex items-center gap-2">
-            <IconButton variant="outlined" color="blue-gray" size="sm">
-              1
-            </IconButton>
-            <IconButton variant="text" color="blue-gray" size="sm">
-              2
-            </IconButton>
-
-          </div>
-          <Button variant="outlined" color="blue-gray" size="sm">
-            Next
-          </Button> */}
+        <button
+        className="px-2 py-1 mr-2 border rounded disabled:opacity-50"
+        disabled={currentPage === 1}
+        onClick={() => setCurrentPage((prevPage) => prevPage - 1)}
+      >
+        Previous
+      </button>
+      <span className="px-2 py-1">
+        Page {currentPage} of {totalPages}
+      </span>
+      <button
+        className="px-2 py-1 ml-2 border rounded disabled:opacity-50"
+        disabled={currentPage === totalPages}
+        onClick={() => setCurrentPage((prevPage) => prevPage + 1)}
+      >
+        Next
+      </button>
         </CardFooter>
       </Card>
       {/* Modal for Adding New Cars */}

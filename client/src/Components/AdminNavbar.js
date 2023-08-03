@@ -26,25 +26,25 @@ export const AdminNavbar = () => {
     <ul className="mb-1 mt-1 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-2">
       <Typography as="li" variant="small" color="white" className="p-1 font-normal">
         <a href="#" className="flex items-center">
-          Pages
+          
         </a>
       </Typography>
       <Typography as="li" variant="small" color="white" className="p-1 font-normal">
         <a href="#" className="flex items-center">
-          Account 
+           
         </a>
       </Typography>
      
       <Typography as="li" variant="small" color="white" className="p-1 font-normal">
         <a href="#" className="flex items-center">
-          Docs
+          
         </a>
       </Typography>
     </ul>
   );
 
   return (
-    <Navbar className="fixed top-0 left-0 w-full h-28 bg-gray-700 z-50">
+    <Navbar className="fixed top-0 left-0 w-full h-20 bg-gray-700 z-50">
       <div className="container mx-auto px-4 py-0 lg:px-8 lg:py-1 flex items-center justify-between text-blue-gray-900">
         <Typography as="a" href="#" className="mr-4 cursor-pointer py-1 font-medium text-lg text-white">
           CAR CLINIC
@@ -55,14 +55,14 @@ export const AdminNavbar = () => {
           <p className="mb-1">
             <span className="text-sm">{adminEmail}</span>
           </p>
-          <Button
+          <button
             variant="gradient"
             size="sm"
             className="hidden lg:inline-block"
             onClick={handleLogout}
           >
             <span>Logout</span>
-          </Button>
+          </button>
         </div>
         <IconButton
           variant="text"
@@ -97,9 +97,9 @@ export const AdminNavbar = () => {
       <MobileNav open={openNav}>
         <div className="container mx-auto">
           {navList}
-          <Button variant="gradient" size="sm" fullWidth className="mb-2" onClick={handleLogout}>
+          <button variant="gradient" size="sm" fullWidth className="mb-4" onClick={handleLogout}>
             <span>Logout</span>
-          </Button>
+          </button>
         </div>
       </MobileNav>
     </Navbar>

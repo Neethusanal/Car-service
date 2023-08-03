@@ -1,5 +1,5 @@
 
-import { Card, CardHeader, Typography, Button, CardBody, CardFooter } from "@material-tailwind/react";
+import { Card, CardHeader, Typography, Button, CardBody, CardFooter,Input } from "@material-tailwind/react";
 import React, { useEffect, useState } from "react";
 import Modal from "react-modal";
 import Swal from "sweetalert2"
@@ -30,6 +30,7 @@ export const Servicemanagement = () => {
   const [image, setImage] = useState()
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [searchQuery, setSearchQuery] = useState("");
   const navigate = useNavigate()
   useEffect(() => {
     getAllServices()
@@ -111,10 +112,25 @@ export const Servicemanagement = () => {
 
     })
   }
+  const filterServices = (services, query) => {
+    if (!query) {
+      return services; // If the query is empty, return all services
+    }
+
+    // If there is a query, filter services based on it
+    const filteredServices = services.filter((service) => {
+      return service.serviceName.toLowerCase().includes(query.toLowerCase());
+    });
+
+    return filteredServices;
+  };
+
+  // Filter the services based on the search query
+  const filteredServices = filterServices(services, searchQuery);
 
   return (
     <>
-      <Card className="h-screen max-w-full">
+      <Card className="h-screen max-w-full mt-20">
         <CardHeader floated={false} shadow={false} className="rounded-none">
           <div className="mb-4 flex flex-col justify-between gap-8 md:flex-row md:items-center">
             <div>
@@ -126,11 +142,18 @@ export const Servicemanagement = () => {
               </Typography>
             </div>
             <div className="flex w-full shrink-0 gap-2 md:w-max">
-              <div className=" w-full md:w-72 ">
+            <div className="w-full md:w-72">
+                <Input
+                  label="Search"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                />
+              </div>
+
                 <Button className="flex items-center gap-3" color="blue" size="sm" onClick={openModal}>
                   Add Service
                 </Button>
-              </div>
+              
             </div>
           </div>
         </CardHeader>
@@ -152,7 +175,7 @@ export const Servicemanagement = () => {
               </tr>
             </thead>
             <tbody>
-              {services?.map((service, index) => {
+            {filteredServices?.map((service, index) => {
                 const isLast = index === services.length - 1;
                 const classes = isLast ? "p-4" : "p-4 border-b border-blue-gray-50";
 

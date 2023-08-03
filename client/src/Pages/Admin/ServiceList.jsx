@@ -44,6 +44,7 @@ export const ServiceList = () => {
   const [alldata, setAllData] = useState([])
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [searchQuery, setSearchQuery] = useState("");
   const navigate = useNavigate()
   //modal for editing
 
@@ -176,6 +177,13 @@ console.log(servicelist)
 
             </div>
             <div className="flex w-full shrink-0 gap-2 md:w-max">
+            <div className="w-full md:w-72">
+                <Input
+                  label="Search"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                />
+              </div>
 
               <Button className="flex items-center gap-3" color="blue" size="sm" onClick={openModal}>
                 Add Servicelists
@@ -201,8 +209,16 @@ console.log(servicelist)
               </tr>
             </thead>
             <tbody>
-              {alldata.map(
-                (items, index) => {
+            {alldata
+    .filter((item) => {
+      // Filter by service name or service list name
+      const searchString = searchQuery.toLowerCase();
+      return (
+        item.serviceName.serviceName.toLowerCase().includes(searchString) ||
+        item.servicelistName.toLowerCase().includes(searchString)
+      );
+    })
+    .map((items, index) => {
                   const isLast = index === alldata.length - 1;
                   const classes = isLast ? "p-4" : "p-4 border-b border-blue-gray-50";
 

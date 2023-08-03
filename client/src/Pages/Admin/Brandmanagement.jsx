@@ -23,7 +23,7 @@ import Modal from "react-modal";
 import Swal from "sweetalert2"
 import { useNavigate } from "react-router-dom";
 
-const TABLE_HEAD = ["", "BrandName", "BasicPay", "Description", " ", "Actions", " "];
+const TABLE_HEAD = [ "BrandName", "BasicPay", "Description", " ", "Actions", " "];
 const customStyles = {
     content: {
         top: "50%",
@@ -148,15 +148,12 @@ export const Brandmanagement = () => {
 
     return (
         <>
-            <Card className="h-screen max-w-full">
+            <Card className="h-screen max-w-full mt-20">
                 <CardHeader floated={false} shadow={false} className="rounded-none">
                     <div className="mb-4 flex flex-col justify-between gap-8 md:flex-row md:items-center">
                         <div>
                             <Typography variant="h5" color="blue-gray">
                                 Brands
-                            </Typography>
-                            <Typography color="gray" className="mt-1 font-normal">
-                                These are details
                             </Typography>
                         </div>
                         <div className="flex w-full shrink-0 gap-2 md:w-max">
