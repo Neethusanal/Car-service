@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
+  auth:"false",
   id:"",
   name: "",
   email: "",
@@ -18,6 +19,7 @@ const userSlice = createSlice({
   initialState,
   reducers: {
     setUserDetails: (state, action) => {
+      
       state.id=action.payload.id
       state.name = action.payload.name;
       state.email = action.payload.email;
@@ -31,17 +33,18 @@ const userSlice = createSlice({
       state.cartTotal=action.payload.cartTotal
       state.bookedSlots=action.payload.bookedSlots
       state.bookedservices=action.payload.bookedservices
+      state.auth=action.payload.auth
 
     },
     updateUserLocation: (state, action) => {
       state.servicelocation = action.payload;
     },
     userlogin: (state, action) => {
-      state.value = { ...action.payload, isUserAuth: true };
+      state.value = { ...action.payload, UserAuth: true };
     },
     userlogout: (state) => {
       state.value = {
-        isUserAuth: false,
+        UserAuth: false,
         user: null,
       };
     },

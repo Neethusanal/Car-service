@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { authUser, getUserBrands, getUserModel, getUserServices, updateBookingData } from "../Services/UserApi";
+import {  authUser, getUserBrands, getUserModel, getUserServices, updateBookingData } from "../Services/UserApi";
 import {Card,CardHeader,CardBody,CardFooter,Typography,Button,} from "@material-tailwind/react";
 import { useNavigate } from "react-router-dom";
 
 import Swal from "sweetalert2"
 import { useSelector } from "react-redux";
+import { userlogin } from "../Redux/UserSlice";
 
 export const UserServices = () => {
   const user= useSelector((state) => state.user)
@@ -45,8 +46,8 @@ export const UserServices = () => {
     });
   }
   const handleBooking=()=>{
-
-    if(user){
+    console.log(user)
+    if(user.auth){
       
       updateBookingData({brandName,modelName}).then((res)=>{
     
@@ -54,6 +55,7 @@ export const UserServices = () => {
       navigate('/services')
     }
     else{
+      Swal.fire('Please login before booking ')
       navigate('/login')
     }
   

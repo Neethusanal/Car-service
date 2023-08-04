@@ -41,11 +41,12 @@ const Login = () => {
         then((res) => {
           
           if (res.data.success) {
-
+            console.log(res.data)
             localStorage.setItem("usertoken", res.data.token)
 
             dispatch(
               setUserDetails({
+              
                 id:res.data.id,
                 name: res.data.name,
                 email: res.data.email,
@@ -58,8 +59,8 @@ const Login = () => {
                 address:res.data.address,
                 cartTotal:res.data.cartTotal,
                 bookedSlots:res.data.bookedSlots,
-                bookedservices:res.data.bookedservices
-                
+                bookedservices:res.data.bookedservices,
+                auth:true
 
 
               }))

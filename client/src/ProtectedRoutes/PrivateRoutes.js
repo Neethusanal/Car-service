@@ -4,7 +4,7 @@ import { Navigate, Outlet, useNavigate } from "react-router-dom";
 import { authAdmin } from "../Services/AdminApi";
 import { authMechanic } from "../Services/MechanicApi";
 import { authUser } from "../Services/UserApi";
-import { setUserDetails, userlogout } from "../Redux/UserSlice";
+import { setUserDetails, userlogin, userlogout } from "../Redux/UserSlice";
 import { adminlogin, adminlogout, setadminDetails } from "../Redux/AdminSlice";
 import { setmechanicDetails, mechlogout } from "../Redux/MechanicSlice";
 import Navbar from "../Components/Navbar";
@@ -21,7 +21,9 @@ function PrivateRoutes({ role, route }) {
             localStorage.removeItem("usertoken");
             dispatch(userlogout());
           } else if (response.data.auth) {
+           
             dispatch(setUserDetails(response.data));
+            dispatch(userlogin(response.data))
           }
           setAuth(response.data?.auth);
         })
