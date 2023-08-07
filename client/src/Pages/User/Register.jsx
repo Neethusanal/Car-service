@@ -4,6 +4,7 @@ import { Link, useNavigate, } from "react-router-dom";
 import { userRegister } from "../../Services/UserApi";
 
 import { useDispatch } from "react-redux";
+import Swal from "sweetalert2";
 
 
 
@@ -29,18 +30,33 @@ const Register = () => {
             })
                 .then((data) => {
 
+                   console.log(data,"daaaaaaaaaaaaa")
+                   setEmail(data.data.email)
                    
-                    setEmail(data.data.email)
+                   if (data.data.otpExpirationTime) {
+                    console.log(typeof data.data.otpExpirationTime, data.data.otpExpirationTime);
+                    // Display success message
+                   Swal.fire( "OTP is sent to the given email")
+          
+                
+                    const expTime=data.data.otpExpirationTime
+                    console.log(expTime,"kkkkexp")
+                    navigate("/otp", { state: { email: email, expTime: expTime} });
+                    
+                  
+                  
+                  } else {
+                    // Display error message
+                    Swal.fire("Already a user exists with this email")
+                  }
+                })
+                   
+                
+
                   
 
-                    navigate("/otp", { state: { email } });
 
-
-                }).catch((error) => {
-                    console.log(error)
-
-                })
-
+               
 
         } catch (error) {
             console.log(error)

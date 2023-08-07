@@ -51,6 +51,9 @@ module.exports.userSignup = async (req, res, next) => {
       const otpEmail = Math.floor(1000 + Math.random() * 9000);
 
       emailOtp = otpEmail;
+      const otpExpiration = Date.now() + 3 * 60 * 1000;
+  const otpExpirationTime = Math.floor((otpExpiration - Date.now()) / 60000);
+  console.log(otpExpirationTime, "minutes");
 
       sendEmailOTP(email, otpEmail)
         .then((info) => {
@@ -63,6 +66,7 @@ module.exports.userSignup = async (req, res, next) => {
         email:email,
         message: "OTP is send to given email ",
         otpSend: true,
+        otpExpirationTime: otpExpirationTime
       });
     } else {
       res.status(200).json({

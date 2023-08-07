@@ -1,13 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { resendOtp, userOtpsubmit } from "../Services/UserApi";
-import { useDispatch } from "react-redux";
 import Swal from "sweetalert2";
 export const Userotp = () => {
   const [otp, setOtp] = useState(new Array(4).fill(""));
+  const [otpexpTime,setOtpExpTime]=useState()
  
   const location = useLocation();
+  console.log(location,"looo")
     const resendemail = location.state?.email;
+    const otpExp=location.state?.expTime
+    console.log(resendemail,"nnnnnnn")
+    console.log(otpExp,"kkkkkk")
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -16,8 +20,29 @@ export const Userotp = () => {
     if (firstInput) {
       firstInput.focus();
     }
-  }, []);
- 
+    const expirationTimeInMinutes = location.state?.expTime;
+    if (expirationTimeInMinutes) {
+      const expirationTimeInMilliseconds = expirationTimeInMinutes * 60 * 1000;
+      setOtpExpTime(expirationTimeInMilliseconds);
+    }
+  }, [location.state]);
+
+  useEffect(() => {
+    // Start the countdown timer if the expiration time is greater than 0
+    if (otpexpTime > 0) {
+      const interval = setInterval(() => {
+        setOtpExpTime((prevTime) => prevTime - 1000); // Decrease the time by 1 second
+
+        if (otpexpTime <= 0) {
+          clearInterval(interval);
+          Swal.fire("The OTP has expired. Please request a new one if needed");
+          // You may also navigate to another page here if needed
+        }
+      }, 1000);
+
+      return () => clearInterval(interval); // Clean up the interval on unmount
+    }
+  }, [otpexpTime]);
   const handleChange = (element, index) => {
     if (isNaN(element.value)) return false;
     setOtp([...otp.map((d, indx) => (indx === index ? element.value : d))]);
@@ -28,13 +53,14 @@ export const Userotp = () => {
   
   const sendOTP = async () => {
     try {
+      
       const otpString = otp.join("");
       if (otp.length < 4 || otp === "") {
         Swal.fire("invalid entry");
       } else {
         // alert("Sending OTP: " + otpString);
         const { data } = await userOtpsubmit({ otp: otpString });
-
+        
         if (data.success) {
           Swal.fire(data.message);
           navigate("/login");
@@ -50,7 +76,7 @@ export const Userotp = () => {
   const handleResendOtp=()=>{
 
     resendOtp({resendemail}).then((res)=>{
-      console.log(res)
+      
     })
   }
 
@@ -76,6 +102,9 @@ export const Userotp = () => {
             );
           })}
           <p>OTP Entered: {otp.join("")}</p>
+          
+          <p>Time remaining: {Math.ceil(otpexpTime / 1000)} seconds</p>
+          
           <p>
             <button
               className="bg-gray-500 hover:bg-gray-600 text-white rounded px-4 py-2 mr-2"
@@ -90,6 +119,7 @@ export const Userotp = () => {
               Verify OTP
             </button>
             </p>
+            
          
             <button
               className="mt-4 bg-blue-500 hover:bg-blue-600 text-white rounded px-4 py-2"
