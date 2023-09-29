@@ -45,6 +45,7 @@ export const ServicePlans = () => {
       }
     });
   };
+  //original//
 
   const handleAddtoCart = (planId, selectedServiceId) => {
     console.log(planId, selectedServiceId,"id")
@@ -65,6 +66,10 @@ export const ServicePlans = () => {
       console.log(error)
     })
   };
+
+
+
+//old//
   // const handleAddtoCart = (planId) => {
   //   // Update the cart with the latest clicked plan for the selected service ID
   //   setSelectedPlans((prevSelectedPlans) => ({
