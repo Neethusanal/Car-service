@@ -250,274 +250,76 @@ module.exports.getAllServicesList = async (req, res) => {
   }
 };
 
-// module.exports.addToCart = async (req, res) => {
-  
-//   // const  {selectedPlans}  = req.body;
-//   const { selectedServiceId, planId } = req.body;
-//   console.log(selectedserviceId,planId)
-//   // const serviceId= Object.keys(selectedPlans)[0];
-//   // const planId=Object.values(selectedPlans)[0]
-
-//   // console.log(serviceId, "jjjjj");
-//   // console.log(planId)
-
-//   const userId = req.userId;
-
-//   try {
-//     const user = await UserModel.findById(userId);
-//     if (!user) {
-//       return res.status(404).json({ error: "User not found" });
-//     } else {
-//       const service = await ServicesModel.findById(serviceId);
-//       if (!service) {
-//         return res.status(400).json({ message: "Service does not exist" });
-//       }
-//       const plan = await ServicelistModel.findById(planId);
-//       if (!plan) {
-//         return res.status(400).json({ message: "Plan does not exist" });
-//       } else {
-//         const brandserved = user.brand;
-//         const brandData = await BrandModel.findOne({ brandName: brandserved });
-//         if (!brandData) {
-//           return res.status(400).json({ message: "Brand does not exist" });
-//         }
-
-//         const basicPay = brandData.basicPay;
-
-//         // Calculate the total sum
-
-//         const totalSum =plan.price;
-
-//         // Get the current cart total or set it to 0 if it doesn't exist
-//         let cartTotal = 0;
-//         cartTotal =cartTotal+ totalSum;
-
-  
-
-//         const result = await UserModel.findByIdAndUpdate(
-//           { _id: userId },
-//           {
-//             $push: { cart: planId },
-//             $addToSet: { bookedservices: plan.servicelistName },
-//             cartTotal: cartTotal + basicPay||0,
-//             basicPay: basicPay,
-//           },
-//           { new: true }
-//         )
-//           .populate("cart")
-//           .select("cart cartTotal basicPay");
-
-//         return res.status(200).json({
-//           message: "Service has been added to the cart successfully",
-//           success: true,
-//           result: result,
-//         });
-//       }
-//     }
-//   } catch (error) {
-//     console.error(error);
-//     return res.status(500).json({ error: "Internal server error" });
-//   }
-// };
-// module.exports.removeFromCart=async(req,res)=>{
-//   const { selectedServiceId, planId } = req.body;
-//   const userId = req.userId;
-//   try {
-//     const user = await UserModel.findById(userId);
-//     if (!user) {
-//       return res.status(404).json({ error: "User not found" });
-//     }
-
-//     const service = await ServicesModel.findById(serviceId);
-//     if (!service) {
-//       return res.status(400).json({ message: "Service does not exist" });
-//     }
-
-//     const plan = await ServicelistModel.findById(planId);
-//     if (!plan) {
-//       return res.status(400).json({ message: "Plan does not exist" });
-//     }
-
-//     // Check if the plan is in the user's cart
-//     const isPlanInCart = user.cart.includes(planId);
-
-//     if (isPlanInCart) {
-//       // If the plan is in the cart, remove it and update the cartTotal
-//       user.cart.pull(planId);
-//       const basicPay = user.basicPay || 0;
-//       const totalSum = plan.price;
-//       const cartTotal = user.cartTotal - totalSum - basicPay;
-
-//       // Update the user's cart and cartTotal
-//       const result = await UserModel.findByIdAndUpdate(
-//         { _id: userId },
-//         {
-//           $pull: { cart: planId },
-//           $pull: { bookedservices: plan.servicelistName },
-//           cartTotal: cartTotal,
-//         },
-//         { new: true }
-//       )
-//         .populate("cart")
-//         .select("cart cartTotal basicPay");
-
-//       return res.status(200).json({
-//         message: "Service has been removed from the cart successfully",
-//         success: true,
-//         result: result,
-//       });
-//     } else {
-//       return res.status(400).json({ message: "Plan is not in the cart" });
-//     }
-//   } catch (error) {
-//     console.error(error);
-//     return res.status(500).json({ error: "Internal server error" });
-//   }
-// };
-
-
-// module.exports.addToCart = async (req, res) => {
-//   console.log(req.body)
-//   const { selectedServiceId, planId } = req.body;
-//   const serviceId = selectedServiceId;
-//   const userId = req.userId;
-//   console.log(serviceId)
-//   console.log(planId)
-
-//   try {
-//     const user = await UserModel.findById(userId);
-//     if (!user) {
-//       return res.status(404).json({ error: 'User not found' });
-//     }
-
-//     const service = await ServicesModel.findById(serviceId);
-//     if (!service) {
-//       return res.status(400).json({ message: 'Service does not exist' });
-//     }
-
-//     const plan = await ServicelistModel.findById(planId);
-//     if (!plan) {
-//       return res.status(400).json({ message: 'Plan does not exist' });
-//     }
-
-//     const brandserved = user.brand;
-//     const brandData = await BrandModel.findOne({ brandName: brandserved });
-//     if (!brandData) {
-//       return res.status(400).json({ message: 'Brand does not exist' });
-//     }
-
-//     const basicPay = brandData.basicPay;
-
-    
-//     const result = await UserModel.findOneAndUpdate(
-//       {
-//         _id: userId,
-//         cart: { $not: { $elemMatch: { serviceId } } }, // Query criteria to check if the serviceId does not exist in the cart array
-//       },
-//       { $addToSet: { cart:  planId  } }, // Add the new serviceId and planId to the cart array
-//       {
-//         new: true, // This option ensures that the updated document is returned
-//         populate: { path: 'cart', select: 'serviceId planId' }, // Populate the cart field with the updated data
-//         select: 'cart cartTotal basicPay', // Select specific fields to return in the result
-//       }
-//     );
-    
-//     console.log(result);
-   
-    
-    
-    
-    
-    
-    
-//     // Add the plan's servicelistName to the 
-
-//     // Set cartTotal to basicPay as there's only one plan in the cart
-//     user.cartTotal = basicPay;
-
-//     // Set basicPay to the current basicPay (optional, depending on your use case)
-//     user.basicPay = basicPay;
-
-//     // Save the updated user object
-//     await user.save();
-
-//     return res.status(200).json({
-//       message: 'Service has been added to the cart successfully',
-//       success: true,
-//       result: user,
-//     });
-//   } catch (error) {
-//     console.error(error);
-//     return res.status(500).json({ error: 'Internal server error' });
-//   }
-// };
 
 
 module.exports.addToCart = async (req, res) => {
-  
- 
-  const {selectedServiceId,planId}=req.body
-  
-   const serviceId = selectedServiceId
-   
-  
+  const data = req.body;
+  const serviceId = Object.keys(data)[0];
+  const planId = data[serviceId];
   const userId = req.userId;
 
   try {
     const user = await UserModel.findById(userId);
     if (!user) {
       return res.status(404).json({ error: "User not found" });
-    } else {
-      const service = await ServicesModel.findById(serviceId);
-      if (!service) {
-        return res.status(400).json({ message: "Service does not exist" });
-      }
-      const plan = await ServicelistModel.findById(planId);
-      if (!plan) {
-        return res.status(400).json({ message: "Plan does not exist" });
-      } else {
-        const brandserved = user.brand;
-        const brandData = await BrandModel.findOne({ brandName: brandserved });
-        if (!brandData) {
-          return res.status(400).json({ message: "Brand does not exist" });
-        }
-
-        const basicPay = brandData.basicPay;
-
-        // Calculate the total sum
-
-        const totalSum =plan.price;
-
-        // Get the current cart total or set it to 0 if it doesn't exist
-        let cartTotal = 0;
-        cartTotal += totalSum;
-
-        // Create an object representing the plan and push it to the cart array
-        // const planObject = {
-
-        //   planId:planId
-        // };
-
-        const result = await UserModel.findByIdAndUpdate(
-          { _id: userId },
-          {
-            $push: { cart: planId },
-            $addToSet: { bookedservices: plan.servicelistName },
-            cartTotal: cartTotal + basicPay||0,
-            basicPay: basicPay,
-          },
-          { new: true }
-        )
-          .populate("cart")
-          .select("cart cartTotal basicPay");
-
-        return res.status(200).json({
-          message: "Service has been added to the cart successfully",
-          success: true,
-          result: result,
-        });
-      }
     }
+
+    const service = await ServicesModel.findById(serviceId);
+    if (!service) {
+      return res.status(400).json({ message: "Service does not exist" });
+    }
+
+    const plan = await ServicelistModel.findById(planId);
+    if (!plan) {
+      return res.status(400).json({ message: "Plan does not exist" });
+    }
+
+    const brandserved = user.brand;
+    const brandData = await BrandModel.findOne({ brandName: brandserved });
+    if (!brandData) {
+      return res.status(400).json({ message: "Brand does not exist" });
+    }
+
+    const basicPay = brandData.basicPay;
+
+    // Get the current cart items (assuming cart is an array of ObjectId)
+    const currentCart = user.cart || [];
+
+    // Use $pull to remove items with the same serviceId from the cart
+    const updatedCart = currentCart.filter((cartItem) => {
+      const cartServiceId = cartItem.serviceId;
+      return cartServiceId && cartServiceId.equals(serviceId);
+    });
+
+    // Add the new plan to the cart
+    updatedCart.push(planId);
+
+    // Calculate the total sum
+    const totalSum = plan.price;
+
+    // Calculate the new cart total
+    let cartTotal = 0;
+    cartTotal += totalSum;
+
+    // Update user document with the new cart and cartTotal
+    const result = await UserModel.findByIdAndUpdate(
+      { _id: userId },
+      {
+        cart: updatedCart,
+        $addToSet: { bookedservices: plan.servicelistName },
+        cartTotal: cartTotal + basicPay || 0,
+        basicPay: basicPay,
+      },
+      { new: true }
+    )
+      .populate("cart")
+      .select("cart cartTotal basicPay");
+
+    return res.status(200).json({
+      message: "Service has been added to the cart successfully",
+      success: true,
+      result: result,
+    });
   } catch (error) {
     res.status(400).json({ status: "error", message: error.message });
   }
@@ -942,3 +744,4 @@ module.exports.deleteAddress = async (req, res) => {
     res.status(400).json({ status: "error", message: err.message });
   }
 };
+

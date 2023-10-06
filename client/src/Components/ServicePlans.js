@@ -47,45 +47,12 @@ export const ServicePlans = () => {
   };
   //original//
 
-  const handleAddtoCart = (planId, selectedServiceId) => {
-    console.log(planId, selectedServiceId,"id")
+  // const handleAddtoCart = (planId, selectedServiceId) => {
+  //   console.log(planId, selectedServiceId,"id")
   
 
-    addPlansToCart({selectedServiceId, planId}).then((res) => {
-      if (res.data.success) {
-        dispatch(
-          setUserDetails({
-            ...user,
-            cart: res.data.result.cart,
-            cartTotal: res.data.cartTotal,
-          })
-        );
-        setBasicPay(res.data.result.cart.basicPay);
-      }
-    }).catch((error)=>{
-      console.log(error)
-    })
-  };
-
-
-
-//old//
-  // const handleAddtoCart = (planId) => {
-  //   // Update the cart with the latest clicked plan for the selected service ID
-  //   setSelectedPlans((prevSelectedPlans) => ({
-  //     ...prevSelectedPlans,
-  //     [selectedServiceId]: planId,
-  //   }));
-  
-  //   // Send the updated cart to the backend
-  //   const updatedCart = {
-  //     [selectedServiceId]: planId,
-  //   };
-  
-  //   addPlansToCart(updatedCart).then((res) => {
+  //   addPlansToCart({selectedServiceId, planId}).then((res) => {
   //     if (res.data.success) {
-  //       console.log(res.data);
-  
   //       dispatch(
   //         setUserDetails({
   //           ...user,
@@ -95,8 +62,41 @@ export const ServicePlans = () => {
   //       );
   //       setBasicPay(res.data.result.cart.basicPay);
   //     }
-  //   });
+  //   }).catch((error)=>{
+  //     console.log(error)
+  //   })
   // };
+
+
+
+//old//
+  const handleAddtoCart = (planId, selectedServiceId)=> {
+    // Update the cart with the latest clicked plan for the selected service ID
+    setSelectedPlans((prevSelectedPlans) => ({
+      ...prevSelectedPlans,
+      [selectedServiceId]: planId,
+    }));
+  
+    // Send the updated cart to the backend
+    const updatedCart = {
+      [selectedServiceId]: planId,
+    };
+  
+    addPlansToCart(updatedCart).then((res) => {
+      if (res.data.success) {
+        console.log(res.data);
+  
+        dispatch(
+          setUserDetails({
+            ...user,
+            cart: res.data.result.cart,
+            cartTotal: res.data.cartTotal,
+          })
+        );
+        setBasicPay(res.data.result.cart.basicPay);
+      }
+    });
+  };
   
 
   return (
