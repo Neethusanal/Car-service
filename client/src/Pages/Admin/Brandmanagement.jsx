@@ -56,6 +56,7 @@ export const Brandmanagement = () => {
     useEffect(() => {
         getAdminBrands();
     }, [deleted, modalIsOpen]);
+    
     function openModal() {
         setIsOpen(true);
     }
