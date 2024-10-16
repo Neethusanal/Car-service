@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const app = express();
+const port=process.env.PORT||4000
 const dotenv = require('dotenv');
 const http = require('http');
 const mongoose = require("mongoose");
@@ -37,8 +38,8 @@ app.use('/mechanic', mechanicRoutes);
 
 
 
-server.listen(4000, () => {
-  console.log("Server/Backend started on port 4000");
+server.listen(port, () => {
+  console.log("Server/Backend started on port ${port}");
 });
 const io=socket(server,{
   cors:{origin:process.env.BASE_URL,
