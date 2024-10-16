@@ -15,14 +15,21 @@ const server = require('http').createServer(app);
 
 dotenv.config();
 
+// mongoose.connect(process.env.DATABASE_URL, {
+//   useNewUrlParser: true,
+//   useUnifiedTopology: true,
+// }).then(() => {
+//   console.log("DB connection successful");
+// }).catch(err => {
+//   console.log(err.message);
+// });
+
+
 mongoose.connect(process.env.DATABASE_URL, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-}).then(() => {
-  console.log("DB connection successful");
-}).catch(err => {
-  console.log(err.message);
-});
+  // You no longer need to pass useNewUrlParser or useUnifiedTopology
+})
+.then(() => console.log('Connected to MongoDB'))
+.catch(err => console.error('Could not connect to MongoDB', err));
 app.use(express.json());
 app.use(cors({
   origin: [process.env.BASE_URL],
