@@ -50,6 +50,8 @@ server.listen(port, () => {
 });
 const io=socket(server,{
   cors:{origin:process.env.BASE_URL,
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    allowedHeaders: ['Content-Type', 'Authorization'],
  credentials:true
 }
 })
