@@ -8,7 +8,7 @@ console.log(baseUrl)
 const createAxiosClient = (baseURL) => {
   const client = axios.create({
     baseURL,
-    timeout: 30000,
+    timeout: 60000,
     timeoutErrorMessage: "Request timeout... Please Try Again!!!",
   });
   return client;
