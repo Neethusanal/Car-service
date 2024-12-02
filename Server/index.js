@@ -37,11 +37,8 @@ app.use(cors({
   credentials: true,
 }));
 
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
-});
 
-// app.use(express.static(path.join(__dirname, "public")));
+ app.use(express.static(path.join(__dirname, "public")));
 app.use('/', userRoutes);
 app.use('/admin', adminRoutes);
 app.use('/mechanic', mechanicRoutes);
