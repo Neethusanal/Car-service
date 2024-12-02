@@ -1,15 +1,19 @@
-const nodemailer = require("nodemailer");
+
 let env = require("dotenv").config();
 
-let transporter = nodemailer.createTransport({
-  host: "smtp.office365.com",
+const nodemailer = require('nodemailer');
+
+
+const transporter = nodemailer.createTransport({
+  host: ' smtp-mail.outlook.com', // Ensure no leading/trailing whitespace
   port: 587,
-  secure: false,
+  secure: false, // true for 465, false for other ports like 587
   auth: {
     user: process.env.ACCOUNT_NAME,
     pass: process.env.ACC_PASS,
   },
 });
+
 
 let sendEmailOTP = (email, otpEmail) => {
   const mailOptions = {
